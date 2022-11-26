@@ -8,7 +8,6 @@ exercises/rsconnect/
 participants/
 slides/compute.R
 docs/slides/compute.R
-notes/
 .Rdata
 .httr-oauth
 .DS_Store
