@@ -1,0 +1,240 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Multiple layers and attributes"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: true
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+---
+
+
+## {#title-slide background-image="images/bg6.jpeg"}
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+
+
+## Layer
+
+
+* A layer is comprised of:
+   - `data` 
+   - `mapping` 
+   - statistical transformation (`stat`)
+   - geometric object (`geom`)
+   - position adjustment (`position`)
+* `data` and `mapping` are often inherited from `ggplot`
+
+::: notes 
+
+* A layer is usually added using functions with prefix `geom_` and `stat_`
+* Technically, there are more components but we won't go into those. 
+
+:::
+
+
+## The violin plot layer
+
+```{r plot1-cut}
+ggplot(data = diamonds,
+       mapping = aes(x = cut, y = price)) +
+  geom_violin()
+```
+
+
+::: notes 
+
+* There is one layer in this plot comprising of:
+  * inherited `data`: `diamonds`
+  * inherited `mapping`: `aes(x = cut, y = price)`
+  * `geom`: violin
+  * `stat`: density for the y-axis (`ydensity`)
+  * `position`: dodge
+  
+* You don't see `position = "dodge"` much in action here because there is only one group for each level of x.
+
+:::
+
+## You can add more than one layer
+
+```{r plot1-layer2}
+ggplot(data = diamonds,
+       mapping = aes(x = cut, y = price)) +
+  geom_violin() + 
+  geom_boxplot(width = 0.1)
+```
+
+::: notes 
+
+* We now have the boxplot layer on top of the violin plot layer.
+
+:::
+
+
+## The order of the layer matters
+
+```{r plot1-layer-order}
+ggplot(data = diamonds,
+       mapping = aes(x = cut, y = price)) +
+  geom_boxplot(width = 0.1) +
+  geom_violin()
+```
+
+::: notes
+
+* You can't see the boxplot here because it's been hidden by the violin plot.
+
+:::
+
+
+## Inheriting data and mapping
+
+* A layer inherits the data and mapping from the initialised ggplot object by default 
+
+<center>
+<img src= "images/ggplot-multiple-layers.png" width="70%">
+</center>
+
+
+## Layer-specific data and aesthetic mapping
+
+![](images/ggplot-multiple-layers-data-mapping.png)
+
+* For each layer, aesthetic and/or data can be overwritten
+
+
+## Overwriting data and aesthetic
+
+```{r plot2-inheritance, fig.width = 8, fig.height = 3, message = FALSE}
+library(dplyr) # needed for data wrangling
+ggplot(data = diamonds, aes(x = cut, y = price)) +
+  geom_violin(aes(fill = cut)) + 
+  geom_boxplot(width = 0.1) +
+  geom_text(data = function(data) data %>% 
+              group_by(cut) %>% 
+              tally(),
+            aes(y = 0, label = n), nudge_y = -0.2)
+```
+
+::: notes 
+
+* You can see that `fill` is only applied the violin plot. 
+* For text layer shows the the total number of observations on the bottom of the violin plot. This display requires a summarised data of the inherited data. 
+* The input `data` for each subsequent layer can be a `data.frame` or a function. If it's a function it's applied to the data that it inherited -- it's handy for cases like this where you want to use the summarised or processed form of the inherited data!
+
+:::
+
+
+## Aesthetic or Attribute?
+
+
+_Not_ what you want:
+
+```{r aes-map}
+ggplot(diamonds, aes(carat, price)) +
+  geom_point(aes(color = "dodgerblue"))
+```
+
+::: notes 
+
+* When you supply values within `aes`, it assumes that it's a data variable. 
+* The string `"dodgerblue"` gets converted into a variable with one level and it gets colored by `ggplot`'s default color palette.
+
+:::
+
+
+## When your input is an attribute
+
+
+Don't put attributes inside `aes()`!
+
+```{r attr-map}
+ggplot(diamonds, aes(carat, price)) +
+  geom_point(color = "dodgerblue")
+```
+
+
+## Bonus tip
+
+* Use `I()` operator to mean "as-is" in aesthetic mapping.
+
+```{r I-map}
+ggplot(diamonds, aes(carat, price)) +
+  geom_point(aes(color = I("dodgerblue")))
+```
+
+
+## Attributes are for layers
+
+
+* Attributes should be defined in specific layers.
+
+```{r attr-in-ggplot}
+ggplot(diamonds, aes(carat, price),
+       color = "dodgerblue") +
+  geom_point()
+```
+
+::: notes
+
+* Notice how the points don't have the "dodgeblue" color.
+* Layers inherit data and the mapping from `ggplot()` but not attributes like this. 
+
+:::
+
+
+## Annotation layer
+
+
+* `annotate()` allows you to add elements to plots without a `data.frame`
+
+```{r annotate, fig.width = 7, fig.height = 3}
+ggplot(diamonds, aes(color, fill = cut)) +
+  geom_bar(color = "black") + 
+  annotate("text", x = "I", y = 9000, 
+           label = paste(nrow(diamonds), "diamonds"))
+```
+
+::: notes 
+
+* `annotate()` is useful if you want to add small annotations to plot and it's too cumbersome for you to put the data as a `data.frame`
+
+:::
+
+
+## Summary
+
+
+* We've seen how you can add multiple layers in `ggplot`.
+* You can define layer-specific data or mappings. 
+* An attribute of a graphical parameter must be placed outside of `aes()` in the corresponding layer. 
+* You can add the annotation layer using `annotate()`.

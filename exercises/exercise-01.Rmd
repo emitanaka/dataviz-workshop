@@ -1,0 +1,101 @@
+---
+title: "Exercise 1: R Graphics"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Check out your knowledge in R Graphics.
+---
+
+```{r setup, child="setup.Rmd", eval = file.exists("setup.Rmd")}
+```
+
+## Welcome
+
+::: aim
+
+The aim of this exercise is to:
+
+- have a check of your knowledge of R graphics system,
+- see if this exercise is working for you, and 
+- briefly review base plots/graphics.
+
+:::
+
+## Check your knowledge
+
+
+```{r check1, echo=FALSE}
+question("Which of the following is a contributed R package?",
+  answer("ggplot2", correct = TRUE),
+  answer("grid"),
+  answer("graphics"),
+  answer("grDevices")
+)
+```
+
+```{r check2, echo=FALSE}
+question("Which R package actually renders the graphics in R?",
+  answer("ggplot2"),
+  answer("grid"),
+  answer("graphics"),
+  answer("grDevices", correct = TRUE)
+)
+```
+
+```{r check3, echo=FALSE}
+question("There are two primary graphic models in R: the base and grid graphics. Which one is ggplot2 using?",
+  answer("ggplot2"),
+  answer("grid", correct = TRUE),
+  answer("graphics"),
+  answer("grDevices")
+)
+```
+
+## Base plots
+
+When we say "base plots" or "base graphics", these refer to plots created using the `graphics` package. The `graphics` package is a core package that is already loaded when you launch a standard installation of R.
+
+Let's have a look at the `cars` dataset that contains two variables `speed` and `dist`. Below shows the structure of the `cars` dataset.
+
+```{r}
+str(cars)
+```
+
+Base plots are not the focus of this workshop, but below are some examples. 
+
+### Scatter plot
+
+
+Try running the code to see if the system is working for you. You should see a scatter plot. Try also uncommenting out the second line to see the line of best fit using least squares approach.
+
+```{r base1, exercise = TRUE}
+plot(dist ~ speed, data = cars)
+# abline(coef(lm(dist ~ speed, data = cars)))
+```
+
+
+### Histogram
+
+Next we draw the histogram:
+
+```{r base2, exercise = TRUE}
+hist(cars$dist)
+```
+
+
+
+### Boxplot
+
+Can you how to draw a boxplot for the variable `dist` in the `cars` dataset? Try checking the solution if you are not sure.
+
+```{r base3, exercise = TRUE}
+___(cars$dist)
+```
+
+```{r base3-solution}
+boxplot(cars$dist)
+```
+

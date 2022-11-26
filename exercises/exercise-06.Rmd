@@ -1,0 +1,223 @@
+---
+title: "Exercise 6: Multiple plots in one figure"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, child="setup.Rmd", eval = file.exists("setup.Rmd")}
+```
+
+## Objective  {data-progressive=FALSE}
+
+::: aim
+
+In this exercise, you will be looking at various datasets in the `agridat` or `ggplot2` package to create figures that are composed of either small multiples or combining different plots. The structure of the data is shown at the start of each exercise.
+
+:::
+
+
+```{r pkgs, message = FALSE, warning = FALSE}
+library(tidyverse) # contains ggplot2
+library(agridat)
+library(patchwork)
+```
+
+
+## Exercise 1
+
+```{r}
+str(minnesota.barley.weather)
+```
+
+
+```{r ex01s, echo = FALSE, class = "target", fig.width = 7.5, fig.height = 6}
+ggplot(minnesota.barley.weather, aes(year, max)) + 
+  geom_point() + 
+  facet_grid(site ~ mo) +
+  guides(x = guide_axis(angle = 90))
+```
+
+```{r ex01, exercise = TRUE}
+ggplot(minnesota.barley.weather, aes(___, ___)) + 
+  geom____() + 
+  facet____(___ ~ ___) +
+  guides(x = ___(angle = 90))
+```
+
+```{r ex01-solution, ref.label="ex01s"}
+```
+
+## Exercise 2
+
+```{r}
+str(economics_long)
+```
+
+```{r ex02s, echo = FALSE, class = "target"}
+ggplot(economics_long, aes(date, value01)) +
+  # rename the facet variable
+  geom_line(data = function(.data) rename(.data, var = variable), 
+            color = "gray",
+            aes(group = var)) +
+  geom_line() +
+  facet_wrap(~variable, 
+             # relabel facet labels
+             labeller = labeller(
+               variable = c("pce" = "consumption",
+                            "pop" = "population",
+                            "psavert" = "savings rate",
+                            "uempmed" = "unemployment duration",
+                            "unemploy" = "unemployment"))) +
+  labs(y = "Standardised values", 
+       x = "Year",
+       title = "US economic time series") 
+```
+
+```{r ex02, exercise = TRUE}
+ggplot(economics_long, aes(___, value01)) +
+  geom____(data = ___, 
+            color = "gray",
+            ___) +
+  geom____() +
+  facet____(~variable, 
+             # relabel facet labels
+             labeller = labeller(
+               variable = c("pce" = "consumption",
+                            "pop" = "population",
+                            "psavert" = "savings rate",
+                            "uempmed" = "unemployment duration",
+                            "unemploy" = "unemployment"))) + 
+  labs(___ = "Standardised values", 
+       ___ = "Year",
+       ___ = "US economic time series (standardised values)")
+```
+
+```{r ex02-solution, ref.label="ex02s"}
+```
+
+
+## Exercise 3
+
+```{r}
+str(economics_long)
+```
+
+
+```{r ex03s, echo = FALSE, class = "target"}
+ggplot(economics_long, aes(date, value)) + 
+  geom_line() + 
+  facet_wrap(~variable, scale = "free_y") + 
+  scale_y_continuous(labels = scales::comma) +
+  labs(x = "Date", 
+       y = "",
+       title = "US economic time series")
+```
+
+```{r ex03, exercise = TRUE}
+ggplot(economics_long, aes(date, value)) + 
+  geom_line() + 
+  facet_wrap(~variable, scale = "free_y") + 
+  scale_y_continuous(labels = scales::comma) +
+  labs(x = "Date", 
+       y = "",
+       title = "US economic time series")
+```
+
+```{r ex03-solution, ref.label="ex03s"}
+```
+
+
+## Exercise 4
+
+```{r}
+str(burgueno.rowcol)
+```
+
+```{r ex04s, echo = FALSE, class = "target"}
+g1 <- ggplot(burgueno.rowcol, aes(col, row, fill = yield)) + 
+  geom_tile(color = "black", size = 1.5) + 
+  scale_fill_binned(type = "viridis")
+
+g2 <- ggplot(burgueno.rowcol, aes(col, yield, group = col)) +
+  geom_boxplot()
+
+g3 <- ggplot(burgueno.rowcol, aes(row, yield, group = row)) +
+  geom_boxplot()
+
+g1 / (g2 + g3) +
+  plot_annotation(tag_levels = "A") 
+```
+
+```{r ex04, exercise = TRUE}
+g1 <- ggplot(burgueno.rowcol, aes(___, ___, fill = ___)) + 
+  geom_tile(color = "black", size = 1.5) + 
+  scale_____binned(type = "viridis")
+
+g2 <- ggplot(burgueno.rowcol, aes(___, yield, group = col)) +
+  geom____()
+
+g3 <- ggplot(burgueno.rowcol, aes(___, yield, group = row)) +
+  geom____()
+
+___ +
+  plot_annotation(tag_levels = "A")
+```
+
+```{r ex04-solution, ref.label="ex04s"}
+```
+
+
+
+## Exercise 5
+
+```{r}
+str(byers.apple)
+```
+
+```{r ex05s, echo = FALSE, class = "target"}
+g1 <- cochran.beets %>% 
+  mutate(y = yield) %>% 
+  ggplot(aes(x = fert, 
+             y = y, 
+             color = yield, 
+             shape = block)) + 
+  geom_point(alpha = 0.5) +
+  scale_color_binned(type = "viridis") +
+  labs(x = "fertilizer", y = "yield")
+
+# a trick to reuse the same ggplot object with new data
+g2 <- g1 %+% mutate(cochran.beets, y = plants) + 
+  labs(y = "plants")
+
+g1 / g2 +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A")
+```
+
+```{r ex05, exercise = TRUE}
+g1 <- cochran.beets %>% 
+  mutate(y = yield) %>% 
+  ggplot(aes(___ = fert, 
+             y = y, 
+             ___ = yield, 
+             ___ = block)) + 
+  geom_point(alpha = 0.5) +
+  scale_____binned(type = "viridis") +
+  ___(x = "fertilizer", y = "yield")
+
+# a trick to reuse the same ggplot object with new data
+g2 <- g1 %+% mutate(cochran.beets, y = plants) + 
+  labs(y = "plants")
+
+___ +
+  plot____(___) +
+  plot____(___ = "A")
+```
+
+```{r ex05-solution, ref.label="ex05s"}
+```
+
+

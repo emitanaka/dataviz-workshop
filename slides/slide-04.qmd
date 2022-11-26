@@ -1,0 +1,235 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Barplots and position adjustments in ggplot2"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: false
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+---
+
+
+## {#title-slide background-image="images/bg7.jpeg"}
+
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+
+## Position adjustments
+
+```{r}
+#| echo: false
+#| output: asis
+fns <- dir(here::here("slides/images/catalogue/")) %>% 
+  str_subset("^rank-")
+cat(paste0("<img class='catalogue' src='images/catalogue/", fns, "'>", collapse = ""))
+```
+
+## A barplot with `geom_bar()` [with a categorical variable]{.f3}
+
+```{r geom-bar}
+#| output-location: column
+library(palmerpenguins)
+ggplot(penguins, aes(x = island)) +
+  geom_bar()
+```
+
+* If you have a categorical variable, then you usually want to study the frequency of its categories. 
+* Here the `stat = "count"` is computing the frequencies for each category for you.  
+
+
+## A barplot with `geom_bar()` [with a discrete numerical variable]{.f3}
+
+```{r geom-bar2A}
+#| output-location: column
+penguins %>% 
+  # for demonstration, change 2009 to 2012
+  mutate(year = ifelse(year==2009, 2012, year)) %>% 
+  ggplot(aes(x = year)) +
+  geom_bar()
+```
+
+* If you supply a numerical variable, you can see now that the x-axis scale is continuous. 
+* If you want to study each level in a discrete variable, then you may want to convert the discrete variable to a factor instead `x = factor(year)`. 
+* When the variable is a factor or character, the distances between the bars are equal and the labels correspond to that particular level.
+
+
+## A barplot with `geom_col()` 
+
+* Sometimes your input data may already contain pre-computed counts. 
+
+```{r}
+penguins_summary <- penguins %>% group_by(sex) %>% tally() 
+
+penguins_summary
+```
+
+. . . 
+
+* In this case, you don't need `stat = "count"` to do the counting for you and use `geom_col()` instead.
+
+. . . 
+
+```{r geom-col}
+#| output-location: column
+#| fig-width: 4
+#| fig-height: 2
+ggplot(penguins_summary, 
+       aes(x = sex, y = n)) +
+  geom_col()
+```
+
+
+* This is essential a short hand for `geom_bar(stat = "identity")` where `stat = "identity"` means that you will take the value as supplied without any statistical transformation.
+
+
+
+## A stacked barplot with `geom_col()`
+
+```{r geom-col-stack}
+#| fig-height: 4
+#| code-line-numbers: "4-6"
+penguins %>% 
+  group_by(species, sex, year) %>% 
+  tally() %>% 
+  ggplot(aes(year, n, fill = sex, group = year, color = species)) +
+  geom_col(position = "stack", linewidth = 8) +
+  geom_col(position = "stack", linewidth = 1, color = "black")
+```
+
+
+* By default the values in `y` are stacked on top of another.
+* The aesthetic `group` here breaks the count in two groups and stack one on top of the other (try running the code without `group = year`).
+
+
+
+## A grouped barplot with `geom_col()`
+
+```{r geom-col-dodge}
+#| code-line-numbers: "4-5"
+#| fig-height: 3
+penguins %>% 
+  group_by(sex, species, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species)) +
+  geom_col(color = "black", position = "dodge")
+```
+
+
+* Here the `x` values are recalculated so that the factor levels within the same group (as determined by `x`) can fit.
+
+
+
+## Another grouped barplot with `geom_col()`
+
+```{r geom-col-dodge2}
+#| code-line-numbers: "4-5"
+#| fig-height: 3
+penguins %>% 
+  group_by(sex, species, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species, group = year)) +
+  geom_col(color = "black", position = "dodge2")
+```
+
+
+* `position = "dodge"` doesn't deal well when there is `fill` and `group` together but you can use `position = "dodge2"` that recalculates the `x` values in another way.
+
+
+## Stacked percentage barplot with `geom_col()` {auto-animate=true}
+
+```{r geom-col-fill}
+#| fig-height: 4
+#| code-line-numbers: "4-5"
+penguins %>% 
+  group_by(species, sex, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species, group = year)) +
+  geom_col(color = "black", position = "fill")
+```
+
+
+* If you want to compare the percentages between the different `x`, then `position = "fill"` can be handy.
+
+
+# <i class="fas fa-compass"></i> Coordinate systems {background-color="#006DAE"}
+
+## Pie or donut charts with `coord_polar()` {auto-animate=true}
+
+* The default coordinate system is the Cartesian coordinate system.
+
+. . . 
+
+* But you can change this to a polar coordinate system like below.
+
+```{r geom-pie}
+#| fig-height: 4
+#| code-line-numbers: "6"
+#| output-location: fragment
+penguins %>% 
+  group_by(species, sex, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species, group = year)) +
+  geom_col(color = "black", position = "fill") +
+  coord_polar("y")
+```
+
+## Other coordinate systems
+
+::: incremental
+
+* `coord_cartesian()` for Cartesian coordinate systems (default)
+* `coord_flip()` to flip the x and y 
+* `coord_fixed()` to use a fixed aspect ratio
+* `coord_equal()` is essentially `coord_fixed(ratio = 1)`
+* `coord_trans()` to transform the coordinate after the statistical transformation
+* `coord_map()` to use projection based on `mapproj` 
+
+:::
+
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+
+[<i class="fas fa-directions"></i> Your turn!]{.f-headline}
+
+```{r}
+#| echo: false
+#| cache: false
+library(countdown)
+countdown(10)
+```
+
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 4
+
+
+
+

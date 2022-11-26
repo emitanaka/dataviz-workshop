@@ -1,0 +1,198 @@
+---
+title: "Exercise 3: Multiple layers"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, child="setup.Rmd", eval = file.exists("setup.Rmd")}
+```
+
+## Objective  {data-progressive=FALSE}
+
+::: aim
+
+* You are going to examine the datasets, `nass.wheat`, `nass.corn`, and `nass.soybean` data from the `agridat` package. The structure of these datasets are shown below.
+
+* In this exercise, you will need to wrangle the data in the right format (which may be achieved by multiple approaches) before plotting. 
+
+:::
+
+```{r, include = FALSE}
+library(maps)
+```
+
+
+```{r pkgs, message = FALSE, warning = FALSE}
+library(tidyverse) # contains ggplot2
+library(agridat) # contains the datasets
+```
+
+### Data: `nass.wheat`
+
+```{r}
+str(nass.wheat)
+```
+
+### Data: `nass.corn`
+
+```{r}
+str(nass.corn)
+```
+
+### Data: `nass.soybean`
+
+```{r}
+str(nass.soybean)
+```
+
+## Exercise 1
+
+```{r ex01s, echo = FALSE, class = "target", message = FALSE, warning = FALSE}
+wheat_corn_data <- left_join(nass.wheat, 
+                             nass.corn, 
+                             suffix = c("_wheat", "_corn"),
+                             by = c("year", "state"))
+
+ggplot(wheat_corn_data, aes(yield_corn, yield_wheat)) + 
+  geom_point(aes(color = year)) +
+  geom_density_2d(color = "black") 
+```
+
+```{r ex01, exercise = TRUE}
+wheat_corn_data <- ___
+
+ggplot(wheat_corn_data, aes(___, ___)) + 
+  geom____(aes(color = ___)) +
+  geom_density_2d(color = "black") 
+```
+
+```{r ex01-hint}
+wheat_corn_data <- left_join(nass.wheat, 
+                             nass.corn, 
+                             suffix = c("_wheat", "_corn"),
+                             by = c("year", "state"))
+```
+
+```{r ex01-solution, ref.label="ex01s"}
+```
+
+## Exercise 2
+
+```{r ex02s, echo = FALSE, class = "target"}
+crops_data <- bind_rows(mutate(nass.wheat, crop = "Wheat"),
+                        mutate(nass.corn, crop = "Corn"),
+                        mutate(nass.soybean, crop = "Soy")) 
+
+ggplot(crops_data, aes(crop, yield)) + 
+  geom_violin() + 
+  geom_boxplot(width = 0.1)
+```
+
+```{r ex02, exercise = TRUE}
+crops_data <- ___
+
+ggplot(crops_data, aes(___, ___)) + 
+  geom____() + 
+  geom____(width = 0.1)
+```
+
+```{r ex02-hint}
+crops_data <- bind_rows(mutate(nass.wheat, crop = "Wheat"),
+                        mutate(nass.corn, crop = "Corn"),
+                        mutate(nass.soybean, crop = "Soy")) 
+```
+
+```{r ex02-solution, ref.label="ex02s"}
+```
+
+
+## Exercise 3
+
+```{r ex03s, echo = FALSE, class = "target"}
+wheat2011_data <- nass.wheat %>% 
+  filter(year == 2011) 
+
+highlight <- function(.data) subset(.data, acres > 4000000 | yield > 80)
+
+ggplot(wheat2011_data, aes(acres, yield)) + 
+  geom_point() + 
+  geom_point(data = highlight, color = "red") + 
+  geom_text(data = highlight, aes(label = state), nudge_y = 5) 
+```
+
+```{r ex03, exercise = TRUE}
+wheat2011_data <- nass.wheat %>% 
+  ___(year == 2011) 
+
+highlight <- function(.data) subset(.data, acres > 4000000 | yield > 80)
+
+ggplot(wheat2011_data, aes(___, yield)) + 
+  ___() + 
+  ___(data = ___, color = "red") + 
+  geom_text(data = ___, aes(label = ___), nudge_y = 5) 
+```
+
+```{r ex03-solution, ref.label="ex03s"}
+```
+
+## Exercise 4
+
+Let's draw a choropleth US map of the wheat yield in 2011. 
+
+```{r ex04s, echo = FALSE, class = "target"}
+wheat2011_data_with_map <- nass.wheat %>% 
+  filter(year == 2011) %>% 
+  mutate(region = tolower(state)) %>% 
+  right_join(map_data("state"), by = "region")
+
+ggplot(wheat2011_data_with_map, aes(long, lat)) + 
+  geom_polygon(aes(group = group, fill = yield), color = "black") +
+  annotate("label", x = -120, y = 27, label = "2011", size = 8)
+```
+
+```{r ex04-hint}
+wheat2011_data_with_map <- nass.wheat %>% 
+  filter(year == 2011) %>% 
+  mutate(region = tolower(state)) %>% 
+  right_join(map_data("state"), by = "region")
+```
+
+
+```{r ex04, exercise = TRUE}
+wheat2011_data_with_map <- nass.wheat %>% 
+  ___
+
+ggplot(wheat2011_data_with_map, aes(___, ___)) + 
+  geom_polygon(aes(___), color = "black") +
+  ___(___, x = -120, y = 27, label = "2011", size = 8)
+```
+
+```{r ex04-solution, ref.label="ex04s"}
+```
+
+
+## Exercise 5
+
+Consider fitting a model to the log of the yield of wheat (with base 10) with year as a covariate as shown below in the first line of code. Try constructing a residual plot based on this fit. What do you think of the fit of the model?
+
+```{r ex05s, echo = FALSE, class = "target"}
+fit <- lm(log10(yield) ~ year, data = nass.wheat)
+
+ggplot(nass.wheat, aes(year, residuals(fit))) + 
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "grey")
+```
+
+```{r ex05, exercise = TRUE}
+fit <- lm(log10(yield) ~ year, data = nass.wheat)
+
+ggplot(nass.wheat, aes(year, residuals(fit))) + 
+  ___ + 
+  geom____(yintercept = 0, linetype = "dashed", color = "grey")
+```
+
+```{r ex05-solution, ref.label="ex05s"}
+```

@@ -1,0 +1,237 @@
+---
+title: "Exercise 2: Getting started with ggplot2"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, child="setup.Rmd", eval = file.exists("setup.Rmd")}
+```
+
+## Objective  {data-progressive=FALSE}
+
+::: aim
+
+You are going to examine two datasets, `diamonds` from `ggplot2` package and `crampton.pig` from `agridat` package, by making targetted plots. You can find the structure of these datasets below. Enter `?agridat::crampton.pig` or `?ggplot2::diamonds` in R for the documentations of the dataset. 
+
+:::
+
+
+```{r pkgs, message = FALSE, warning = FALSE}
+library(tidyverse) # contains ggplot2
+library(agridat) # for `crampton.pig` data
+```
+
+### Data: `crampton.pig`
+
+```{r pig-data}
+str(crampton.pig)
+```
+
+### Data: `diamonds` 
+
+```{r diamonds-data}
+str(diamonds)
+```
+
+
+## Target plots for `crampton.pig`
+
+### Exercise 1
+
+```{r ex01s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(feed)) + 
+  geom_density() 
+```
+
+```{r ex01, exercise = TRUE}
+ggplot(crampton.pig, aes(___)) + 
+  geom_density() 
+```
+
+```{r ex01-solution, ref.label="ex01s"}
+```
+
+### Exercise 2
+
+Now try changing the y-axis so it shows `count` instead of `density`.
+
+```{r ex02s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(feed)) + 
+  geom_density(aes(y = after_stat(count))) 
+```
+
+```{r ex02, exercise = TRUE}
+ggplot(crampton.pig, aes(___)) + 
+  geom____(aes(y = ___)) 
+```
+
+```{r ex02-solution, ref.label="ex02s"}
+```
+
+### Exercise 3
+
+```{r ex03s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(feed)) + 
+  geom_boxplot() 
+```
+
+```{r ex03, exercise = TRUE}
+ggplot(crampton.pig, aes(___)) + 
+  geom____() 
+```
+
+```{r ex03-solution, ref.label="ex03s"}
+```
+
+
+### Exercise 4
+
+```{r ex04s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(weight1, weight2, color = treatment, size = feed)) + 
+  geom_point()
+```
+
+```{r ex04, exercise = TRUE}
+ggplot(crampton.pig, aes(___, ___, color = ___, size = ___)) + 
+  geom____()
+```
+
+```{r ex04-solution, ref.label="ex04s"}
+```
+
+### Exercise 5
+
+```{r ex05s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(rep, treatment, fill = weight2 - weight1)) + 
+  geom_tile(color = "black", linewidth = 2)
+```
+
+```{r ex05, exercise = TRUE}
+ggplot(crampton.pig, aes(___, ___, fill = ___)) + 
+  geom_tile(color = "black", linewidth = 2)
+```
+
+```{r ex05-solution, ref.label="ex05s"}
+```
+
+### Exercise 6
+
+```{r ex06s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(weight2 - weight1, fill = treatment)) + 
+  geom_density(alpha = 0.7) 
+```
+
+```{r ex06, exercise = TRUE}
+ggplot(crampton.pig, aes(___, fill = ___)) + 
+  geom_density(alpha = 0.7) 
+```
+
+```{r ex06-solution, ref.label="ex06s"}
+```
+
+
+## Target plots for `diamonds`
+
+
+### Exercise 7
+
+```{r ex07s, echo = FALSE, class = "target", message = FALSE}
+ggplot(diamonds, aes(price)) + 
+  geom_histogram() 
+```
+
+```{r ex07, exercise = TRUE}
+ggplot(diamonds, aes(___)) + 
+  geom____() 
+```
+
+```{r ex07-solution, ref.label="ex07s"}
+```
+
+### Exercise 8
+
+Try changing the bin width to see how the histogram changes. 
+
+```{r ex08s, echo = FALSE, class = "target", message = FALSE}
+ggplot(diamonds, aes(price)) + 
+  geom_histogram(binwidth = 1) 
+```
+
+```{r ex08, exercise = TRUE}
+ggplot(diamonds, aes(___)) + 
+  geom____(___ = 1) 
+```
+
+```{r ex08-solution, ref.label="ex08s"}
+```
+
+### Exercise 9
+
+```{r ex09s, echo = FALSE, class = "target", message = FALSE}
+ggplot(diamonds, aes(price)) + 
+  stat_bin(geom = "line")
+```
+
+```{r ex09, exercise = TRUE}
+ggplot(diamonds, aes(___)) + 
+  stat____(___ = "line") 
+```
+
+```{r ex09-solution, ref.label="ex09s"}
+```
+
+
+
+### Exercise 10
+
+```{r ex10s, echo = FALSE, class = "target", message = FALSE}
+ggplot(diamonds, aes(clarity, price, fill = cut)) + 
+  geom_boxplot()
+```
+
+```{r ex10, exercise = TRUE}
+ggplot(diamonds, aes(___, ___, fill = ___)) + 
+  geom____()
+```
+
+```{r ex10-solution, ref.label="ex10s"}
+```
+
+
+### Exercise 11
+
+```{r ex11s, echo = FALSE, class = "target", message = FALSE}
+ggplot(diamonds, aes(carat, price)) + 
+  geom_density_2d_filled()
+```
+
+```{r ex11, exercise = TRUE}
+ggplot(heart2, aes(___, ___)) + 
+  geom_density_2d_filled()
+```
+
+```{r ex11-solution, ref.label="ex11s"}
+```
+
+
+### Exercise 12
+
+```{r ex12s, echo = FALSE, class = "target", message = FALSE}
+ggplot(diamonds, aes(carat, price)) + 
+  geom_hex()
+```
+
+```{r ex12, exercise = TRUE}
+ggplot(diamonds, aes(___, ___)) + 
+  geom____()
+```
+
+```{r ex12-solution, ref.label="ex12s"}
+```
+
+
+
+This is the last question! Well done getting to here!

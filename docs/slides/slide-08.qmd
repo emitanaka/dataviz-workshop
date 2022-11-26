@@ -1,0 +1,102 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Color choices"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: true
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+---
+
+
+## {#title-slide background-image="images/bg11.jpeg"}
+
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+
+# Color space
+
+::: {.f3 .monash-gray80}
+
+Zeileis, Fisher, Hornik, Ihaka, McWhite,
+Murrell, Stauffer, Wilke (2019). colorspace: A
+Toolbox for Manipulating and Assessing Colors and
+Palettes. *arXiv 1903.06490*
+
+Zeileis, Hornik, Murrell (2009). Escaping RGBland:
+Selecting Colors for Statistical Graphics.
+_Computational Statistics & Data Analysis_ 53(9)
+3259-3270
+
+:::
+
+## Qualitative palettes
+
+* Designed for categorical variable with no particular ordering 
+
+
+```{r, fig.height = 4, fig.width = 8, echo = TRUE}
+#| code-line-numbers: false
+colorspace::hcl_palettes("Qualitative", plot = TRUE, n = 7)
+```
+
+## Sequential palettes
+
+* Designed for ordered categorical variable or number going from low to high (or vice-versa) 
+
+
+```{r, fig.height = 4, fig.width = 10, echo = TRUE}
+#| code-line-numbers: false
+colorspace::hcl_palettes("Sequential", plot = TRUE, n = 7)
+```
+
+
+## Diverging palettes
+
+* Designed for ordered categorical variable or number going from low to high (or vice-versa) with a neutral value in between
+
+
+```{r, fig.height = 6, fig.width = 8, echo = TRUE}
+#| code-line-numbers: false
+colorspace::hcl_palettes("Diverging", plot = TRUE, n = 7)
+```
+
+## Colorblindness 
+
+Colorblindness affect roughly 1 in 8 men.
+
+```{r, fig.width = 12}
+colorblindr::cvd_grid(gprox)
+```
+
+Check your color choices using the [`colorblindr`](https://github.com/clauswilke/colorblindr) package or otherwise. 
+

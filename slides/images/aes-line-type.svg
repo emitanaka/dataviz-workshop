@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='129.60pt' height='388.80pt' viewBox='0 0 129.60 388.80'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: none;'/>
+<defs>
+  <clipPath id='cpMC4wMHwxMjkuNjB8MC4wMHwzODguODA='>
+    <rect x='0.00' y='0.00' width='129.60' height='388.80' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHwxMjkuNjB8MC4wMHwzODguODA=)'>
+<rect x='0.00' y='0.00' width='129.60' height='388.80' style='stroke-width: 6.40;' />
+</g>
+<defs>
+  <clipPath id='cpOS45NnwxMTkuNjR8OS45NnwzNzguODQ='>
+    <rect x='9.96' y='9.96' width='109.67' height='368.87' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpOS45NnwxMTkuNjR8OS45NnwzNzguODQ=)'>
+<line x1='14.95' y1='91.63' x2='114.65' y2='91.63' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='14.95' y1='145.72' x2='114.65' y2='145.72' style='stroke-width: 1.07; stroke-dasharray: 5.69,5.69; stroke-linecap: butt;' />
+<line x1='14.95' y1='199.81' x2='114.65' y2='199.81' style='stroke-width: 1.07; stroke-dasharray: 1.42,4.27; stroke-linecap: butt;' />
+<line x1='14.95' y1='253.90' x2='114.65' y2='253.90' style='stroke-width: 1.07; stroke-dasharray: 1.42,4.27,5.69,4.27; stroke-linecap: butt;' />
+<line x1='14.95' y1='307.98' x2='114.65' y2='307.98' style='stroke-width: 1.07; stroke-dasharray: 9.96,4.27; stroke-linecap: butt;' />
+<line x1='14.95' y1='362.07' x2='114.65' y2='362.07' style='stroke-width: 1.07; stroke-dasharray: 2.85,2.85,8.54,2.85; stroke-linecap: butt;' />
+<text x='14.95' y='31.83' style='font-size: 14.23px; font-family: Arial;' textLength='58.10px' lengthAdjust='spacingAndGlyphs'>0 = blank</text>
+<text x='14.95' y='85.92' style='font-size: 14.23px; font-family: Arial;' textLength='53.35px' lengthAdjust='spacingAndGlyphs'>1 = solid</text>
+<text x='14.95' y='140.01' style='font-size: 14.23px; font-family: Arial;' textLength='70.75px' lengthAdjust='spacingAndGlyphs'>2 = dashed</text>
+<text x='14.95' y='194.09' style='font-size: 14.23px; font-family: Arial;' textLength='63.64px' lengthAdjust='spacingAndGlyphs'>3 = dotted</text>
+<text x='14.95' y='248.18' style='font-size: 14.23px; font-family: Arial;' textLength='74.70px' lengthAdjust='spacingAndGlyphs'>4 = dotdash</text>
+<text x='14.95' y='302.27' style='font-size: 14.23px; font-family: Arial;' textLength='81.81px' lengthAdjust='spacingAndGlyphs'>5 = longdash</text>
+<text x='14.95' y='356.35' style='font-size: 14.23px; font-family: Arial;' textLength='77.06px' lengthAdjust='spacingAndGlyphs'>6 = twodash</text>
+</g>
+<g clip-path='url(#cpMC4wMHwxMjkuNjB8MC4wMHwzODguODA=)'>
+</g>
+</svg>

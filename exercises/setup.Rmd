@@ -1,0 +1,58 @@
+
+
+<style>
+.aim {
+  padding-left: 40px;
+}
+
+.aim:before {
+  position: absolute;
+  content: "🎯";
+  margin-left: -20px;
+}
+
+
+.target {
+  border: 3px solid black;
+  padding: 10px;
+  padding-top: 35px;
+  margin-bottom: 10px;
+}
+.target:before {
+  position: absolute;
+  content: "🎯 your target plot";
+  padding: 5px;
+  margin-left: -13px;
+  margin-top: -38px;
+  background-color: #003366;
+  font-size: 12pt;
+  border: 3px solid black;
+  color: white;
+}
+.solution {
+  padding-top: 20px;
+}
+.solution:before {
+  position: absolute;
+  content: "solution";
+  text-decoration: underline;
+  font-size: 12pt;
+  font-weight: bold;
+  margin-top: -20px;
+  color: rgba(0, 51, 102, 0.3);
+}
+</style>
+```{r, include = FALSE}
+library(learnr)
+knitr::knit_hooks$set(class = function(before, options, envir) {
+  if(before) {
+    sprintf("<div class='%s'>", options$class)
+  } else {
+    "</div>"
+  }
+})
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE
+)
+```

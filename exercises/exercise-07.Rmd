@@ -1,0 +1,174 @@
+---
+title: "Exercise 7: Customise the look with themes in ggplot2"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, child="setup.Rmd", eval = file.exists("setup.Rmd")}
+```
+
+## Objective  {data-progressive=FALSE}
+
+::: aim
+
+You are going to create polished plots from datasets in the `agridat` package. Some of these plots are plots you've created before but you will be focussing on changing the look of the plot instead.
+
+:::
+
+
+```{r pkgs, message = FALSE, warning = FALSE}
+library(tidyverse) # contains ggplot2
+library(colorspace)
+library(agridat)
+```
+
+
+## Exercise 1
+
+```{r}
+str(hazell.vegetables)
+```
+
+
+```{r ex01s, echo = FALSE, class = "target"}
+ggplot(hazell.vegetables, aes(year, celery, fill = celery > 0)) +
+  geom_col(show.legend = FALSE) +
+  geom_hline(yintercept = 0) +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(y = "Gross profit",
+       x = "Year",
+       title = "Celery",
+       fill = "Profit") +
+  scale_fill_manual(values = c("#ff1a1a", "#008000")) +
+  scale_x_discrete(labels = 1:6) +
+  theme(
+    axis.text = element_text(size = 18),
+    axis.text.y = element_text(face = "italic"),
+    axis.title = element_text(size = 22),
+    plot.title = element_text(
+      size = 30,
+      face = "bold",
+      margin = margin(b = 40),
+      hjust = -0.8
+    ),
+    panel.background = element_rect(fill = "transparent"),
+    axis.line = element_line(color = "black",
+                             linewidth = 1.3)
+  )
+```
+
+```{r ex01, exercise = TRUE}
+ggplot(hazell.vegetables, aes(year, celery, fill = celery > 0)) +
+  geom_col(show.legend = FALSE) +
+  geom_hline(yintercept = 0) +
+  scale_y_continuous(labels = scales::dollar_format()) +
+  labs(y = "Gross profit",
+       x = "Year",
+       title = "Celery",
+       fill = "Profit") +
+  scale_fill_manual(values = c("#ff1a1a", "#008000")) +
+  scale_x_discrete(labels = 1:6) +
+  theme(
+    axis.text = element____(size = 18),
+    axis.text.y = element____(face = "italic"),
+    axis.title = element____(size = 22),
+    ___ = element____(
+      size = 30,
+      face = "bold",
+      margin = margin(b = 40),
+      hjust = -0.8
+    ),
+    panel.background = element____(fill = "transparent"),
+    axis.line = element____(color = "black",
+                            linewidth = 1.3)
+  )
+```
+
+```{r ex01-solution, ref.label="ex01s"}
+```
+
+
+## Exercise 2
+
+```{r}
+str(heady.fertilizer)
+```
+
+
+```{r ex02s, echo = FALSE, class = "target"}
+ggplot(heady.fertilizer, aes(P, yield)) +
+  geom_point() +
+  facet_wrap(~crop, scale = "free_y") +
+  geom_smooth() +
+  labs(x = "Phosphorous (pounds/acre)",
+       y = "Yield") +
+  theme(
+    plot.background = element_rect(fill = "#CCDFDD",
+                                   color = "black"),
+    strip.background = element_rect(fill = "transparent"),
+    panel.background = element_rect(fill = "transparent")
+  )
+
+```
+
+```{r ex02, exercise = TRUE}
+ggplot(heady.fertilizer, aes(P, yield)) +
+  geom_point() +
+  facet_wrap(~crop, scale = "free_y") +
+  geom_smooth() +
+  labs(x = "Phosphorous (pounds/acre)",
+       y = "Yield") +
+  theme(
+    ___ = element_rect(fill = "#CCDFDD",
+                       color = "black"),
+    strip.background = ___(fill = "transparent"),
+    panel.background = ___(fill = "transparent")
+  )
+```
+
+```{r ex02-solution, ref.label="ex02s"}
+```
+
+
+## Exercise 3
+
+```{r}
+str(wallace.iowaland)
+```
+
+```{r ex03s, echo = FALSE, class = "target"}
+ggplot(wallace.iowaland, aes(long, lat, color = yield)) + geom_point(size = 6) +
+  scale_color_continuous_diverging(
+    palette = "Green-Brown",
+    rev = TRUE,
+    mid = mean(wallace.iowaland$yield)
+  ) +
+  labs(y = "Latitude", x = "Longitude", color = "Yield") +
+  theme(
+    rect = element_rect(fill = "black"),
+    text = element_text(color = "white"),
+    panel.background = element_rect(fill = "transparent"),
+    panel.grid.minor = element_line(linetype = "dashed"),
+    axis.text = element_text(color = "gray")
+  )
+```
+
+```{r ex03, exercise = TRUE}
+ggplot(wallace.iowaland, aes(long, lat, color = yield)) + 
+  ___(size = 6) +
+  scale_color_continuous_diverging(palette = "Green-Brown", rev = TRUE, mid = mean(wallace.iowaland$yield)) + 
+  ___(y = "Latitude", x = "Longitude", color = "Yield") +
+  theme(rect = ___(fill = "black"),
+        text = ___(color = "white"),
+        panel.background = ___(fill = "transparent"),
+        panel.grid.minor = ___(linetype = "dashed"),
+        axis.text = ___(color = "gray"))
+```
+
+```{r ex03-solution, ref.label="ex03s"}
+```
+
+

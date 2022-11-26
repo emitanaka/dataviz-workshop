@@ -1,0 +1,191 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "FAQ and wrap-up"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: false
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+---
+
+
+## {#title-slide background-image="images/bg14.jpeg"}
+
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+# <i class="fas fa-save"></i> File formats {background-color="#006DAE"}
+
+## Are these figures different?
+
+::: flex
+
+::: w-50
+
+```{r plot, echo = FALSE, fig.width = 3, fig.height = 3, out.width = "500px", out.height = "500px", fig.align = "center", dev = "png"}
+ggplot(cars, aes(speed, dist)) + 
+geom_point()
+```
+
+:::
+
+::: {.w-50}
+
+```{r plot, dev = "svg", echo = FALSE, fig.width = 3, fig.height = 3, out.width = "500px", out.height = "500px", fig.align = "center"}
+```
+
+:::
+
+:::
+
+. . . 
+
+<div class="monash-bg-white ba" style="position:absolute;bottom:8%;left:4%;padding:10px;width:100%;">
+Both figures used the same code below to produce the figure:<br>
+
+<code>
+ggplot(cars, aes(speed, dist)) + 
+  geom_point()
+</code>
+<br>
+but I saved one to a <b>png</b> file and the other as a <b>svg</b> file.
+</div>
+
+
+## Communicating Figures 
+
+::: {.incremental style="font-size: 0.9em;"}
+
+* There are two main formats for graphics: 
+  * **Raster formats** contain description of each pixel. Common formats are:
+     * `jpg` (or `jpeg`) uses a lossy data compression that results in some loss of information but usually a small file size.
+     * `png` uses a lossless data compression and works well if the image has uniform colors.
+  * **Vector formats** contain a geometric description and hence render smoothly at any display size. Common formats include `svg`, `pdf` and `eps`. E.g.   [svg](https://raw.githubusercontent.com/numbats/cwd/master/lectures/images/rlogo.svg) and its [source](view-source:https://raw.githubusercontent.com/numbats/cwd/master/lectures/images/rlogo.svg).
+* A vector format scales well to any display size, however, the file size may become prohibitively big when there are many geometric objects (i.e. displaying many data).
+
+:::
+
+
+## Exporting plots
+
+* To export plots made by `ggplot2`, use `ggsave()`.
+
+```{r}
+#| eval: false
+#| code-line-numbers: "|1|2-8"
+g <- ggplot(cars, aes(speed, dist)) + geom_point()
+ggsave(filename = "myplot", 
+       dev = "png",
+       plot = g,
+       width = 6, 
+       height = 4,
+       units = "in",
+       dpi = 300)
+```
+
+* Unfortunately you may need to adjust the font size when you check the exported plot!
+
+
+# <i class="fas fa-expand-arrows-alt"></i> Interactive plots {background-color="#006DAE"}
+
+## Interactive plots
+
+* `plotly` translates `ggplot` objects into `plotly` interactive graphics.
+
+```{r}
+#| out-height: "270px"
+library(plotly)
+g <- ggplot(cars, aes(speed, dist)) + geom_point()
+ggplotly(g)
+```
+
+* This doesn't work well for some (usually complex) type of plots.
+
+
+## Interactive plots with JS through R  {.scrollable}
+
+* State-of-the-art for interactive plots is **JS**
+
+. . . 
+
+* No need to learn JS!
+
+. . . 
+
+* Many JS library for plotting are available via an R package:
+
+| JS | R package |
+| --- | --- |
+| [Chart.js](https://www.chartjs.org/) | [`chartjs`](https://github.com/Tutuchan/chartjs),  [`charter`](https://github.com/JohnCoene/charter) |
+| [Dygraphs](https://dygraphs.com/) | [`dygraphs`](https://github.com/rstudio/dygraphs) | 
+| [D3.js](https://d3js.org/) | [`r2d3`](https://github.com/rstudio/r2d3), [`networkD3`](https://github.com/christophergandrud/networkD3) | 
+| [ECharts](https://echarts.apache.org/en/index.html) | [`echarts4r`](https://github.com/JohnCoene/echarts4r)| 
+| [Google Charts](https://developers.google.com/chart) | [`googleVis`](https://github.com/mages/googleVis) |
+| [Highcharts](https://www.highcharts.com/) | [`highcharter`](https://github.com/jbkunst/highcharter) | 
+| [Plotly](https://plotly.com/javascript/) | [`plotly`](https://github.com/plotly/plotly.R) | 
+| [Vis.js](https://visjs.org/) | [`visNetwork`](https://github.com/datastorm-open/visNetwork) |
+| [Observable Plot](https://observablehq.com/@observablehq/plot) | [`obsplot`](https://github.com/juba/obsplot) |
+| [Vega and Vega-Lite](https://vega.github.io/vega/) | [`vegawidget`](https://github.com/vegawidget/vegawidget), [`altair`](https://github.com/vegawidget/altair),  [`virgo`](https://github.com/vegawidget/virgo),  [`vegabrite`](https://github.com/vegawidget/vegabrite) |
+
+# <i class="fas fa-expand-arrows-alt"></i> 3D plots {background-color="#006DAE"}
+
+## 3D plots
+
+* `ggplot2` is best for static 2D plots 
+
+. . . 
+
+* For 3D plots, you may like to use some modern interactive tools instead
+
+<iframe src="https://echarts4r.john-coene.com/articles/threed" width="100%" height="350px" class="ba"></iframe>
+
+
+## Resources
+
+For continued learning
+
+* [From Data to Viz](https://www.data-to-viz.com/)
+* [The R Graph Gallery](https://r-graph-gallery.com/)
+* [Fundamentals of Data Visualization by Claus O. Wilke](https://clauswilke.com/dataviz/)
+* [ggplot2: elegant graphics for data analysis (work in progress 3rd edition)](https://ggplot2-book.org/)
+
+## Community 
+
+Learn with others!
+
+* [R for data science online learning community](https://www.rfordatasci.com/)
+* [RStudio/Posit Community forum with ggplot2 tag](https://community.rstudio.com/tag/ggplot2)
+* [Stackoverflow with ggplot2 tag](https://stackoverflow.com/questions/tagged/ggplot2)
+
+# <i class="fas fa-download"></i> Keep a local copy of the workshop material! {background-color="#D93F00"}
+
+`>` Download the zip file [here]()  
+`>` Open the `docs/index.html` in a browser

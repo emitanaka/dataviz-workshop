@@ -1,0 +1,304 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Visualising multivariate data with ggplot2"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: true
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+  cache: true
+---
+
+
+## {#title-slide background-image="images/bg5.jpeg"}
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+
+
+## Examining two or more variables
+
+```{r}
+#| echo: false
+#| output: asis
+fns <- dir(here::here("slides/images/catalogue/")) %>% 
+  str_subset("(^corr|^other)")
+cat(paste0("<img class='catalogue' src='images/catalogue/", fns, "'>", collapse = ""))
+```
+
+## Illustrative data 💎 diamonds
+
+* Let's have a look at the `diamonds` data which contains information about different attributes of diamonds
+
+```{r}
+data(diamonds, package = "ggplot2")
+diamonds
+```
+
+## A scatterplot with `geom_point()`
+
+```{r geom-point}
+ggplot(data = diamonds,
+       mapping = aes(x = carat, y = price)) +
+  geom_point()
+```
+
+* Scatter plot of price vs carat of diamonds
+* Each point corresponds to a diamaond
+
+::: notes
+
+* A scatterplot is useful in visualising two numerical variables 
+* Each point corresponds to an observational unit 
+* If you have other variables, you may like to map this to other aesthetic values, such as `shape` or `color`.
+* When there is a lot of observations, it may be useful to use `alpha` to control the transparency of the points. 
+
+:::
+
+
+## A hexagonal 2D heatmap with `geom_hex()`
+
+```{r geom-hex}
+ggplot(data = diamonds,
+       mapping = aes(x = carat, y = price)) +
+  geom_hex()
+```
+
+* A hexagon shows the count of observations within the region.
+
+::: notes
+
+* A hex plot is useful if there is a lot of _overplotting_ in your scatterplot.
+* **_Overplotting_** in data visualisation means that the data or labels overlap in the data visualisation making it harder to distinguish individual data points. * Overplotting typically occurs when you have a large dataset.
+* A hex plot overcomes the issue by showing the number of observations within a hexagonal area.
+* The count is shown by the `fill` in the resulting data visualisation.
+
+:::
+
+
+## A rectangular 2D heatmap with `geom_bin_2d()`
+
+```{r geom-bin2d}
+ggplot(data = diamonds,
+       mapping = aes(x = carat, y = price)) +
+  geom_bin_2d()
+```
+
+
+::: notes
+
+* `geom_bin_2d()` is the same as `geom_hex()` but the shape is a rectangle instead of a hexagon.
+
+:::
+
+
+## Count of overlapping points with `geom_count()`
+
+```{r geom-count}
+ggplot(data = diamonds,
+       mapping = aes(x = carat, y = price)) +
+  geom_count()
+```
+
+::: notes
+
+* `geom_count()` counts the number of points in the same location
+* The count is then mapped to the aesthetic `size`. 
+:::
+
+
+## Contour of a 2D density with `geom_density_2d()`
+
+```{r geom-density-2d}
+ggplot(data = diamonds,
+       mapping = aes(x = carat, y = price)) +
+  geom_density_2d()
+```
+
+::: notes
+
+* If you have want to visualise the joint density of two variables then `geom_density_2d()` is useful. 
+* The axis shows the density of the corresponding variable.
+* The 2D density is estimated using `MASS::kde2d()`. 
+
+:::
+
+
+## Contour of a 2D density with `geom_density_2d_filled()`
+
+```{r geom-density-2d-filled}
+ggplot(data = diamonds,
+       mapping = aes(x = carat, y = price)) +
+  geom_density_2d_filled()
+```
+
+::: notes
+
+* `geom_density_2d()` draws the contour line 
+* `geom_density_2d_filled()` draws the contour bands
+
+:::
+
+
+## Illustrative data ⛰️ volcano 
+
+* The data contains topographic information on Auckland's Maunga Whau Volcano
+
+```{r}
+volcanod <- data.frame(row = as.vector(row(volcano)),
+                       col = as.vector(col(volcano)),
+                       value = as.vector(volcano))
+
+volcanod
+```
+
+::: notes
+
+* The original data is a matrix and we must wrangle in the form ready for `ggplot` first.
+
+:::
+
+
+## A 2D contour plot with `geom_contour()`
+
+```{r geom-contour}
+ggplot(data = volcanod, 
+       mapping = aes(x = col, y = row, z = value)) + 
+  geom_contour()
+```
+
+
+
+## A 2D contour plot with `geom_contour_filled()`
+
+```{r geom-contour-filled}
+ggplot(data = volcanod, 
+       mapping = aes(x = col, y = row, z = value)) + 
+  geom_contour_filled()
+```
+
+
+
+
+## Tile plots with `geom_tile()`
+
+```{r geom-tile}
+ggplot(volcanod, aes(col, row, fill = value)) +
+ geom_tile()
+```
+
+
+## Raster plots with `geom_raster()`
+
+```{r geom-raster}
+ggplot(volcanod, aes(col, row, fill = value)) +
+ geom_raster()
+```
+
+* A high performance special case of `geom_tile()` for when the tiles are the same size
+
+
+## Rectangular plots with `geom_rect()`
+
+```{r geom-rect}
+ggplot(volcanod, aes(xmin = col - 0.5, xmax = col + 0.5,
+                     ymin = row - 0.5, ymax = row + 0.5, fill = value)) +
+ geom_rect()
+```
+
+* A reparameterised version of `geom_tile()`
+
+
+## Illustrative data 📈 economics
+
+
+```{r}
+data(economics, package = "ggplot2")
+economics
+```
+
+
+## Line plot with `geom_line()`
+
+```{r geom-line}
+ggplot(economics, aes(date, unemploy)) + 
+  geom_line()
+```
+
+
+## `geom_path()`
+
+```{r geom-path}
+ggplot(economics, aes(unemploy/pop, psavert)) +
+  geom_path()
+```
+
+
+## `geom_step()`
+
+```{r geom-step}
+ggplot(economics, aes(unemploy/pop, psavert)) +
+  geom_step()
+```
+
+
+## Drawing maps
+
+* Drawing maps require the map data 
+
+```{r}
+world <- map_data("world")
+world
+```
+
+
+## Drawing world map with `geom_polygon()`
+
+```{r geom-polygon}
+world <- map_data("world")
+ggplot(world, aes(long, lat, group = group)) +
+  geom_polygon()
+```
+
+
+## Other layers 
+
+* There are more layers in `ggplot`!
+* We won't cover the layers provided via functions starting with `stat_` but there are plenty of examples in the wild.
+* There are also many extension packages to draw more plots: https://exts.ggplot2.tidyverse.org/gallery/ 
+* It is normal to google and copy-and-paste code that you find on the web. 
+* `ggplot2` is also [continually updated](https://github.com/tidyverse/ggplot2/blob/main/NEWS.md) so some new features may be added in the future. 
+
+
+
+
+
+

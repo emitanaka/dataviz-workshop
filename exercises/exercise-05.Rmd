@@ -1,0 +1,243 @@
+---
+title: "Exercise 5: Scales and guides in ggplot2"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, child="setup.Rmd", eval = file.exists("setup.Rmd")}
+```
+
+## Objective  {data-progressive=FALSE}
+
+::: aim
+
+In this exercise, you will use various datasets in the `agridat` package with a focus on modifying the scales and guide to create the targetted plot. 
+
+:::
+
+
+```{r pkgs, message = FALSE, warning = FALSE}
+library(tidyverse) # contains ggplot2
+library(agridat)
+library(scales)
+library(colorspace)
+```
+
+
+## Exercise 1
+
+```{r}
+str(nass.cotton)
+```
+
+
+```{r ex01s, echo = FALSE, class = "target"}
+nass.cotton %>% 
+  filter(state=="Florida") %>% 
+  ggplot(aes(year, yield)) + 
+  geom_point(aes(color = acres)) + 
+  scale_y_log10(name = "Yield") + 
+  scale_color_continuous_sequential(palette = "ag_GrnYl",
+                                    trans = "log10",
+                                    breaks = trans_breaks("log10", function(x) 10^x),
+                                    labels = trans_format("log10", math_format(10.^.x))) +
+  labs(x = "Year", 
+       title = "Florida Cotton Yields", 
+       subtitle = "1900 to 2011",
+       color = "Acres") 
+```
+
+```{r ex01, exercise = TRUE}
+nass.cotton %>% 
+  filter(state=="Florida") %>% 
+  ggplot(aes(___, ___)) + 
+  geom____(aes(color = ___)) + 
+  scale_y____(name = "Yield") + 
+  scale_color_continuous_sequential(palette = "ag_GrnYl",
+                                    trans = "log10",
+                                    breaks = trans_breaks("log10", function(x) 10^x),
+                                    labels = trans_format("log10", math_format(10.^.x))) +
+  labs(___ = "Year", 
+       ___ = "Florida Cotton Yields", 
+       ___ = "1900 to 2011",
+       ___ = "Acres") 
+
+```
+
+```{r ex01-solution, ref.label="ex01s"}
+```
+
+## Exercise 2
+
+```{r}
+str(burgueno.rowcol)
+```
+
+
+```{r ex02s, echo = FALSE, class = "target"}
+ggplot(burgueno.rowcol, aes(col, row)) +
+  geom_tile(color = "black", size = 1.5, aes(fill = yield)) +
+  geom_point(data = function(.data) filter(.data, gen %in% c("G01", "G02", "G03")),
+             aes(color = gen, shape = gen), 
+             size = 2) + 
+  labs(x = "Column",
+       y = "Row",
+       fill = "Yield") +
+  guides(color = guide_legend(title = "Genotype"),
+         shape = guide_legend(title = "Genotype"),
+         fill = guide_colorsteps()) +
+  coord_equal() + 
+  scale_fill_continuous_sequential(palette = "PuBuGn") +
+  scale_color_discrete_qualitative()
+```
+
+```{r ex02, exercise = TRUE}
+ggplot(burgueno.rowcol, aes(___, ___)) +
+  geom_tile(color = "black", size = 1.5, aes(___ = yield)) +
+  geom____(data = function(.data) filter(.data, gen %in% c("G01", "G02", "G03")),
+             aes(color = ___, shape = ___), 
+             size = 2) + 
+  labs(___ = "Column",
+       ___ = "Row",
+       ___ = "Yield") +
+  guides(color = ___(title = "Genotype"),
+         shape = ___(title = "Genotype"),
+         ___ = guide_colorsteps()) +
+  coord____() + 
+  scale_____continuous_sequential(palette = "PuBuGn") +
+  scale_____discrete_qualitative()
+```
+
+```{r ex02-solution, ref.label="ex02s"}
+```
+
+
+## Exercise 3
+
+```{r}
+str(hazell.vegetables)
+```
+
+
+```{r ex03s, echo = FALSE, class = "target"}
+ggplot(hazell.vegetables, aes(year, celery, fill = celery > 0)) + 
+  geom_col() + 
+  geom_hline(yintercept = 0) + 
+  scale_y_continuous(labels = dollar) + 
+  labs(y = "Gross profit", 
+       x = "Year",
+       title = "Celery gross profit over 6 years", 
+       fill = "Profit") +
+  scale_fill_manual(labels = c("No", "Yes"),
+                    values = c("#ff1a1a", "#008000")) +
+  scale_x_discrete(labels = 1:6)
+```
+
+```{r ex03, exercise = TRUE}
+ggplot(hazell.vegetables, aes(year, celery, fill = celery > 0)) + 
+  geom____() + 
+  geom____(yintercept = 0) + 
+  scale____(labels = dollar) + 
+  labs(___ = "Gross profit", 
+       ___ = "Year",
+       ___ = "Celery gross profit over 6 years", 
+       ___ = "Profit") +
+  scale_fill_manual(___ = c("No", "Yes"),
+                    ___ = c("#ff1a1a", "#008000")) +
+  scale_x____(labels = 1:6)
+```
+
+```{r ex03-solution, ref.label="ex01s"}
+```
+
+## Exercise 4
+
+```{r}
+str(hanks.sprinkler)
+```
+
+```{r ex04s, echo = FALSE, class = "target"}
+ggplot(hanks.sprinkler, aes(factor(row), factor(subplot))) +
+  geom_tile(aes(fill = dir)) +
+  geom_point(aes(color = factor(irr)), size = 9) +
+  geom_text(aes(label = block)) +
+  scale_fill_manual(values = c("black", "gray"), 
+                    # wrap string longer than 20 characters
+                    name = str_wrap("Direction of sprinkler", 20)) + 
+  scale_color_discrete_qualitative(palette = "Set 3") +
+  labs(x = "Row", y = "Subplot", color = "Irrigation") + 
+  guides(fill = guide_legend(order = 2),
+         color = guide_legend(order = 1))
+```
+
+```{r ex04, exercise = TRUE}
+ggplot(hanks.sprinkler, aes(factor(row), factor(subplot))) +
+  ___(aes(fill = dir)) +
+  ___(aes(color = factor(irr)), size = 9) +
+  ___(aes(label = block)) +
+  ___(values = c("black", "gray"), 
+      # wrap string longer than 20 characters
+      name = str_wrap("Direction of sprinkler", 20)) + 
+  scale_color_discrete_qualitative(palette = "Set 3") +
+  ___(x = "Row", y = "Subplot", color = "Irrigation") + 
+  guides(fill = ___(order = 2),
+         color = ___(order = 1))
+```
+
+```{r ex04-solution, ref.label="ex04s"}
+```
+
+## Exercise 5
+
+```{r}
+str(minnesota.barley.weather)
+```
+
+
+```{r ex05s, echo = FALSE, class = "target"}
+farenheight_to_celsius <- function(x) return((x - 32) * 5/9) 
+
+crookston_barley <- minnesota.barley.weather %>% 
+  mutate(date = as.Date(paste(year, mo, "01", sep = "-")),
+         minC = farenheight_to_celsius(min),
+         maxC = farenheight_to_celsius(max)) %>% 
+  filter(site=="Crookston")
+
+ggplot(crookston_barley, aes(x = date)) + 
+  geom_line(aes(y = minC), color = "#166ee0") + 
+  geom_line(aes(y = maxC), color = "#e0161d")  + 
+  scale_y_continuous(name = "Temperature",
+                     label = function(x) paste0(x, "°C")) +
+  scale_x_date(breaks = scales::date_breaks(width = "3 year"),
+               date_labels = "%Y",
+               name = "Time")  +
+  ggtitle("Crookston Monthly Temperature 1927-1936")
+```
+
+
+
+```{r ex05, exercise = TRUE}
+farenheight_to_celsius <- function(x) return((x - 32) * 5/9) 
+
+crookston_barley <- minnesota.barley.weather %>% 
+  mutate(date = as.Date(paste(year, mo, "01", sep = "-")),
+         minC = farenheight_to_celsius(min),
+         maxC = farenheight_to_celsius(max)) %>% 
+  filter(site=="Crookston")
+
+ggplot(crookston_barley, aes(x = date)) + 
+  geom____(aes(y = ___), color = "#166ee0") + 
+  geom____(aes(y = ___), color = "#e0161d")  + 
+  scale____(___ = "Temperature",
+            ___ = function(x) paste0(x, "°C")) +
+  scale____(breaks = scales::date_breaks(width = "3 year"),
+            date_labels = "%Y",
+            ___ = "Time")  +
+  ggtitle("Crookston Monthly Temperature 1927-1936")
+```
+
+```{r ex05-solution, ref.label="ex01s"}
+```

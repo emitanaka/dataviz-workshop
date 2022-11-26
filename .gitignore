@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/.quarto/
+exercises/rsconnect/
+participants/
+slides/compute.R
+notes/
+.Rdata
+.httr-oauth
+.DS_Store

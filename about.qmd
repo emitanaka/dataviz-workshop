@@ -1,0 +1,30 @@
+---
+title: "About"
+---
+
+
+Data visualisation is a key statistical tool for effective communication and to understand aspects of data and models. The statistical language R is used widely for data analysis and visualization, e.g. the BBC Visual and Data Journalism team uses ggplot2 R-package to create production-ready charts. This workshop will teach you how to create production-ready graphics using the grammar of graphics implemented in ggplot2 R-package. The workshop will be hands-on with plenty of practical examples.
+
+## Learning objectives
+
+- Review of tidy data format
+- Basics of the grammar of graphics
+- Drawing the basic data plot types (barchart, pie chart, histogram, density plot, scatterplot, boxplot) utilising a range of common geoms and variable mappings
+- Choosing colour wisely
+- All about scales, transforming data, setting limits, changing coordinate systems, axis specifications, ordering levels of categorical axes
+- Jazzing up your plot with different themes, plot annotations and combining plots together to make a publication-ready plot
+
+## Requirements
+
+- basic R knowledge (e.g. you have used R to load data, create simple visualisations, perform basic analyses and write simple functions or more specifically, you are familiar with concepts in Cookbook for R by Winston Chang)
+- laptop (with ability to install R and R-packages)
+
+### Desirable
+
+- Know about tidy data (i.e. importing data and putting data into the right format for plotting)
+- Some familiarity with tidyverse
+
+
+## Biography of Workshop Presenter
+
+Dr Emi Tanaka is a Senior Lecturer in Statistics at Monash University whose primary interest is to develop impactful statistical methods and tools that can readily be used by practitioners. Her research area includes data visualisation, mixed models and experimental designs, motivated primarily by problems in bioinformatics and agricultural sciences. She is currently the President of the Statistical Society of Australia Victorian Branch and the recipient of the Distinguished Presenter’s Award from the Statistical Society of Australia for her delivery of a wide-range of R workshops.

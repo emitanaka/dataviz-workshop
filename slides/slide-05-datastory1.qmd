@@ -1,0 +1,198 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Effective data visualistion"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: false
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+---
+
+
+
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+library(patchwork)
+library(colorspace)
+
+df <- read_csv(here::here("data/census-birthplace.csv"))
+df2021 <- df %>% 
+  filter(census == 2021) %>% 
+  filter(!birth %in% c("Total")) %>% 
+  select(-census)
+df2 <- df %>% 
+  filter(census %in% c(2021, 2016)) %>% 
+  filter(!birth %in% c("Total")) %>% 
+  filter(!birth %in% c("Not Stated", "Other", "Australia")) %>% 
+  group_by(census) %>% 
+  mutate(rank = rank(-percentage)) %>% 
+  filter(rank %in% 1:5) %>% 
+  ungroup()
+
+dfsex <- read_csv(here::here("data/census-birthplace-by-sex.csv")) %>% 
+  filter(!birth %in% c("Total")) %>% 
+  filter(!birth %in% c("Not Stated", "Other", "Australia")) %>% 
+  mutate(birth = fct_reorder(birth, count, mean)) %>% 
+  group_by(sex) %>% 
+  mutate(rank = rank(-percentage)) %>% 
+  filter(rank %in% 1:5) %>% 
+  ungroup()
+
+
+source("setup.R")
+```
+
+
+# Data story <i class="fas fa-book-open"></i> birth place {background-color="#006DAE"}
+
+
+
+## Birth place from the 2021 Australian Census {.scrollable }
+
+```{r}
+df2021 %>% 
+  mutate(count = scales::comma(count, 1),
+         percentage = scales::comma(percentage, 0.1)) %>% 
+  knitr::kable(col.names = c("Birth place", "Count", "%"),
+               align = "lrr") %>% 
+  kableExtra::kable_classic(full_width = FALSE)
+```
+
+## Birth place from the 2021 Australian Census 
+
+```{r census2021-part1, fig.width = 12, fig.height = 4}
+df2021 %>% 
+  ggplot(aes(birth, percentage)) +
+  geom_col() +
+  theme(text = element_text(size = 18),
+        axis.text.x = element_text(angle = 45, size = 10, hjust = 1)) + 
+  labs(x = "", y = "Percentage", caption = "Data source: Australian Census 2021")
+```
+
+. . . 
+
+Which birth place is the third largest among people in Australia?
+
+
+## Birth place from the 2021 Australian Census 
+
+```{r census2021-part2, fig.width = 12, fig.height = 4}
+df2021 %>% 
+  mutate(birth = fct_reorder(birth, -percentage)) %>% 
+  ggplot(aes(birth, percentage)) +
+  geom_col() +
+  theme(text = element_text(size = 18),
+        axis.text.x = element_text(angle = 45, size = 10, hjust = 1)) + 
+  labs(x = "", y = "Percentage", caption = "Data source: Australian Census 2021")
+```
+
+. . . 
+
+<i class="fa-solid fa-face-meh" style=" transform: rotate(-45deg)"></i> Can you read the labels without tilting your head?
+
+## Birth place from the 2021 Australian Census { .scrollable}
+
+```{r census2021-part4, fig.height = 12, fig.width = 4}
+df2021 %>% 
+  mutate(birth = fct_reorder(birth, percentage)) %>% 
+  ggplot(aes(percentage, birth)) +
+  geom_col() +
+  theme(text = element_text(size = 18),
+        axis.text.y = element_text(size = 8)) + 
+  labs(y = "", x = "Percentage", caption = "Data source: Australian Census 2021")
+```
+
+. . . 
+
+What's the data story? 
+
+## India now third most common place of birth of Australian residents, census results show {background-color="#D93F00"}
+
+::: flex
+
+::: w-60
+
+```{r census2021-part5, dev.args=list(bg = "transparent")}
+total2021 <- df %>% 
+  filter(birth=="Total" & census==2021) %>% 
+  pull(count)
+auperc2021 <- df %>% 
+  filter(birth=="Australia" & census==2021) %>% 
+  pull(percentage)
+nsperc2021 <- df %>% 
+  filter(birth=="Not Stated" & census==2021) %>% 
+  pull(percentage)
+df2021 %>% 
+  arrange(desc(percentage)) %>% 
+  filter(!birth %in% c("Australia", "Other", "Not Stated")) %>% 
+  slice(1:5) %>% 
+  mutate(birth = fct_reorder(birth, count)) %>% 
+  ggplot(aes(count, birth)) +
+  geom_col() +
+  geom_col(data = ~filter(.x, birth=="India"),
+           fill = "#006DAE") + 
+  geom_text(aes(label = scales::percent(percentage/100, 0.1)),
+            nudge_x = -50000, color = "white") +
+  scale_x_continuous(labels = scales::comma, expand  = c(0, 0)) +
+  theme(text = element_text(size = 18, color = "white"),
+        axis.text = element_text(size = 8, color = "white"),
+        axis.ticks.length = unit(0, "mm"),
+        panel.grid.major.y = element_blank(),
+        panel.grid.major.x = element_line(linetype = "dashed"),
+        panel.grid.minor.x = element_blank(),
+        plot.title.position = "plot",
+        plot.background = element_rect(fill = "transparent",
+                                       color = "transparent"),
+        panel.background = element_blank()) + 
+  labs(y = "Birth place", x = "Number of Australian residents\n", caption = "Data source: Australian Census 2021",
+       title = "Top 5 countries of birth outside Australia")
+```
+
+
+:::
+
+::: {.w-40 .f3}
+
+<br><br><br>
+
+* The text on the bar shows the percentage out of `r scales::comma(total2021)` Australian residents born in that place.  
+
+* There were `r scales::percent(nsperc2021/100, 0.1)` of Australian residents who did not state their birth place.
+
+* The top country of birth place is Australia with  `r scales::percent(auperc2021/100, 0.1)` of Australian residents born in Australia.
+
+
+<i class="fa-solid fa-newspaper"></i> Story from [The Guardian](https://www.theguardian.com/australia-news/2022/jun/28/india-now-third-most-common-place-of-birth-of-australian-residents-census-results-show).
+
+:::
+
+
+:::
+
+
+
+```{css, echo = FALSE}
+.reveal h2 {
+  font-size: 34px!important;
+}
+```

@@ -1,0 +1,96 @@
+---
+title: "Exercise 4: Barplots and position adjustments in ggplot2"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+---
+
+```{r setup, child="setup.Rmd", eval = file.exists("setup.Rmd")}
+```
+
+## Objective  {data-progressive=FALSE}
+
+::: aim
+
+You are going to use two datasets, `crampton.pig` and `reid.grasses` data from the `agridat` package in order to study how the position adjustment and coordinate systems work. The structure of these datasets are shown below.
+
+:::
+
+
+```{r pkgs, message = FALSE, warning = FALSE}
+library(tidyverse) # contains ggplot2
+library(agridat)
+```
+
+### Data: `crampton.pig`
+
+```{r pig-data}
+str(crampton.pig)
+```
+
+### Data: `reid.grasses`
+
+```{r reid.grasses}
+str(reid.grasses)
+```
+
+## Exercise 1
+
+```{r ex01s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(treatment, feed, fill = rep)) + 
+  geom_col(position = "dodge", color = "black")
+```
+
+```{r ex01, exercise = TRUE}
+ggplot(crampton.pig, aes(___, ___, fill = ___)) + 
+  geom_col(position = "dodge", color = "black")
+```
+
+```{r ex01-solution, ref.label="ex01s"}
+```
+
+## Exercise 2
+
+The plot below is called a "rose plot". 
+
+```{r ex02s, echo = FALSE, class = "target"}
+ggplot(crampton.pig, aes(treatment, feed, fill = rep)) + 
+  geom_col(position = "dodge") + 
+  coord_polar("x")
+```
+
+Try making this rose plot now.
+
+```{r ex02, exercise = TRUE}
+ggplot(crampton.pig, aes(___, ___, fill = ___)) + 
+  geom____(___) + 
+  coord____(___)
+```
+
+```{r ex02-solution, ref.label="ex02s"}
+```
+
+## Exercise 3
+
+Position adjustments are also applicable beyond barplots like below.
+
+```{r ex03s, echo = FALSE, class = "target", message = FALSE, fig.height = 6}
+ggplot(reid.grasses, aes(gen, drymatter, fill = year)) + 
+  geom_dotplot(position = "dodge",
+               binaxis = "y",
+               stackdir = "center") + 
+  coord_flip()
+```
+
+```{r ex03, exercise = TRUE}
+ggplot(reid.grasses, aes(___, ___, fill = ___)) + 
+  geom_dotplot(position = ___,
+               binaxis = "y",
+               stackdir = "center") + 
+  coord____()
+```
+
+```{r ex03-solution, ref.label="ex03s", fig.height = 6}
+```

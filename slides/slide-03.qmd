@@ -1,0 +1,223 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Multiple layers"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: false
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+---
+
+
+## {#title-slide background-image="images/bg6.jpeg"}
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+library(palmerpenguins)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+
+
+## A layer in `ggplot2`
+
+
+* A layer is comprised of:
+   - `data` 
+   - `mapping` 
+   - statistical transformation (`stat`)
+   - geometric object (`geom`)
+   - position adjustment (`position`)
+* `data` and `mapping` are often inherited from `ggplot`
+
+::: notes 
+
+* A layer is usually added using functions with prefix `geom_` and `stat_`
+* Technically, there are more components but we won't go into those. 
+
+:::
+
+
+## The violin plot layer
+
+
+::: flex
+
+::: w-50
+
+```{r plot1-cut}
+ggplot(penguins, 
+       aes(x = island, y = body_mass_g)) +
+  geom_violin()
+```
+
+:::
+
+::: w-50 
+
+* There is one layer in this plot comprising of:
+  * inherited `data`: `penguins`
+  * inherited `mapping`: `aes(x = island, y = body_mass_g)`
+  * `geom`: violin
+  * `stat`: density for the y-axis (`ydensity`)
+  * `position`: dodge
+  
+
+:::
+
+:::
+
+## You can add more than one layer
+
+```{r plot1-layer2}
+#| code-line-numbers: "3-4"
+ggplot(penguins, 
+       aes(x = island, y = body_mass_g)) +
+  geom_violin() +
+  geom_boxplot(width = 0.1)
+```
+
+* We now have the boxplot layer on top of the violin plot layer.
+
+
+
+## The order of the layers matters
+
+```{r plot1-layer-order}
+#| code-line-numbers: "3-4"
+ggplot(penguins, 
+       aes(x = island, y = body_mass_g)) +
+  geom_boxplot(width = 0.1) +
+  geom_violin()
+```
+
+
+* You can't see the boxplot here because it's been hidden by the violin plot.
+
+
+
+## Inheriting data and mapping
+
+* A layer inherits the data and mapping from the initialised ggplot object by default 
+
+<center>
+<img src= "images/ggplot-multiple-layers.png" width="70%">
+</center>
+
+
+## Layer-specific data and aesthetic mapping
+
+![](images/ggplot-multiple-layers-data-mapping.png)
+
+* For each layer, aesthetic and/or data can be overwritten
+
+## Illustrative data 🚜 Iowa farmland values by county
+
+```{r}
+data(wallace.iowaland, package = "agridat")
+str(wallace.iowaland)
+
+map_data("county", region = "iowa")
+```
+
+
+## Layer specific aesthetic {auto-animate=true}
+
+```{r plot2-inheritance, fig.width = 8, fig.height = 3, message = FALSE}
+#| code-line-numbers: "|2|3"
+#| fig-height: 5
+ggplot(wallace.iowaland, aes(x = long, y = lat)) +
+  geom_point(size = 4, shape = "square", color = "black") +
+  geom_point(aes(color = yield), size = 2) 
+```
+
+## Layer specific data {auto-animate=true}
+
+```{r plot3-inheritance, fig.width = 8, fig.height = 3, message = FALSE}
+#| code-line-numbers: "2-3"
+#| fig-height: 5
+ggplot(wallace.iowaland, aes(x = long, y = lat)) +
+  geom_polygon(data = map_data("county", region = "iowa"),
+               aes(group = group), fill = "white", color = "black") +
+  geom_point(size = 4, shape = "square", color = "black") +
+  geom_point(aes(color = yield), size = 2) 
+```
+
+## Layer specific data as a function of inherited data {auto-animate=true}
+
+```{r plot4-inheritance, fig.width = 8, fig.height = 3, message = FALSE}
+#| code-line-numbers: "6-7"
+#| fig-height: 5
+ggplot(wallace.iowaland, aes(x = long, y = lat)) +
+  geom_polygon(data = map_data("county", region = "iowa"),
+               aes(group = group), fill = "white", color = "black") +
+  geom_point(size = 4, shape = "square", color = "black") +
+  geom_point(aes(color = yield), size = 2) +
+  geom_label(data = function(.data) subset(.data, yield  > quantile(yield, 0.95)),
+            aes(label = county), nudge_y = -0.1, size = 3)
+```
+
+
+
+
+## Annotation layer
+
+
+* `annotate()` allows you to add elements to plots without a `data.frame`
+
+```{r annotate, fig.width = 7, fig.height = 3}
+#| code-line-numbers: 5-6
+ggplot(wallace.iowaland, aes(x = long, y = lat)) +
+  geom_polygon(data = map_data("county", region = "iowa"),
+               aes(group = group), fill = "white", color = "black") +
+  geom_point(aes(color = yield), size = 2) +
+  annotate("segment", x = -95, y = 40.3, xend = -94.5, yend = 40.6, color = "red") +
+  annotate("label", x = -95, y = 40.3, label = "Iowa", color = "red") 
+```
+
+
+
+
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+
+[<i class="fas fa-directions"></i> Your turn!]{.f-headline}
+
+```{r}
+#| echo: false
+#| cache: false
+library(countdown)
+countdown(15)
+```
+
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 3
+
+
+
+

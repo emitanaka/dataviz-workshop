@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "exercises/exercise-01.Rmd.html",
+    "href": "exercises/exercise-01.Rmd.html",
+    "title": "Part 1 Exercise 1: Mastering the geoms",
+    "section": "",
+    "text": "Push the knit button!"
+  },
+  {
+    "objectID": "exercises/exercise-01.Rmd.html#crampton.pig-dataset",
+    "href": "exercises/exercise-01.Rmd.html#crampton.pig-dataset",
+    "title": "Part 1 Exercise 1: Mastering the geoms",
+    "section": "crampton.pig dataset",
+    "text": "crampton.pig dataset\n\nglimpse(crampton.pig)\n\nRows: 50\nColumns: 5\n$ treatment <fct> T1, T1, T1, T1, T1, T1, T1, T1, T1, T1, T2, T2, T2, T2, T2, …\n$ rep       <fct> R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R1, R2, R3, R4, R5,…\n$ weight1   <int> 30, 21, 21, 33, 27, 24, 20, 29, 28, 26, 26, 24, 20, 35, 25, …\n$ feed      <int> 674, 628, 661, 694, 713, 585, 575, 638, 632, 637, 699, 626, …\n$ weight2   <int> 195, 177, 180, 200, 197, 170, 150, 180, 192, 184, 194, 204, …"
+  },
+  {
+    "objectID": "materials.html#schedule",
+    "href": "materials.html#schedule",
+    "title": "Materials",
+    "section": "Schedule",
+    "text": "Schedule"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Data visualisation is a key statistical tool for effective communication and to understand aspects of data and models. The statistical language R is used widely for data analysis and visualization, e.g. the BBC Visual and Data Journalism team uses ggplot2 R-package to create production-ready charts. This workshop will teach you how to create production-ready graphics using the grammar of graphics implemented in ggplot2 R-package. The workshop will be hands-on with plenty of practical examples."
+  },
+  {
+    "objectID": "about.html#learning-objectives",
+    "href": "about.html#learning-objectives",
+    "title": "About",
+    "section": "Learning objectives",
+    "text": "Learning objectives\n\nReview of tidy data format\nBasics of the grammar of graphics\nDrawing the basic data plot types (barchart, pie chart, histogram, density plot, scatterplot, boxplot) utilising a range of common geoms and variable mappings\nChoosing colour wisely\nAll about scales, transforming data, setting limits, changing coordinate systems, axis specifications, ordering levels of categorical axes\nJazzing up your plot with different themes, plot annotations and combining plots together to make a publication-ready plot"
+  },
+  {
+    "objectID": "about.html#requirements",
+    "href": "about.html#requirements",
+    "title": "About",
+    "section": "Requirements",
+    "text": "Requirements\n\nbasic R knowledge (e.g. you have used R to load data, create simple visualisations, perform basic analyses and write simple functions or more specifically, you are familiar with concepts in Cookbook for R by Winston Chang)\nlaptop (with ability to install R and R-packages)\n\n\nDesirable\n\nKnow about tidy data (i.e. importing data and putting data into the right format for plotting)\nSome familiarity with tidyverse"
+  },
+  {
+    "objectID": "about.html#biography-of-workshop-presenter",
+    "href": "about.html#biography-of-workshop-presenter",
+    "title": "About",
+    "section": "Biography of Workshop Presenter",
+    "text": "Biography of Workshop Presenter\nDr Emi Tanaka is a Senior Lecturer in Statistics at Monash University whose primary interest is to develop impactful statistical methods and tools that can readily be used by practitioners. Her research area includes data visualisation, mixed models and experimental designs, motivated primarily by problems in bioinformatics and agricultural sciences. She is currently the President of the Statistical Society of Australia Victorian Branch and the recipient of the Distinguished Presenter’s Award from the Statistical Society of Australia for her delivery of a wide-range of R workshops."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "Time\nSlides\nActivity\n\n\n\n\n08:30 - 09:00\n\nRegistration + installation Help\n\n\n09:00 - 09:15\n\nIntroduction\n\n\n09:15 - 09:25\n\nLesson 1: R Graphics\n\n\n09:25 - 09:35\n\nExercise \n\n\n09:40 - 10:10\n\nLesson 2: Getting started with ggplot2\n\n\n10:10 - 10:30\n\nExercise \n\n\n10:30 - 11:05\n\nMorning tea\n\n\n11:05 - 11:20\n\nLesson 3: Multiple layers\n\n\n11:20 - 11:35\n\nExercise \n\n\n11:35 - 11:45\n\nLesson 4: Barplots and position adjustments in ggplot2\n\n\n11:45 - 11:55\n\nExercise \n\n\n11:55 - 12:25\n\nLesson 5: Effective data visualisation\n\n\n12:25 - 12:30\n\nDiscussion\n\n\n12:30 - 13:30\n\nLunch\n\n\n13:30 - 14:00\n\nLesson 6: Scales and guides in ggplot2\n\n\n14:00 - 14:30\n\nExercise \n\n\n14:30 - 14:45\n\nLesson 7: Multiple plots in one figure\n\n\n14:45 - 15:00\n\nExercise \n\n\n15:00 - 15:15\n\nLight refreshments\n\n\n15:15 - 15:30\n\nLesson 8: Customise the look with themes in ggplot2\n\n\n15:30 - 16:15\n\nExercise \n\n\n16:15 - 16:30\n\nLesson 9: FAQ and wrap-up"
+  },
+  {
+    "objectID": "exercises/index.html",
+    "href": "exercises/index.html",
+    "title": "Exercises",
+    "section": "",
+    "text": "Exercise 1\nExercise 2\nExercise 3\nExercise 4\nExercise 5\nExercise 6\nExercise 7"
+  }
+]

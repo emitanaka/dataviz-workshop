@@ -1,0 +1,129 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Introduction"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: true
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+---
+
+
+## {#title-slide background-image="images/bg1.jpeg"}
+
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+
+
+## {}
+
+::: flex
+
+
+::: {.w-35 .pa3 .monash-bg-blue .monash-white}
+
+<center>
+![](https://emitanaka.org/images/avatar.jpg)
+</center>
+
+**Emi Tanaka**  
+*Senior Lecturer in Statistics*  
+Monash University
+
+
+::: f3
+<i class="fas fa-globe"></i> https://emitanaka.org/
+
+<i class="fas fa-envelope"></i> emi.tanaka@monash.edu
+
+<i class="fab fa-twitter"></i> @statsgen
+
+:::
+
+:::
+
+::: {.w-60 .pl3 .nonincremental}
+
+**About your instructor**
+
+* I am an academic at Monash Univeristy in Australia
+* I teach R at university courses as well as use it daily for research and hobby <i class="fab  fa-reddit-alien"></i>
+* My childhood dream is to be a comic artist <i class="fas fa-paint-brush"></i>
+
+
+:::
+
+:::
+
+
+## <i class="fas fa-user-alt monash-blue"></i> Say hi to your neighbour!
+
+
+What's your profession?  
+
+Where do you live?
+
+What's your hobby? 
+
+What would you like for people to know about you? 
+
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(5)
+```
+
+
+## Schedule
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(lubridate)
+schedule <- read_csv("schedule.csv")
+ilesson <- schedule$Type=="Lesson"
+nlesson <- sum(ilesson)
+schedule$Activity[ilesson] <- paste0("<b>Lesson ", seq(nlesson), "</b>: ", schedule$Activity[ilesson])
+schedule %>% 
+  arrange(Start) %>% 
+  mutate(time = glue::glue("{sprintf('%.2d', hour(Start))}:{sprintf('%.2d', minute(Start))}-{sprintf('%.2d', hour(End))}:{sprintf('%.2d', minute(End))}"),
+         Activity = case_when(Type=="Break" ~ paste0("<i>", Activity, "</i>"),
+                              TRUE ~ Activity)) %>% 
+  select(Time = time, Activity) %>% 
+  DT::datatable(rownames = FALSE, options = list(paging = FALSE, scrollY = "500px", dom = 't'), escape = FALSE)
+```
+
+

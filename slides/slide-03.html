@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slide-03_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slide-03_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slide-03_files/libs/quarto-html/popper.min.js"></script>
+<script src="slide-03_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slide-03_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slide-03_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="slide-03_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.1.132">
+
+  <meta name="author" content="Emi Tanaka">
+  <title>Multiple layers</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slide-03_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slide-03_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slide-03_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link rel="stylesheet" href="assets/custom.css">
+  <link rel="stylesheet" href="assets/pacman.css">
+  <link rel="stylesheet" href="assets/tachyons-addon.css">
+  <link href="slide-03_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slide-03_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slide-03_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slide-03_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-captioned.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-captioned) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-captioned.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-captioned .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-captioned .callout-caption  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-captioned.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-captioned.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-caption {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-caption {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-caption {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-captioned .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-captioned .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-captioned) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-caption {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-caption {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-caption {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-caption {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-caption {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="slide-03_files/libs/countdown-0.4.0/countdown.css" rel="stylesheet">
+  <script src="slide-03_files/libs/countdown-0.4.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="title-slide" class="slide level2 center" data-background-image="images/bg6.jpeg">
+<h2></h2>
+<div class="title-box">
+<h2>
+Multiple layers
+</h2>
+<h3>
+<span class="monash-gray50">Data Visualisation with R</span>
+</h3>
+<p>👩🏻‍💻 <span class="author">Emi Tanaka @ Monash University</span></p>
+<div style="overflow: hidden; height: 1.2em;">
+<ul class="content__container__list center" style="text-align: center">
+<li class="content__container__list__item">
+<i class="fa-solid fa-envelope"></i> emi.tanaka@monash.edu
+</li>
+<li class="content__container__list__item">
+<i class="fa-brands fa-twitter"></i> <span class="citation" data-cites="statsgen">@statsgen</span>
+</li>
+<li class="content__container__list__item">
+<i class="fa-brands fa-github"></i> github.com/emitanaka
+</li>
+<li class="content__container__list__item">
+<i class="fa-solid fa-globe"></i> emitanaka.org
+</li>
+</ul>
+</div>
+</div>
+<p><br><br></p>
+<div class="absolute bottom-0 monash-white w-100" style="">
+<p><span class="monash-white fl strokeme">28th November 2022</span> <span class="fr monash-white strokeme">Australasian Applied Statistics Conference 2022</span></p>
+</div>
+</section>
+<section id="a-layer-in-ggplot2" class="slide level2">
+<h2>A layer in <code>ggplot2</code></h2>
+<ul>
+<li>A layer is comprised of:
+<ul>
+<li><code>data</code></li>
+<li><code>mapping</code></li>
+<li>statistical transformation (<code>stat</code>)</li>
+<li>geometric object (<code>geom</code>)</li>
+<li>position adjustment (<code>position</code>)</li>
+</ul></li>
+<li><code>data</code> and <code>mapping</code> are often inherited from <code>ggplot</code></li>
+</ul>
+<aside class="notes">
+<ul>
+<li>A layer is usually added using functions with prefix <code>geom_</code> and <code>stat_</code></li>
+<li>Technically, there are more components but we won’t go into those.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-violin-plot-layer" class="slide level2">
+<h2>The violin plot layer</h2>
+<div class="flex">
+<div class="w-50">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">ggplot</span>(penguins, </span>
+<span id="cb1-2"><a href="#cb1-2"></a>       <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="fu">geom_violin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide-03_files/figure-revealjs/plot1-cut-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="w-50">
+<ul>
+<li>There is one layer in this plot comprising of:
+<ul>
+<li>inherited <code>data</code>: <code>penguins</code></li>
+<li>inherited <code>mapping</code>: <code>aes(x = island, y = body_mass_g)</code></li>
+<li><code>geom</code>: violin</li>
+<li><code>stat</code>: density for the y-axis (<code>ydensity</code>)</li>
+<li><code>position</code>: dodge</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="you-can-add-more-than-one-layer" class="slide level2">
+<h2>You can add more than one layer</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2" data-code-line-numbers="3-4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">ggplot</span>(penguins, </span>
+<span id="cb2-2"><a href="#cb2-2"></a>       <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide-03_files/figure-revealjs/plot1-layer2-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>We now have the boxplot layer on top of the violin plot layer.</li>
+</ul>
+</section>
+<section id="the-order-of-the-layers-matters" class="slide level2">
+<h2>The order of the layers matters</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="3-4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">ggplot</span>(penguins, </span>
+<span id="cb3-2"><a href="#cb3-2"></a>       <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">y =</span> body_mass_g)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="fu">geom_violin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide-03_files/figure-revealjs/plot1-layer-order-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>You can’t see the boxplot here because it’s been hidden by the violin plot.</li>
+</ul>
+</section>
+<section id="inheriting-data-and-mapping" class="slide level2">
+<h2>Inheriting data and mapping</h2>
+<ul>
+<li>A layer inherits the data and mapping from the initialised ggplot object by default</li>
+</ul>
+<center>
+<img src="images/ggplot-multiple-layers.png" width="70%">
+</center>
+</section>
+<section id="layer-specific-data-and-aesthetic-mapping" class="slide level2">
+<h2>Layer-specific data and aesthetic mapping</h2>
+<p><img data-src="images/ggplot-multiple-layers-data-mapping.png"></p>
+<ul>
+<li>For each layer, aesthetic and/or data can be overwritten</li>
+</ul>
+</section>
+<section id="illustrative-data-iowa-farmland-values-by-county" class="slide level2">
+<h2>Illustrative data 🚜 Iowa farmland values by county</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">data</span>(wallace.iowaland, <span class="at">package =</span> <span class="st">"agridat"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">str</span>(wallace.iowaland)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   99 obs. of  10 variables:
+ $ county    : Factor w/ 99 levels "adair","adams",..: 1 2 3 4 5 6 7 8 9 10 ...
+ $ fips      : int  19001 19003 19005 19007 19009 19011 19013 19015 19017 19019 ...
+ $ lat       : num  41.3 41 43.3 40.7 41.7 ...
+ $ long      : num  -94.5 -94.7 -91.4 -92.9 -94.9 ...
+ $ yield     : int  36 33 42 35 40 42 38 41 39 39 ...
+ $ corn      : int  32 30 13 19 34 35 32 40 27 27 ...
+ $ grain     : int  16 14 15 10 21 22 25 25 24 24 ...
+ $ untillable: int  19 14 44 28 9 17 17 18 28 28 ...
+ $ fedval    : int  93 90 66 68 115 143 132 151 93 93 ...
+ $ stval     : int  88 89 49 60 111 125 114 141 79 79 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">map_data</span>(<span class="st">"county"</span>, <span class="at">region =</span> <span class="st">"iowa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          long      lat group order region     subregion
+1    -94.24583 41.50506     1     1   iowa         adair
+2    -94.24583 41.16129     1     2   iowa         adair
+3    -94.24583 41.16129     1     3   iowa         adair
+4    -94.48647 41.16129     1     4   iowa         adair
+5    -94.70992 41.16129     1     5   iowa         adair
+6    -94.70992 41.50506     1     6   iowa         adair
+7    -94.24583 41.50506     1     7   iowa         adair
+9    -94.70992 41.16129     2     9   iowa         adams
+10   -94.48647 41.16129     2    10   iowa         adams
+11   -94.48647 40.90346     2    11   iowa         adams
+12   -94.93338 40.90346     2    12   iowa         adams
+13   -94.93338 41.15556     2    13   iowa         adams
+14   -94.70992 41.16129     2    14   iowa         adams
+16   -91.22634 43.49895     3    16   iowa     allamakee
+17   -91.22634 43.45312     3    17   iowa     allamakee
+18   -91.20342 43.43020     3    18   iowa     allamakee
+19   -91.16904 43.41301     3    19   iowa     allamakee
+20   -91.15186 43.36145     3    20   iowa     allamakee
+21   -91.07164 43.29842     3    21   iowa     allamakee
+22   -91.06018 43.26404     3    22   iowa     allamakee
+23   -91.07164 43.24112     3    23   iowa     allamakee
+24   -91.14040 43.16664     3    24   iowa     allamakee
+25   -91.17477 43.12653     3    25   iowa     allamakee
+26   -91.18050 43.08070     3    26   iowa     allamakee
+27   -91.17477 43.08643     3    27   iowa     allamakee
+28   -91.59876 43.08643     3    28   iowa     allamakee
+29   -91.59876 43.35572     3    29   iowa     allamakee
+30   -91.61022 43.34999     3    30   iowa     allamakee
+31   -91.60449 43.51041     3    31   iowa     allamakee
+32   -91.22634 43.49895     3    32   iowa     allamakee
+34   -92.63009 40.90346     4    34   iowa     appanoose
+35   -92.63009 40.60552     4    35   iowa     appanoose
+36   -92.68738 40.60552     4    36   iowa     appanoose
+37   -93.09991 40.60552     4    37   iowa     appanoose
+38   -93.10564 40.90346     4    38   iowa     appanoose
+39   -92.63009 40.90346     4    39   iowa     appanoose
+41   -95.10526 41.86030     5    41   iowa       audubon
+42   -94.75576 41.86603     5    42   iowa       audubon
+43   -94.75576 41.60819     5    43   iowa       audubon
+44   -94.70992 41.60819     5    44   iowa       audubon
+45   -94.70992 41.50506     5    45   iowa       audubon
+46   -95.05943 41.50506     5    46   iowa       audubon
+47   -95.05370 41.60247     5    47   iowa       audubon
+48   -95.10526 41.60247     5    48   iowa       audubon
+49   -95.10526 41.86030     5    49   iowa       audubon
+51   -92.06286 42.30148     6    51   iowa        benton
+52   -91.82221 42.30148     6    52   iowa        benton
+53   -91.82221 41.87175     6    53   iowa        benton
+54   -92.28058 41.87175     6    54   iowa        benton
+55   -92.28632 42.30148     6    55   iowa        benton
+56   -92.06286 42.30148     6    56   iowa        benton
+58   -92.54987 42.64525     7    58   iowa    black hawk
+59   -92.08005 42.64525     7    59   iowa    black hawk
+60   -92.07432 42.47336     7    60   iowa    black hawk
+61   -92.06286 42.47336     7    61   iowa    black hawk
+62   -92.06286 42.30148     7    62   iowa    black hawk
+63   -92.28632 42.30148     7    63   iowa    black hawk
+64   -92.52695 42.30148     7    64   iowa    black hawk
+65   -92.52695 42.47336     7    65   iowa    black hawk
+66   -92.54987 42.47336     7    66   iowa    black hawk
+67   -92.54987 42.56504     7    67   iowa    black hawk
+68   -92.54987 42.64525     7    68   iowa    black hawk
+70   -93.70152 41.86030     8    70   iowa         boone
+71   -93.81611 41.86030     8    71   iowa         boone
+72   -94.17134 41.86603     8    72   iowa         boone
+73   -94.16561 42.20980     8    73   iowa         boone
+74   -93.93070 42.20980     8    74   iowa         boone
+75   -93.70152 42.20980     8    75   iowa         boone
+76   -93.70152 41.86030     8    76   iowa         boone
+78   -92.08005 42.90881     9    78   iowa        bremer
+79   -92.08005 42.64525     9    79   iowa        bremer
+80   -92.54987 42.64525     9    80   iowa        bremer
+81   -92.54987 42.90881     9    81   iowa        bremer
+82   -92.08005 42.90881     9    82   iowa        bremer
+84   -91.82221 42.30148    10    84   iowa      buchanan
+85   -92.06286 42.30148    10    85   iowa      buchanan
+86   -92.06286 42.47336    10    86   iowa      buchanan
+87   -92.07432 42.47336    10    87   iowa      buchanan
+88   -92.08005 42.64525    10    88   iowa      buchanan
+89   -91.59876 42.64525    10    89   iowa      buchanan
+90   -91.59876 42.48482    10    90   iowa      buchanan
+91   -91.58157 42.48482    10    91   iowa      buchanan
+92   -91.58730 42.30148    10    92   iowa      buchanan
+93   -91.82221 42.30148    10    93   iowa      buchanan
+95   -94.92192 42.92027    11    95   iowa   buena vista
+96   -94.92192 42.55930    11    96   iowa   buena vista
+97   -95.39747 42.56504    11    97   iowa   buena vista
+98   -95.39747 42.91454    11    98   iowa   buena vista
+99   -94.92192 42.92027    11    99   iowa   buena vista
+101  -93.02543 42.90881    12   101   iowa        butler
+102  -92.54987 42.90881    12   102   iowa        butler
+103  -92.54987 42.64525    12   103   iowa        butler
+104  -92.54987 42.56504    12   104   iowa        butler
+105  -93.02543 42.56504    12   105   iowa        butler
+106  -93.02543 42.90881    12   106   iowa        butler
+108  -94.92192 42.55930    13   108   iowa       calhoun
+109  -94.44636 42.55357    13   109   iowa       calhoun
+110  -94.44064 42.47336    13   110   iowa       calhoun
+111  -94.40053 42.47336    13   111   iowa       calhoun
+112  -94.40625 42.20980    13   112   iowa       calhoun
+113  -94.62971 42.20980    13   113   iowa       calhoun
+114  -94.87035 42.20980    13   114   iowa       calhoun
+115  -94.86462 42.47336    13   115   iowa       calhoun
+116  -94.92192 42.47336    13   116   iowa       calhoun
+117  -94.92192 42.55930    13   117   iowa       calhoun
+119  -95.10526 41.86030    14   119   iowa       carroll
+120  -95.09954 42.20407    14   120   iowa       carroll
+121  -94.87035 42.20980    14   121   iowa       carroll
+122  -94.62971 42.20980    14   122   iowa       carroll
+123  -94.63544 41.86603    14   123   iowa       carroll
+124  -94.75576 41.86603    14   124   iowa       carroll
+125  -95.10526 41.86030    14   125   iowa       carroll
+127  -95.16829 41.50506    15   127   iowa          cass
+128  -95.05943 41.50506    15   128   iowa          cass
+129  -94.70992 41.50506    15   129   iowa          cass
+130  -94.70992 41.16129    15   130   iowa          cass
+131  -94.93338 41.15556    15   131   iowa          cass
+132  -95.16256 41.15556    15   132   iowa          cass
+133  -95.16829 41.50506    15   133   iowa          cass
+135  -91.34666 41.60819    16   135   iowa         cedar
+136  -91.35239 41.87175    16   136   iowa         cedar
+137  -91.35239 41.95197    16   137   iowa         cedar
+138  -90.88257 41.95197    16   138   iowa         cedar
+139  -90.87683 41.78008    16   139   iowa         cedar
+140  -90.88257 41.60247    16   140   iowa         cedar
+141  -91.34666 41.60819    16   141   iowa         cedar
+143  -93.50098 43.26404    17   143   iowa   cerro gordo
+144  -93.02543 43.25831    17   144   iowa   cerro gordo
+145  -93.02543 43.22394    17   145   iowa   cerro gordo
+146  -93.02543 42.90881    17   146   iowa   cerro gordo
+147  -93.49525 42.91454    17   147   iowa   cerro gordo
+148  -93.50098 43.26404    17   148   iowa   cerro gordo
+150  -95.85583 42.55357    18   150   iowa      cherokee
+151  -95.85583 42.90881    18   151   iowa      cherokee
+152  -95.39747 42.91454    18   152   iowa      cherokee
+153  -95.39747 42.56504    18   153   iowa      cherokee
+154  -95.74125 42.55930    18   154   iowa      cherokee
+155  -95.85583 42.55357    18   155   iowa      cherokee
+157  -92.55560 43.22394    19   157   iowa     chickasaw
+158  -92.08005 43.21820    19   158   iowa     chickasaw
+159  -92.07432 43.08643    19   159   iowa     chickasaw
+160  -92.08005 42.90881    19   160   iowa     chickasaw
+161  -92.54987 42.90881    19   161   iowa     chickasaw
+162  -92.55560 43.22394    19   162   iowa     chickasaw
+164  -93.56401 41.16129    20   164   iowa        clarke
+165  -93.56401 40.90346    20   165   iowa        clarke
+166  -94.01665 40.90346    20   166   iowa        clarke
+167  -94.01665 41.16129    20   167   iowa        clarke
+168  -93.80465 41.16702    20   168   iowa        clarke
+169  -93.56401 41.16129    20   169   iowa        clarke
+171  -95.39747 42.91454    21   171   iowa          clay
+172  -95.39174 43.26404    21   172   iowa          clay
+173  -94.92192 43.26404    21   173   iowa          clay
+174  -94.92192 42.92027    21   174   iowa          clay
+175  -95.39747 42.91454    21   175   iowa          clay
+177  -91.59876 42.64525    22   177   iowa       clayton
+178  -91.59876 43.08643    22   178   iowa       clayton
+179  -91.17477 43.08643    22   179   iowa       clayton
+180  -91.15186 42.99475    22   180   iowa       clayton
+181  -91.12894 42.92027    22   181   iowa       clayton
+182  -91.08883 42.87443    22   182   iowa       clayton
+183  -91.07164 42.78849    22   183   iowa       clayton
+184  -91.06018 42.75411    22   184   iowa       clayton
+185  -91.00861 42.73119    22   185   iowa       clayton
+186  -90.95705 42.70255    22   186   iowa       clayton
+187  -90.89976 42.69109    22   187   iowa       clayton
+188  -90.87683 42.67963    22   188   iowa       clayton
+189  -90.87110 42.65671    22   189   iowa       clayton
+190  -90.88830 42.64525    22   190   iowa       clayton
+191  -91.12321 42.64525    22   191   iowa       clayton
+192  -91.59876 42.64525    22   192   iowa       clayton
+194  -90.87683 42.03791    23   194   iowa       clinton
+195  -90.14918 42.03791    23   195   iowa       clinton
+196  -90.13772 42.00927    23   196   iowa       clinton
+197  -90.14918 41.96343    23   197   iowa       clinton
+198  -90.16064 41.93478    23   198   iowa       clinton
+199  -90.16064 41.89467    23   199   iowa       clinton
+200  -90.17783 41.83738    23   200   iowa       clinton
+201  -90.18929 41.82019    23   201   iowa       clinton
+202  -90.24085 41.79154    23   202   iowa       clinton
+203  -90.26950 41.78008    23   203   iowa       clinton
+204  -90.30388 41.75716    23   204   iowa       clinton
+205  -90.32107 41.72279    23   205   iowa       clinton
+206  -90.36691 41.74570    23   206   iowa       clinton
+207  -90.39555 41.75143    23   207   iowa       clinton
+208  -90.41846 41.78008    23   208   iowa       clinton
+209  -90.42993 41.78008    23   209   iowa       clinton
+210  -90.44712 41.77435    23   210   iowa       clinton
+211  -90.45857 41.78008    23   211   iowa       clinton
+212  -90.45857 41.79154    23   212   iowa       clinton
+213  -90.47004 41.79727    23   213   iowa       clinton
+214  -90.48723 41.79154    23   214   iowa       clinton
+215  -90.49868 41.78008    23   215   iowa       clinton
+216  -90.53307 41.79154    23   216   iowa       clinton
+217  -90.55025 41.78008    23   217   iowa       clinton
+218  -90.56171 41.77435    23   218   iowa       clinton
+219  -90.57890 41.78008    23   219   iowa       clinton
+220  -90.60755 41.78008    23   220   iowa       clinton
+221  -90.63619 41.78008    23   221   iowa       clinton
+222  -90.65911 41.77435    23   222   iowa       clinton
+223  -90.68203 41.76289    23   223   iowa       clinton
+224  -90.72214 41.75143    23   224   iowa       clinton
+225  -90.72787 41.75143    23   225   iowa       clinton
+226  -90.76225 41.78008    23   226   iowa       clinton
+227  -90.87683 41.78008    23   227   iowa       clinton
+228  -90.88257 41.95197    23   228   iowa       clinton
+229  -90.87683 42.03791    23   229   iowa       clinton
+231  -95.09954 42.20407    24   231   iowa      crawford
+232  -95.10526 41.86030    24   232   iowa      crawford
+233  -95.55790 41.86030    24   233   iowa      crawford
+234  -95.67822 41.86030    24   234   iowa      crawford
+235  -95.67249 42.20407    24   235   iowa      crawford
+236  -95.34018 42.20407    24   236   iowa      crawford
+237  -95.09954 42.20407    24   237   iowa      crawford
+239  -94.17134 41.86603    25   239   iowa        dallas
+240  -93.81611 41.86030    25   240   iowa        dallas
+241  -93.82184 41.60819    25   241   iowa        dallas
+242  -93.80465 41.60819    25   242   iowa        dallas
+243  -93.80465 41.51079    25   243   iowa        dallas
+244  -93.86768 41.51079    25   244   iowa        dallas
+245  -93.99372 41.50506    25   245   iowa        dallas
+246  -94.24583 41.50506    25   246   iowa        dallas
+247  -94.24583 41.60247    25   247   iowa        dallas
+248  -94.28593 41.60247    25   248   iowa        dallas
+249  -94.29166 41.86603    25   249   iowa        dallas
+250  -94.17134 41.86603    25   250   iowa        dallas
+252  -92.17172 40.61698    26   252   iowa         davis
+253  -92.34361 40.61125    26   253   iowa         davis
+254  -92.63009 40.60552    26   254   iowa         davis
+255  -92.63009 40.90346    26   255   iowa         davis
+256  -92.17172 40.90346    26   256   iowa         davis
+257  -92.17172 40.61698    26   257   iowa         davis
+259  -93.56401 40.90346    27   259   iowa       decatur
+260  -93.56974 40.59979    27   260   iowa       decatur
+261  -93.77600 40.59979    27   261   iowa       decatur
+262  -94.01665 40.59979    27   262   iowa       decatur
+263  -94.01665 40.90346    27   263   iowa       decatur
+264  -93.56401 40.90346    27   264   iowa       decatur
+266  -91.59876 42.64525    28   266   iowa      delaware
+267  -91.12321 42.64525    28   267   iowa      delaware
+268  -91.12321 42.49055    28   268   iowa      delaware
+269  -91.11748 42.48482    28   269   iowa      delaware
+270  -91.11748 42.30148    28   270   iowa      delaware
+271  -91.35239 42.30148    28   271   iowa      delaware
+272  -91.58730 42.30148    28   272   iowa      delaware
+273  -91.58157 42.48482    28   273   iowa      delaware
+274  -91.59876 42.48482    28   274   iowa      delaware
+275  -91.59876 42.64525    28   275   iowa      delaware
+277  -90.95132 41.08107    29   277   iowa    des moines
+278  -90.94559 41.06961    29   278   iowa    des moines
+279  -90.95132 40.96648    29   279   iowa    des moines
+280  -90.97424 40.93211    29   280   iowa    des moines
+281  -91.04299 40.87481    29   281   iowa    des moines
+282  -91.08883 40.82324    29   282   iowa    des moines
+283  -91.10029 40.75449    29   283   iowa    des moines
+284  -91.11175 40.70865    29   284   iowa    des moines
+285  -91.14040 40.72584    29   285   iowa    des moines
+286  -91.15186 40.73157    29   286   iowa    des moines
+287  -91.16331 40.73157    29   287   iowa    des moines
+288  -91.18623 40.73157    29   288   iowa    des moines
+289  -91.21488 40.73730    29   289   iowa    des moines
+290  -91.23779 40.76022    29   290   iowa    des moines
+291  -91.26645 40.76022    29   291   iowa    des moines
+292  -91.30083 40.77741    29   292   iowa    des moines
+293  -91.30656 40.79460    29   293   iowa    des moines
+294  -91.33521 40.80605    29   294   iowa    des moines
+295  -91.35812 40.81752    29   295   iowa    des moines
+296  -91.35239 41.08680    29   296   iowa    des moines
+297  -90.95132 41.08107    29   297   iowa    des moines
+299  -95.39174 43.26404    30   299   iowa     dickinson
+300  -95.39174 43.50468    30   300   iowa     dickinson
+301  -94.91619 43.50468    30   301   iowa     dickinson
+302  -94.92192 43.26404    30   302   iowa     dickinson
+303  -95.39174 43.26404    30   303   iowa     dickinson
+305  -90.87683 42.67963    31   305   iowa       dubuque
+306  -90.81954 42.66817    31   306   iowa       dubuque
+307  -90.75079 42.64525    31   307   iowa       dubuque
+308  -90.69922 42.61087    31   308   iowa       dubuque
+309  -90.66484 42.57076    31   309   iowa       dubuque
+310  -90.65911 42.54212    31   310   iowa       dubuque
+311  -90.64192 42.50774    31   311   iowa       dubuque
+312  -90.64765 42.50774    31   312   iowa       dubuque
+313  -90.64192 42.47336    31   313   iowa       dubuque
+314  -90.48150 42.38742    31   314   iowa       dubuque
+315  -90.63046 42.39315    31   315   iowa       dubuque
+316  -90.64192 42.30148    31   316   iowa       dubuque
+317  -90.87110 42.30148    31   317   iowa       dubuque
+318  -91.11748 42.30148    31   318   iowa       dubuque
+319  -91.11748 42.48482    31   319   iowa       dubuque
+320  -91.12321 42.49055    31   320   iowa       dubuque
+321  -91.12321 42.64525    31   321   iowa       dubuque
+322  -90.88830 42.64525    31   322   iowa       dubuque
+323  -90.87110 42.65671    31   323   iowa       dubuque
+324  -90.87683 42.67963    31   324   iowa       dubuque
+326  -94.86462 43.50468    32   326   iowa         emmet
+327  -94.45209 43.50468    32   327   iowa         emmet
+328  -94.45209 43.26404    32   328   iowa         emmet
+329  -94.92192 43.26404    32   329   iowa         emmet
+330  -94.91619 43.50468    32   330   iowa         emmet
+331  -94.86462 43.50468    32   331   iowa         emmet
+333  -91.59876 43.08643    33   333   iowa       fayette
+334  -91.59876 42.64525    33   334   iowa       fayette
+335  -92.08005 42.64525    33   335   iowa       fayette
+336  -92.08005 42.90881    33   336   iowa       fayette
+337  -92.07432 43.08643    33   337   iowa       fayette
+338  -91.59876 43.08643    33   338   iowa       fayette
+340  -93.02543 42.90881    34   340   iowa         floyd
+341  -93.02543 43.22394    34   341   iowa         floyd
+342  -92.55560 43.22394    34   342   iowa         floyd
+343  -92.54987 42.90881    34   343   iowa         floyd
+344  -93.02543 42.90881    34   344   iowa         floyd
+346  -93.49525 42.55930    35   346   iowa      franklin
+347  -93.49525 42.91454    35   347   iowa      franklin
+348  -93.02543 42.90881    35   348   iowa      franklin
+349  -93.02543 42.56504    35   349   iowa      franklin
+350  -93.49525 42.55930    35   350   iowa      franklin
+352  -95.82719 40.90919    36   352   iowa       fremont
+353  -95.38029 40.89773    36   353   iowa       fremont
+354  -95.38602 40.74876    36   354   iowa       fremont
+355  -95.37456 40.74876    36   355   iowa       fremont
+356  -95.37456 40.60552    36   356   iowa       fremont
+357  -95.75271 40.61125    36   357   iowa       fremont
+358  -95.76416 40.60552    36   358   iowa       fremont
+359  -95.76989 40.63990    36   359   iowa       fremont
+360  -95.79282 40.66282    36   360   iowa       fremont
+361  -95.83292 40.69146    36   361   iowa       fremont
+362  -95.86156 40.72011    36   362   iowa       fremont
+363  -95.87303 40.74876    36   363   iowa       fremont
+364  -95.86730 40.76595    36   364   iowa       fremont
+365  -95.84438 40.81178    36   365   iowa       fremont
+366  -95.85583 40.85189    36   366   iowa       fremont
+367  -95.82719 40.90919    36   367   iowa       fremont
+369  -94.16561 42.20980    37   369   iowa        greene
+370  -94.17134 41.86603    37   370   iowa        greene
+371  -94.29166 41.86603    37   371   iowa        greene
+372  -94.63544 41.86603    37   372   iowa        greene
+373  -94.62971 42.20980    37   373   iowa        greene
+374  -94.40625 42.20980    37   374   iowa        greene
+375  -94.16561 42.20980    37   375   iowa        greene
+377  -92.99678 42.21553    38   377   iowa        grundy
+378  -92.99678 42.47336    38   378   iowa        grundy
+379  -93.01970 42.47336    38   379   iowa        grundy
+380  -93.02543 42.56504    38   380   iowa        grundy
+381  -92.54987 42.56504    38   381   iowa        grundy
+382  -92.54987 42.47336    38   382   iowa        grundy
+383  -92.52695 42.47336    38   383   iowa        grundy
+384  -92.52695 42.30148    38   384   iowa        grundy
+385  -92.76186 42.30148    38   385   iowa        grundy
+386  -92.76186 42.21553    38   386   iowa        grundy
+387  -92.99678 42.21553    38   387   iowa        grundy
+389  -94.70992 41.50506    39   389   iowa       guthrie
+390  -94.70992 41.60819    39   390   iowa       guthrie
+391  -94.75576 41.60819    39   391   iowa       guthrie
+392  -94.75576 41.86603    39   392   iowa       guthrie
+393  -94.63544 41.86603    39   393   iowa       guthrie
+394  -94.29166 41.86603    39   394   iowa       guthrie
+395  -94.28593 41.60247    39   395   iowa       guthrie
+396  -94.24583 41.60247    39   396   iowa       guthrie
+397  -94.24583 41.50506    39   397   iowa       guthrie
+398  -94.70992 41.50506    39   398   iowa       guthrie
+400  -93.96508 42.55930    40   400   iowa      hamilton
+401  -93.49525 42.55930    40   401   iowa      hamilton
+402  -93.49525 42.45617    40   402   iowa      hamilton
+403  -93.46661 42.45044    40   403   iowa      hamilton
+404  -93.46661 42.20980    40   404   iowa      hamilton
+405  -93.70152 42.20980    40   405   iowa      hamilton
+406  -93.93070 42.20980    40   406   iowa      hamilton
+407  -93.93070 42.46763    40   407   iowa      hamilton
+408  -93.96508 42.46763    40   408   iowa      hamilton
+409  -93.96508 42.55930    40   409   iowa      hamilton
+411  -93.50098 43.26404    41   411   iowa       hancock
+412  -93.49525 42.91454    41   412   iowa       hancock
+413  -93.97081 42.91454    41   413   iowa       hancock
+414  -93.97081 43.25831    41   414   iowa       hancock
+415  -93.50098 43.26404    41   415   iowa       hancock
+417  -92.99678 42.21553    42   417   iowa        hardin
+418  -93.23169 42.20980    42   418   iowa        hardin
+419  -93.46661 42.20980    42   419   iowa        hardin
+420  -93.46661 42.45044    42   420   iowa        hardin
+421  -93.49525 42.45617    42   421   iowa        hardin
+422  -93.49525 42.55930    42   422   iowa        hardin
+423  -93.02543 42.56504    42   423   iowa        hardin
+424  -93.01970 42.47336    42   424   iowa        hardin
+425  -92.99678 42.47336    42   425   iowa        hardin
+426  -92.99678 42.21553    42   426   iowa        hardin
+428  -96.00481 41.50506    43   428   iowa      harrison
+429  -96.01627 41.53371    43   429   iowa      harrison
+430  -96.04491 41.53371    43   430   iowa      harrison
+431  -96.08502 41.55090    43   431   iowa      harrison
+432  -96.07929 41.56809    43   432   iowa      harrison
+433  -96.05064 41.60247    43   433   iowa      harrison
+434  -96.05064 41.61966    43   434   iowa      harrison
+435  -96.06783 41.61966    43   435   iowa      harrison
+436  -96.09648 41.61966    43   436   iowa      harrison
+437  -96.12513 41.63684    43   437   iowa      harrison
+438  -96.12513 41.66549    43   438   iowa      harrison
+439  -96.11940 41.71706    43   439   iowa      harrison
+440  -96.09075 41.75143    43   440   iowa      harrison
+441  -96.10221 41.78008    43   441   iowa      harrison
+442  -96.09648 41.82592    43   442   iowa      harrison
+443  -96.13086 41.86030    43   443   iowa      harrison
+444  -95.67822 41.86030    43   444   iowa      harrison
+445  -95.55790 41.86030    43   445   iowa      harrison
+446  -95.55218 41.60247    43   446   iowa      harrison
+447  -95.48914 41.59674    43   447   iowa      harrison
+448  -95.49487 41.50506    43   448   iowa      harrison
+449  -96.00481 41.50506    43   449   iowa      harrison
+451  -91.70763 40.82324    44   451   iowa         henry
+452  -91.70190 40.90346    44   452   iowa         henry
+453  -91.70190 41.17274    44   453   iowa         henry
+454  -91.46698 41.17274    44   454   iowa         henry
+455  -91.35812 41.17274    44   455   iowa         henry
+456  -91.35239 41.08680    44   456   iowa         henry
+457  -91.35812 40.81752    44   457   iowa         henry
+458  -91.39822 40.82324    44   458   iowa         henry
+459  -91.70763 40.82324    44   459   iowa         henry
+461  -92.45820 43.50468    45   461   iowa        howard
+462  -92.08005 43.50468    45   462   iowa        howard
+463  -92.08005 43.21820    45   463   iowa        howard
+464  -92.55560 43.22394    45   464   iowa        howard
+465  -92.54987 43.51041    45   465   iowa        howard
+466  -92.45820 43.50468    45   466   iowa        howard
+468  -93.97081 42.91454    46   468   iowa      humboldt
+469  -93.97081 42.63952    46   469   iowa      humboldt
+470  -94.44064 42.64525    46   470   iowa      humboldt
+471  -94.44064 42.92027    46   471   iowa      humboldt
+472  -93.97081 42.91454    46   472   iowa      humboldt
+474  -95.39747 42.56504    47   474   iowa           ida
+475  -95.39174 42.47336    47   475   iowa           ida
+476  -95.33445 42.47336    47   476   iowa           ida
+477  -95.34018 42.20407    47   477   iowa           ida
+478  -95.67249 42.20407    47   478   iowa           ida
+479  -95.67249 42.47336    47   479   iowa           ida
+480  -95.74125 42.47336    47   480   iowa           ida
+481  -95.74125 42.55930    47   481   iowa           ida
+482  -95.39747 42.56504    47   482   iowa           ida
+484  -91.93108 41.51652    48   484   iowa          iowa
+485  -92.26912 41.52225    48   485   iowa          iowa
+486  -92.27485 41.60819    48   486   iowa          iowa
+487  -92.28632 41.60819    48   487   iowa          iowa
+488  -92.28058 41.87175    48   488   iowa          iowa
+489  -91.82221 41.87175    48   489   iowa          iowa
+490  -91.82794 41.60819    48   490   iowa          iowa
+491  -91.81648 41.60819    48   491   iowa          iowa
+492  -91.82221 41.51652    48   492   iowa          iowa
+493  -91.93108 41.51652    48   493   iowa          iowa
+495  -90.14918 42.03791    49   495   iowa       jackson
+496  -90.87683 42.03791    49   496   iowa       jackson
+497  -90.87110 42.30148    49   497   iowa       jackson
+498  -90.64192 42.30148    49   498   iowa       jackson
+499  -90.63046 42.39315    49   499   iowa       jackson
+500  -90.48150 42.38742    49   500   iowa       jackson
+501  -90.45284 42.37023    49   501   iowa       jackson
+502  -90.41846 42.33585    49   502   iowa       jackson
+503  -90.41846 42.29575    49   503   iowa       jackson
+504  -90.40701 42.24991    49   504   iowa       jackson
+505  -90.37263 42.22699    49   505   iowa       jackson
+506  -90.32680 42.20407    49   506   iowa       jackson
+507  -90.24658 42.17542    49   507   iowa       jackson
+508  -90.17783 42.13532    49   508   iowa       jackson
+509  -90.16064 42.10094    49   509   iowa       jackson
+510  -90.14918 42.03791    49   510   iowa       jackson
+512  -93.33482 41.50506    50   512   iowa        jasper
+513  -93.33482 41.60819    50   513   iowa        jasper
+514  -93.35201 41.60819    50   514   iowa        jasper
+515  -93.34628 41.86030    50   515   iowa        jasper
+516  -93.23169 41.86603    50   516   iowa        jasper
+517  -92.76186 41.87175    50   517   iowa        jasper
+518  -92.76186 41.63111    50   518   iowa        jasper
+519  -92.74468 41.63111    50   519   iowa        jasper
+520  -92.74468 41.51652    50   520   iowa        jasper
+521  -92.85927 41.51652    50   521   iowa        jasper
+522  -93.33482 41.50506    50   522   iowa        jasper
+524  -91.92535 41.17274    51   524   iowa     jefferson
+525  -91.70190 41.17274    51   525   iowa     jefferson
+526  -91.70190 40.90346    51   526   iowa     jefferson
+527  -92.17172 40.90346    51   527   iowa     jefferson
+528  -92.16599 41.16702    51   528   iowa     jefferson
+529  -91.92535 41.17274    51   529   iowa     jefferson
+531  -91.34666 41.60819    52   531   iowa       johnson
+532  -91.35239 41.42485    52   532   iowa       johnson
+533  -91.47272 41.43058    52   533   iowa       johnson
+534  -91.48417 41.44777    52   534   iowa       johnson
+535  -91.48990 41.46495    52   535   iowa       johnson
+536  -91.50136 41.47642    52   536   iowa       johnson
+537  -91.49563 41.49934    52   537   iowa       johnson
+538  -91.50136 41.51079    52   538   iowa       johnson
+539  -91.51855 41.52225    52   539   iowa       johnson
+540  -91.82221 41.51652    52   540   iowa       johnson
+541  -91.81648 41.60819    52   541   iowa       johnson
+542  -91.82794 41.60819    52   542   iowa       johnson
+543  -91.82221 41.87175    52   543   iowa       johnson
+544  -91.35239 41.87175    52   544   iowa       johnson
+545  -91.34666 41.60819    52   545   iowa       johnson
+547  -90.87110 42.30148    53   547   iowa         jones
+548  -90.87683 42.03791    53   548   iowa         jones
+549  -90.88257 41.95197    53   549   iowa         jones
+550  -91.35239 41.95197    53   550   iowa         jones
+551  -91.35239 42.30148    53   551   iowa         jones
+552  -91.11748 42.30148    53   552   iowa         jones
+553  -90.87110 42.30148    53   553   iowa         jones
+555  -91.93108 41.51652    54   555   iowa        keokuk
+556  -91.92535 41.17274    54   556   iowa        keokuk
+557  -92.16599 41.16702    54   557   iowa        keokuk
+558  -92.39517 41.17274    54   558   iowa        keokuk
+559  -92.41236 41.52225    54   559   iowa        keokuk
+560  -92.26912 41.52225    54   560   iowa        keokuk
+561  -91.93108 41.51652    54   561   iowa        keokuk
+563  -94.45209 43.26404    55   563   iowa       kossuth
+564  -94.45209 43.50468    55   564   iowa       kossuth
+565  -94.26302 43.50468    55   565   iowa       kossuth
+566  -93.97654 43.51041    55   566   iowa       kossuth
+567  -93.97081 43.25831    55   567   iowa       kossuth
+568  -93.97081 42.91454    55   568   iowa       kossuth
+569  -94.44064 42.92027    55   569   iowa       kossuth
+570  -94.45209 43.26404    55   570   iowa       kossuth
+572  -91.11175 40.70865    56   572   iowa           lee
+573  -91.11175 40.68000    56   573   iowa           lee
+574  -91.14613 40.65709    56   574   iowa           lee
+575  -91.18623 40.63417    56   575   iowa           lee
+576  -91.26645 40.62271    56   576   iowa           lee
+577  -91.30656 40.62271    56   577   iowa           lee
+578  -91.35239 40.61125    56   578   iowa           lee
+579  -91.37531 40.58833    56   579   iowa           lee
+580  -91.41541 40.56541    56   580   iowa           lee
+581  -91.41541 40.55395    56   581   iowa           lee
+582  -91.37531 40.49665    56   582   iowa           lee
+583  -91.39250 40.44509    56   583   iowa           lee
+584  -91.39250 40.42217    56   584   iowa           lee
+585  -91.38677 40.39352    56   585   iowa           lee
+586  -91.40968 40.38206    56   586   iowa           lee
+587  -91.41541 40.37634    56   587   iowa           lee
+588  -91.48990 40.41644    56   588   iowa           lee
+589  -91.52428 40.47374    56   589   iowa           lee
+590  -91.58730 40.50812    56   590   iowa           lee
+591  -91.61595 40.56541    56   591   iowa           lee
+592  -91.66752 40.56541    56   592   iowa           lee
+593  -91.70190 40.61698    56   593   iowa           lee
+594  -91.70763 40.82324    56   594   iowa           lee
+595  -91.39822 40.82324    56   595   iowa           lee
+596  -91.35812 40.81752    56   596   iowa           lee
+597  -91.33521 40.80605    56   597   iowa           lee
+598  -91.30656 40.79460    56   598   iowa           lee
+599  -91.30083 40.77741    56   599   iowa           lee
+600  -91.26645 40.76022    56   600   iowa           lee
+601  -91.23779 40.76022    56   601   iowa           lee
+602  -91.21488 40.73730    56   602   iowa           lee
+603  -91.18623 40.73157    56   603   iowa           lee
+604  -91.16331 40.73157    56   604   iowa           lee
+605  -91.15186 40.73157    56   605   iowa           lee
+606  -91.14040 40.72584    56   606   iowa           lee
+607  -91.11175 40.70865    56   607   iowa           lee
+609  -91.82221 42.30148    57   609   iowa          linn
+610  -91.58730 42.30148    57   610   iowa          linn
+611  -91.35239 42.30148    57   611   iowa          linn
+612  -91.35239 41.95197    57   612   iowa          linn
+613  -91.35239 41.87175    57   613   iowa          linn
+614  -91.82221 41.87175    57   614   iowa          linn
+615  -91.82221 42.30148    57   615   iowa          linn
+617  -91.06592 41.34464    58   617   iowa        louisa
+618  -91.06018 41.32745    58   618   iowa        louisa
+619  -91.06592 41.31026    58   619   iowa        louisa
+620  -91.08883 41.27015    58   620   iowa        louisa
+621  -91.08883 41.23005    58   621   iowa        louisa
+622  -91.05445 41.20139    58   622   iowa        louisa
+623  -91.02008 41.17847    58   623   iowa        louisa
+624  -90.98570 41.15556    58   624   iowa        louisa
+625  -90.95705 41.11545    58   625   iowa        louisa
+626  -90.95132 41.08107    58   626   iowa        louisa
+627  -91.35239 41.08680    58   627   iowa        louisa
+628  -91.35812 41.17274    58   628   iowa        louisa
+629  -91.46698 41.17274    58   629   iowa        louisa
+630  -91.47272 41.43058    58   630   iowa        louisa
+631  -91.35239 41.42485    58   631   iowa        louisa
+632  -91.35239 41.35036    58   632   iowa        louisa
+633  -91.06592 41.34464    58   633   iowa        louisa
+635  -93.10564 41.16702    59   635   iowa         lucas
+636  -93.10564 40.90346    59   636   iowa         lucas
+637  -93.56401 40.90346    59   637   iowa         lucas
+638  -93.56401 41.16129    59   638   iowa         lucas
+639  -93.33482 41.16129    59   639   iowa         lucas
+640  -93.10564 41.16702    59   640   iowa         lucas
+642  -96.04491 43.49895    60   642   iowa          lyon
+643  -95.86156 43.50468    60   643   iowa          lyon
+644  -95.86156 43.26404    60   644   iowa          lyon
+645  -96.56058 43.25831    60   645   iowa          lyon
+646  -96.57204 43.28123    60   646   iowa          lyon
+647  -96.55485 43.29842    60   647   iowa          lyon
+648  -96.53193 43.30988    60   648   iowa          lyon
+649  -96.51474 43.33853    60   649   iowa          lyon
+650  -96.50901 43.37864    60   650   iowa          lyon
+651  -96.53766 43.39582    60   651   iowa          lyon
+652  -96.57204 43.42447    60   652   iowa          lyon
+653  -96.59496 43.45312    60   653   iowa          lyon
+654  -96.58350 43.49895    60   654   iowa          lyon
+655  -96.42879 43.49323    60   655   iowa          lyon
+656  -96.04491 43.49895    60   656   iowa          lyon
+658  -94.24583 41.16129    61   658   iowa       madison
+659  -94.24583 41.50506    61   659   iowa       madison
+660  -93.99372 41.50506    61   660   iowa       madison
+661  -93.86768 41.51079    61   661   iowa       madison
+662  -93.80465 41.51079    61   662   iowa       madison
+663  -93.80465 41.16702    61   663   iowa       madison
+664  -94.01665 41.16129    61   664   iowa       madison
+665  -94.24583 41.16129    61   665   iowa       madison
+667  -92.85927 41.51652    62   667   iowa       mahaska
+668  -92.74468 41.51652    62   668   iowa       mahaska
+669  -92.41236 41.52225    62   669   iowa       mahaska
+670  -92.39517 41.17274    62   670   iowa       mahaska
+671  -92.63581 41.16702    62   671   iowa       mahaska
+672  -92.85927 41.16702    62   672   iowa       mahaska
+673  -92.85927 41.51652    62   673   iowa       mahaska
+675  -93.33482 41.49360    63   675   iowa        marion
+676  -93.33482 41.50506    63   676   iowa        marion
+677  -92.85927 41.51652    63   677   iowa        marion
+678  -92.85927 41.16702    63   678   iowa        marion
+679  -93.10564 41.16702    63   679   iowa        marion
+680  -93.33482 41.16129    63   680   iowa        marion
+681  -93.33482 41.49360    63   681   iowa        marion
+683  -93.23169 42.20980    64   683   iowa      marshall
+684  -92.99678 42.21553    64   684   iowa      marshall
+685  -92.76186 42.21553    64   685   iowa      marshall
+686  -92.76186 41.87175    64   686   iowa      marshall
+687  -93.23169 41.86603    64   687   iowa      marshall
+688  -93.23169 42.20980    64   688   iowa      marshall
+690  -95.88448 41.16129    65   690   iowa         mills
+691  -95.38029 41.16129    65   691   iowa         mills
+692  -95.38029 40.89773    65   692   iowa         mills
+693  -95.82719 40.90919    65   693   iowa         mills
+694  -95.82719 40.93211    65   694   iowa         mills
+695  -95.82146 40.94929    65   695   iowa         mills
+696  -95.83865 40.97221    65   696   iowa         mills
+697  -95.87303 41.02951    65   697   iowa         mills
+698  -95.87303 41.04670    65   698   iowa         mills
+699  -95.87303 41.07534    65   699   iowa         mills
+700  -95.85583 41.09826    65   700   iowa         mills
+701  -95.87303 41.13264    65   701   iowa         mills
+702  -95.88448 41.16129    65   702   iowa         mills
+704  -93.02543 43.25831    66   704   iowa      mitchell
+705  -93.02543 43.51041    66   705   iowa      mitchell
+706  -92.54987 43.51041    66   706   iowa      mitchell
+707  -92.55560 43.22394    66   707   iowa      mitchell
+708  -93.02543 43.22394    66   708   iowa      mitchell
+709  -93.02543 43.25831    66   709   iowa      mitchell
+711  -96.13086 41.86030    67   711   iowa        monona
+712  -96.16524 41.91759    67   712   iowa        monona
+713  -96.15378 41.94624    67   713   iowa        monona
+714  -96.15378 41.96916    67   714   iowa        monona
+715  -96.16524 41.98635    67   715   iowa        monona
+716  -96.18243 42.00354    67   716   iowa        monona
+717  -96.22253 42.00354    67   717   iowa        monona
+718  -96.22826 42.03218    67   718   iowa        monona
+719  -96.26263 42.05510    67   719   iowa        monona
+720  -96.27983 42.06656    67   720   iowa        monona
+721  -96.29701 42.11813    67   721   iowa        monona
+722  -96.33712 42.14677    67   722   iowa        monona
+723  -96.34285 42.15824    67   723   iowa        monona
+724  -96.34285 42.17542    67   724   iowa        monona
+725  -96.31994 42.19834    67   725   iowa        monona
+726  -96.31994 42.20980    67   726   iowa        monona
+727  -95.67249 42.20407    67   727   iowa        monona
+728  -95.67822 41.86030    67   728   iowa        monona
+729  -96.13086 41.86030    67   729   iowa        monona
+731  -93.10564 41.16702    68   731   iowa        monroe
+732  -92.85927 41.16702    68   732   iowa        monroe
+733  -92.63581 41.16702    68   733   iowa        monroe
+734  -92.63009 40.90346    68   734   iowa        monroe
+735  -93.10564 40.90346    68   735   iowa        monroe
+736  -93.10564 41.16702    68   736   iowa        monroe
+738  -95.38029 41.16129    69   738   iowa    montgomery
+739  -95.16256 41.15556    69   739   iowa    montgomery
+740  -94.93338 41.15556    69   740   iowa    montgomery
+741  -94.93338 40.90346    69   741   iowa    montgomery
+742  -95.38029 40.89773    69   742   iowa    montgomery
+743  -95.38029 41.16129    69   743   iowa    montgomery
+745  -90.88257 41.60247    70   745   iowa     muscatine
+746  -90.76225 41.60247    70   746   iowa     muscatine
+747  -90.77370 41.45922    70   747   iowa     muscatine
+748  -90.83673 41.45350    70   748   iowa     muscatine
+749  -90.87683 41.44777    70   749   iowa     muscatine
+750  -90.92841 41.43058    70   750   iowa     muscatine
+751  -90.98570 41.43058    70   751   iowa     muscatine
+752  -91.01434 41.43058    70   752   iowa     muscatine
+753  -91.03726 41.40766    70   753   iowa     muscatine
+754  -91.06592 41.34464    70   754   iowa     muscatine
+755  -91.35239 41.35036    70   755   iowa     muscatine
+756  -91.35239 41.42485    70   756   iowa     muscatine
+757  -91.34666 41.60819    70   757   iowa     muscatine
+758  -90.88257 41.60247    70   758   iowa     muscatine
+760  -95.86156 43.26404    71   760   iowa        obrien
+761  -95.39174 43.26404    71   761   iowa        obrien
+762  -95.39747 42.91454    71   762   iowa        obrien
+763  -95.85583 42.90881    71   763   iowa        obrien
+764  -95.86156 43.26404    71   764   iowa        obrien
+766  -95.39174 43.50468    72   766   iowa       osceola
+767  -95.39174 43.26404    72   767   iowa       osceola
+768  -95.86156 43.26404    72   768   iowa       osceola
+769  -95.86156 43.50468    72   769   iowa       osceola
+770  -95.46623 43.50468    72   770   iowa       osceola
+771  -95.39174 43.50468    72   771   iowa       osceola
+773  -94.91619 40.59979    73   773   iowa          page
+774  -95.20267 40.60552    73   774   iowa          page
+775  -95.37456 40.60552    73   775   iowa          page
+776  -95.37456 40.74876    73   776   iowa          page
+777  -95.38602 40.74876    73   777   iowa          page
+778  -95.38029 40.89773    73   778   iowa          page
+779  -94.93338 40.90346    73   779   iowa          page
+780  -94.93338 40.73730    73   780   iowa          page
+781  -94.92192 40.73730    73   781   iowa          page
+782  -94.91619 40.59979    73   782   iowa          page
+784  -94.92192 42.92027    74   784   iowa     palo alto
+785  -94.92192 43.26404    74   785   iowa     palo alto
+786  -94.45209 43.26404    74   786   iowa     palo alto
+787  -94.44064 42.92027    74   787   iowa     palo alto
+788  -94.92192 42.92027    74   788   iowa     palo alto
+790  -95.85583 42.90881    75   790   iowa      plymouth
+791  -95.85583 42.55357    75   791   iowa      plymouth
+792  -96.46890 42.54785    75   792   iowa      plymouth
+793  -96.47463 42.57076    75   793   iowa      plymouth
+794  -96.56058 42.66817    75   794   iowa      plymouth
+795  -96.58350 42.68536    75   795   iowa      plymouth
+796  -96.60641 42.70255    75   796   iowa      plymouth
+797  -96.60641 42.73692    75   797   iowa      plymouth
+798  -96.59496 42.77703    75   798   iowa      plymouth
+799  -96.56058 42.81714    75   799   iowa      plymouth
+800  -96.52047 42.87443    75   800   iowa      plymouth
+801  -96.52047 42.90308    75   801   iowa      plymouth
+802  -95.85583 42.90881    75   802   iowa      plymouth
+804  -94.92192 42.55930    76   804   iowa    pocahontas
+805  -94.92192 42.92027    76   805   iowa    pocahontas
+806  -94.44064 42.92027    76   806   iowa    pocahontas
+807  -94.44064 42.64525    76   807   iowa    pocahontas
+808  -94.44636 42.55357    76   808   iowa    pocahontas
+809  -94.92192 42.55930    76   809   iowa    pocahontas
+811  -93.33482 41.50506    77   811   iowa          polk
+812  -93.33482 41.49360    77   812   iowa          polk
+813  -93.39785 41.51079    77   813   iowa          polk
+814  -93.46661 41.51652    77   814   iowa          polk
+815  -93.80465 41.51079    77   815   iowa          polk
+816  -93.80465 41.60819    77   816   iowa          polk
+817  -93.82184 41.60819    77   817   iowa          polk
+818  -93.81611 41.86030    77   818   iowa          polk
+819  -93.70152 41.86030    77   819   iowa          polk
+820  -93.34628 41.86030    77   820   iowa          polk
+821  -93.35201 41.60819    77   821   iowa          polk
+822  -93.33482 41.60819    77   822   iowa          polk
+823  -93.33482 41.50506    77   823   iowa          polk
+825  -95.16256 41.15556    78   825   iowa pottawattamie
+826  -95.38029 41.16129    78   826   iowa pottawattamie
+827  -95.88448 41.16129    78   827   iowa pottawattamie
+828  -95.89021 41.17847    78   828   iowa pottawattamie
+829  -95.90167 41.21858    78   829   iowa pottawattamie
+830  -95.90167 41.25869    78   830   iowa pottawattamie
+831  -95.87876 41.29307    78   831   iowa pottawattamie
+832  -95.87303 41.31026    78   832   iowa pottawattamie
+833  -95.87876 41.31599    78   833   iowa pottawattamie
+834  -95.90167 41.32745    78   834   iowa pottawattamie
+835  -95.92460 41.33891    78   835   iowa pottawattamie
+836  -95.93032 41.35036    78   836   iowa pottawattamie
+837  -95.92460 41.36182    78   837   iowa pottawattamie
+838  -95.92460 41.38474    78   838   iowa pottawattamie
+839  -95.93032 41.41912    78   839   iowa pottawattamie
+840  -95.93605 41.44204    78   840   iowa pottawattamie
+841  -95.94751 41.45922    78   841   iowa pottawattamie
+842  -95.99908 41.48787    78   842   iowa pottawattamie
+843  -96.00481 41.50506    78   843   iowa pottawattamie
+844  -95.49487 41.50506    78   844   iowa pottawattamie
+845  -95.16829 41.50506    78   845   iowa pottawattamie
+846  -95.16256 41.15556    78   846   iowa pottawattamie
+848  -92.76186 41.87175    79   848   iowa     poweshiek
+849  -92.28058 41.87175    79   849   iowa     poweshiek
+850  -92.28632 41.60819    79   850   iowa     poweshiek
+851  -92.27485 41.60819    79   851   iowa     poweshiek
+852  -92.26912 41.52225    79   852   iowa     poweshiek
+853  -92.41236 41.52225    79   853   iowa     poweshiek
+854  -92.74468 41.51652    79   854   iowa     poweshiek
+855  -92.74468 41.63111    79   855   iowa     poweshiek
+856  -92.76186 41.63111    79   856   iowa     poweshiek
+857  -92.76186 41.87175    79   857   iowa     poweshiek
+859  -94.01665 40.90346    80   859   iowa      ringgold
+860  -94.01665 40.59979    80   860   iowa      ringgold
+861  -94.24010 40.59406    80   861   iowa      ringgold
+862  -94.48074 40.59406    80   862   iowa      ringgold
+863  -94.48647 40.90346    80   863   iowa      ringgold
+864  -94.01665 40.90346    80   864   iowa      ringgold
+866  -95.39747 42.56504    81   866   iowa           sac
+867  -94.92192 42.55930    81   867   iowa           sac
+868  -94.92192 42.47336    81   868   iowa           sac
+869  -94.86462 42.47336    81   869   iowa           sac
+870  -94.87035 42.20980    81   870   iowa           sac
+871  -95.09954 42.20407    81   871   iowa           sac
+872  -95.34018 42.20407    81   872   iowa           sac
+873  -95.33445 42.47336    81   873   iowa           sac
+874  -95.39174 42.47336    81   874   iowa           sac
+875  -95.39747 42.56504    81   875   iowa           sac
+877  -90.87683 41.78008    82   877   iowa         scott
+878  -90.76225 41.78008    82   878   iowa         scott
+879  -90.72787 41.75143    82   879   iowa         scott
+880  -90.72214 41.75143    82   880   iowa         scott
+881  -90.68203 41.76289    82   881   iowa         scott
+882  -90.65911 41.77435    82   882   iowa         scott
+883  -90.63619 41.78008    82   883   iowa         scott
+884  -90.60755 41.78008    82   884   iowa         scott
+885  -90.57890 41.78008    82   885   iowa         scott
+886  -90.56171 41.77435    82   886   iowa         scott
+887  -90.55025 41.78008    82   887   iowa         scott
+888  -90.53307 41.79154    82   888   iowa         scott
+889  -90.49868 41.78008    82   889   iowa         scott
+890  -90.48723 41.79154    82   890   iowa         scott
+891  -90.47004 41.79727    82   891   iowa         scott
+892  -90.45857 41.79154    82   892   iowa         scott
+893  -90.45857 41.78008    82   893   iowa         scott
+894  -90.44712 41.77435    82   894   iowa         scott
+895  -90.42993 41.78008    82   895   iowa         scott
+896  -90.41846 41.78008    82   896   iowa         scott
+897  -90.39555 41.75143    82   897   iowa         scott
+898  -90.36691 41.74570    82   898   iowa         scott
+899  -90.32107 41.72279    82   899   iowa         scott
+900  -90.32680 41.69414    82   900   iowa         scott
+901  -90.34399 41.61966    82   901   iowa         scott
+902  -90.35545 41.59674    82   902   iowa         scott
+903  -90.41273 41.56236    82   903   iowa         scott
+904  -90.45857 41.53944    82   904   iowa         scott
+905  -90.54452 41.52225    82   905   iowa         scott
+906  -90.60755 41.49934    82   906   iowa         scott
+907  -90.65339 41.46495    82   907   iowa         scott
+908  -90.71641 41.45922    82   908   iowa         scott
+909  -90.77370 41.45922    82   909   iowa         scott
+910  -90.76225 41.60247    82   910   iowa         scott
+911  -90.88257 41.60247    82   911   iowa         scott
+912  -90.87683 41.78008    82   912   iowa         scott
+914  -95.55790 41.86030    83   914   iowa        shelby
+915  -95.10526 41.86030    83   915   iowa        shelby
+916  -95.10526 41.60247    83   916   iowa        shelby
+917  -95.05370 41.60247    83   917   iowa        shelby
+918  -95.05943 41.50506    83   918   iowa        shelby
+919  -95.16829 41.50506    83   919   iowa        shelby
+920  -95.49487 41.50506    83   920   iowa        shelby
+921  -95.48914 41.59674    83   921   iowa        shelby
+922  -95.55218 41.60247    83   922   iowa        shelby
+923  -95.55790 41.86030    83   923   iowa        shelby
+925  -95.86156 43.26404    84   925   iowa         sioux
+926  -95.85583 42.90881    84   926   iowa         sioux
+927  -96.52047 42.90308    84   927   iowa         sioux
+928  -96.52047 42.92600    84   928   iowa         sioux
+929  -96.49755 42.94318    84   929   iowa         sioux
+930  -96.49755 42.98329    84   930   iowa         sioux
+931  -96.49755 43.01194    84   931   iowa         sioux
+932  -96.51474 43.02913    84   932   iowa         sioux
+933  -96.44598 43.05205    84   933   iowa         sioux
+934  -96.44025 43.08070    84   934   iowa         sioux
+935  -96.43452 43.10361    84   935   iowa         sioux
+936  -96.43452 43.12080    84   936   iowa         sioux
+937  -96.44025 43.14945    84   937   iowa         sioux
+938  -96.45171 43.17810    84   938   iowa         sioux
+939  -96.45745 43.20102    84   939   iowa         sioux
+940  -96.46890 43.21820    84   940   iowa         sioux
+941  -96.49755 43.22394    84   941   iowa         sioux
+942  -96.53193 43.22394    84   942   iowa         sioux
+943  -96.55485 43.23539    84   943   iowa         sioux
+944  -96.56058 43.25831    84   944   iowa         sioux
+945  -95.86156 43.26404    84   945   iowa         sioux
+947  -93.70152 42.20980    85   947   iowa         story
+948  -93.46661 42.20980    85   948   iowa         story
+949  -93.23169 42.20980    85   949   iowa         story
+950  -93.23169 41.86603    85   950   iowa         story
+951  -93.34628 41.86030    85   951   iowa         story
+952  -93.70152 41.86030    85   952   iowa         story
+953  -93.70152 42.20980    85   953   iowa         story
+955  -92.28632 42.30148    86   955   iowa          tama
+956  -92.28058 41.87175    86   956   iowa          tama
+957  -92.76186 41.87175    86   957   iowa          tama
+958  -92.76186 42.21553    86   958   iowa          tama
+959  -92.76186 42.30148    86   959   iowa          tama
+960  -92.52695 42.30148    86   960   iowa          tama
+961  -92.28632 42.30148    86   961   iowa          tama
+963  -94.48074 40.59406    87   963   iowa        taylor
+964  -94.63544 40.59406    87   964   iowa        taylor
+965  -94.91619 40.59979    87   965   iowa        taylor
+966  -94.92192 40.73730    87   966   iowa        taylor
+967  -94.93338 40.73730    87   967   iowa        taylor
+968  -94.93338 40.90346    87   968   iowa        taylor
+969  -94.48647 40.90346    87   969   iowa        taylor
+970  -94.48074 40.59406    87   970   iowa        taylor
+972  -94.48647 41.16129    88   972   iowa         union
+973  -94.24583 41.16129    88   973   iowa         union
+974  -94.01665 41.16129    88   974   iowa         union
+975  -94.01665 40.90346    88   975   iowa         union
+976  -94.48647 40.90346    88   976   iowa         union
+977  -94.48647 41.16129    88   977   iowa         union
+979  -91.70190 40.90346    89   979   iowa     van buren
+980  -91.70763 40.82324    89   980   iowa     van buren
+981  -91.70190 40.61698    89   981   iowa     van buren
+982  -91.93681 40.61698    89   982   iowa     van buren
+983  -92.17172 40.61698    89   983   iowa     van buren
+984  -92.17172 40.90346    89   984   iowa     van buren
+985  -91.70190 40.90346    89   985   iowa     van buren
+987  -92.16599 41.16702    90   987   iowa       wapello
+988  -92.17172 40.90346    90   988   iowa       wapello
+989  -92.63009 40.90346    90   989   iowa       wapello
+990  -92.63581 41.16702    90   990   iowa       wapello
+991  -92.39517 41.17274    90   991   iowa       wapello
+992  -92.16599 41.16702    90   992   iowa       wapello
+994  -93.33482 41.49360    91   994   iowa        warren
+995  -93.33482 41.16129    91   995   iowa        warren
+996  -93.56401 41.16129    91   996   iowa        warren
+997  -93.80465 41.16702    91   997   iowa        warren
+998  -93.80465 41.51079    91   998   iowa        warren
+999  -93.46661 41.51652    91   999   iowa        warren
+1000 -93.39785 41.51079    91  1000   iowa        warren
+1001 -93.33482 41.49360    91  1001   iowa        warren
+1003 -91.92535 41.17274    92  1003   iowa    washington
+1004 -91.93108 41.51652    92  1004   iowa    washington
+1005 -91.82221 41.51652    92  1005   iowa    washington
+1006 -91.51855 41.52225    92  1006   iowa    washington
+1007 -91.50136 41.51079    92  1007   iowa    washington
+1008 -91.49563 41.49934    92  1008   iowa    washington
+1009 -91.50136 41.47642    92  1009   iowa    washington
+1010 -91.48990 41.46495    92  1010   iowa    washington
+1011 -91.48417 41.44777    92  1011   iowa    washington
+1012 -91.47272 41.43058    92  1012   iowa    washington
+1013 -91.46698 41.17274    92  1013   iowa    washington
+1014 -91.70190 41.17274    92  1014   iowa    washington
+1015 -91.92535 41.17274    92  1015   iowa    washington
+1017 -93.56974 40.59979    93  1017   iowa         wayne
+1018 -93.56401 40.90346    93  1018   iowa         wayne
+1019 -93.10564 40.90346    93  1019   iowa         wayne
+1020 -93.09991 40.60552    93  1020   iowa         wayne
+1021 -93.37493 40.59979    93  1021   iowa         wayne
+1022 -93.56974 40.59979    93  1022   iowa         wayne
+1024 -93.96508 42.55930    94  1024   iowa       webster
+1025 -93.96508 42.46763    94  1025   iowa       webster
+1026 -93.93070 42.46763    94  1026   iowa       webster
+1027 -93.93070 42.20980    94  1027   iowa       webster
+1028 -94.16561 42.20980    94  1028   iowa       webster
+1029 -94.40625 42.20980    94  1029   iowa       webster
+1030 -94.40053 42.47336    94  1030   iowa       webster
+1031 -94.44064 42.47336    94  1031   iowa       webster
+1032 -94.44636 42.55357    94  1032   iowa       webster
+1033 -94.44064 42.64525    94  1033   iowa       webster
+1034 -93.97081 42.63952    94  1034   iowa       webster
+1035 -93.96508 42.55930    94  1035   iowa       webster
+1037 -93.49525 43.51041    95  1037   iowa     winnebago
+1038 -93.50098 43.26404    95  1038   iowa     winnebago
+1039 -93.97081 43.25831    95  1039   iowa     winnebago
+1040 -93.97654 43.51041    95  1040   iowa     winnebago
+1041 -93.64423 43.51041    95  1041   iowa     winnebago
+1042 -93.49525 43.51041    95  1042   iowa     winnebago
+1044 -92.08005 43.50468    96  1044   iowa    winneshiek
+1045 -91.72482 43.51041    96  1045   iowa    winneshiek
+1046 -91.60449 43.51041    96  1046   iowa    winneshiek
+1047 -91.61022 43.34999    96  1047   iowa    winneshiek
+1048 -91.59876 43.35572    96  1048   iowa    winneshiek
+1049 -91.59876 43.08643    96  1049   iowa    winneshiek
+1050 -92.07432 43.08643    96  1050   iowa    winneshiek
+1051 -92.08005 43.21820    96  1051   iowa    winneshiek
+1052 -92.08005 43.50468    96  1052   iowa    winneshiek
+1054 -96.34858 42.26710    97  1054   iowa      woodbury
+1055 -96.40588 42.33012    97  1055   iowa      woodbury
+1056 -96.41161 42.35304    97  1056   iowa      woodbury
+1057 -96.40588 42.38169    97  1057   iowa      woodbury
+1058 -96.39442 42.39888    97  1058   iowa      woodbury
+1059 -96.38869 42.41607    97  1059   iowa      woodbury
+1060 -96.38869 42.43898    97  1060   iowa      woodbury
+1061 -96.39442 42.46190    97  1061   iowa      woodbury
+1062 -96.43452 42.47336    97  1062   iowa      woodbury
+1063 -96.44025 42.47336    97  1063   iowa      woodbury
+1064 -96.46890 42.50774    97  1064   iowa      woodbury
+1065 -96.46890 42.53065    97  1065   iowa      woodbury
+1066 -96.46890 42.54785    97  1066   iowa      woodbury
+1067 -95.85583 42.55357    97  1067   iowa      woodbury
+1068 -95.74125 42.55930    97  1068   iowa      woodbury
+1069 -95.74125 42.47336    97  1069   iowa      woodbury
+1070 -95.67249 42.47336    97  1070   iowa      woodbury
+1071 -95.67249 42.20407    97  1071   iowa      woodbury
+1072 -96.31994 42.20980    97  1072   iowa      woodbury
+1073 -96.34858 42.24418    97  1073   iowa      woodbury
+1074 -96.34285 42.24991    97  1074   iowa      woodbury
+1075 -96.34858 42.26710    97  1075   iowa      woodbury
+1077 -93.02543 43.51041    98  1077   iowa         worth
+1078 -93.02543 43.25831    98  1078   iowa         worth
+1079 -93.50098 43.26404    98  1079   iowa         worth
+1080 -93.49525 43.51041    98  1080   iowa         worth
+1081 -93.05981 43.51041    98  1081   iowa         worth
+1082 -93.02543 43.51041    98  1082   iowa         worth
+1084 -93.49525 42.91454    99  1084   iowa        wright
+1085 -93.49525 42.55930    99  1085   iowa        wright
+1086 -93.96508 42.55930    99  1086   iowa        wright
+1087 -93.97081 42.63952    99  1087   iowa        wright
+1088 -93.97081 42.91454    99  1088   iowa        wright
+1089 -93.49525 42.91454    99  1089   iowa        wright</code></pre>
+</div>
+</div>
+</section>
+<section id="layer-specific-aesthetic" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Layer specific aesthetic</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="|2|3"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb8-1" class="hljs-ln-code"><a href="#cb8-1"></a><span class="fu">ggplot</span>(wallace.iowaland, <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat)) <span class="sc">+</span></span>
+<span id="cb8-2" class="hljs-ln-code"><a href="#cb8-2"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">shape =</span> <span class="st">"square"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb8-3" class="hljs-ln-code"><a href="#cb8-3"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> yield), <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide-03_files/figure-revealjs/plot2-inheritance-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="layer-specific-data" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Layer specific data</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="2-3"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb9-1" class="hljs-ln-code"><a href="#cb9-1"></a><span class="fu">ggplot</span>(wallace.iowaland, <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat)) <span class="sc">+</span></span>
+<span id="cb9-2" class="hljs-ln-code"><a href="#cb9-2"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> <span class="fu">map_data</span>(<span class="st">"county"</span>, <span class="at">region =</span> <span class="st">"iowa"</span>),</span>
+<span id="cb9-3" class="hljs-ln-code"><a href="#cb9-3"></a>               <span class="fu">aes</span>(<span class="at">group =</span> group), <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb9-4" class="hljs-ln-code"><a href="#cb9-4"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">shape =</span> <span class="st">"square"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb9-5" class="hljs-ln-code"><a href="#cb9-5"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> yield), <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide-03_files/figure-revealjs/plot3-inheritance-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="layer-specific-data-as-a-function-of-inherited-data" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Layer specific data as a function of inherited data</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10" data-code-line-numbers="6-7"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb10-1" class="hljs-ln-code"><a href="#cb10-1"></a><span class="fu">ggplot</span>(wallace.iowaland, <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat)) <span class="sc">+</span></span>
+<span id="cb10-2" class="hljs-ln-code"><a href="#cb10-2"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> <span class="fu">map_data</span>(<span class="st">"county"</span>, <span class="at">region =</span> <span class="st">"iowa"</span>),</span>
+<span id="cb10-3" class="hljs-ln-code"><a href="#cb10-3"></a>               <span class="fu">aes</span>(<span class="at">group =</span> group), <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb10-4" class="hljs-ln-code"><a href="#cb10-4"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">shape =</span> <span class="st">"square"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb10-5" class="hljs-ln-code"><a href="#cb10-5"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> yield), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-6" class="hljs-ln-code"><a href="#cb10-6"></a>  <span class="fu">geom_label</span>(<span class="at">data =</span> <span class="cf">function</span>(.data) <span class="fu">subset</span>(.data, yield  <span class="sc">&gt;</span> <span class="fu">quantile</span>(yield, <span class="fl">0.95</span>)),</span>
+<span id="cb10-7" class="hljs-ln-code"><a href="#cb10-7"></a>            <span class="fu">aes</span>(<span class="at">label =</span> county), <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide-03_files/figure-revealjs/plot4-inheritance-1.png" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="annotation-layer" class="slide level2">
+<h2>Annotation layer</h2>
+<ul>
+<li><code>annotate()</code> allows you to add elements to plots without a <code>data.frame</code></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="5-6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">ggplot</span>(wallace.iowaland, <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">geom_polygon</span>(<span class="at">data =</span> <span class="fu">map_data</span>(<span class="st">"county"</span>, <span class="at">region =</span> <span class="st">"iowa"</span>),</span>
+<span id="cb11-3"><a href="#cb11-3"></a>               <span class="fu">aes</span>(<span class="at">group =</span> group), <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> yield), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="fu">annotate</span>(<span class="st">"segment"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="dv">95</span>, <span class="at">y =</span> <span class="fl">40.3</span>, <span class="at">xend =</span> <span class="sc">-</span><span class="fl">94.5</span>, <span class="at">yend =</span> <span class="fl">40.6</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="fu">annotate</span>(<span class="st">"label"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="dv">95</span>, <span class="at">y =</span> <span class="fl">40.3</span>, <span class="at">label =</span> <span class="st">"Iowa"</span>, <span class="at">color =</span> <span class="st">"red"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide-03_files/figure-revealjs/annotate-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="title-slide slide level1 center" data-background-color="#D93F00">
+<h1><i class="fas fa-users"></i></h1>
+<p><span class="f-headline"><i class="fas fa-directions"></i> Your turn!</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="countdown" id="timer_bdea04f9" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+<p><code>&gt;</code> Go to <a href="https://emitanaka.org/dataviz-workshop/exercises/">emitanaka.org/dataviz-workshop/exercises/</a><br>
+<code>&gt;</code> Click Exercise 3</p>
+<p><img src="images/monash-one-line-black-rgb.png" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slide-03_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slide-03_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slide-03_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slide-03_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slide-03_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slide-03_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slide-03_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slide-03_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slide-03_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slide-03_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          // dispatch for htmlwidgets
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for reveal
+        if (window.Reveal) {
+          window.Reveal.addEventListener("slidechanged", function(event) {
+            fireSlideChanged(event.previousSlide, event.currentSlide);
+          });
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        target: function(trigger) {
+          return trigger.previousElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        setTimeout(function() {
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto-reveal',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+        tippyHover(ref, function() {
+          var popup = window.document.createElement('div');
+          cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    });
+    </script>
+    <link rel="stylesheet" href="assets/syntax-highlight.css">
+    <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+    <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+    
+
+</body></html>

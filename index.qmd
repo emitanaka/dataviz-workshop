@@ -1,0 +1,29 @@
+---
+title: "Welcome"
+---
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(lubridate)
+schedule <- read_csv("slides/schedule.csv")
+ilesson <- schedule$Type=="Lesson"
+nlesson <- sum(ilesson)
+schedule$Activity[ilesson] <- paste0("**Lesson ", seq(nlesson), "**: ", schedule$Activity[ilesson])
+schedule %>% 
+  arrange(Start) %>% 
+  mutate(time = glue::glue("{sprintf('%.2d', hour(Start))}:{sprintf('%.2d', minute(Start))} - {sprintf('%.2d', hour(End))}:{sprintf('%.2d', minute(End))}"),
+         url = case_when(Type=="Lesson" | Activity == "Introduction" ~ sprintf("[<i class='fab fa-html5'></i>](slides/slide-%.2d.html)", No),
+                         TRUE ~ ""),
+         Activity = case_when(Type=="Break" ~ paste0("*", Activity, "*"),
+                         Type=="Practice" ~ paste('<span class="font-dancing">Exercise</span>', sprintf("[<i class='fas fa-tools'></i>](https://ebsmonash.shinyapps.io/dataviz-ex%.2d/)", No)),
+                              
+                              TRUE ~ Activity)) %>% 
+  select(Time = time, url, Activity) %>% 
+  knitr::kable(col.names = c("Time", "Slides", "Activity"),
+               align = "lcl")
+```
+

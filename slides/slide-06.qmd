@@ -1,0 +1,538 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Scales and guides in ggplot2"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: false
+    auto-stretch: false
+    css: [assets/custom.css,  assets/tachyons-addon.css, assets/rgb-hcl-color.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+      <script src="assets/chroma.min.js"></script>
+      <script src="assets/rgb-color.js"></script>
+      <script src="assets/hcl-color.js"></script>
+
+callout-icon: false
+execute:
+  echo: true
+---
+
+
+## {#title-slide background-image="images/bg10.jpeg"}
+
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+## Scales
+
+* Scales control the mapping from **data** to aesthetics
+
+. . . 
+
+* They usually come in the format like below:
+
+<center>
+<img src="images/ggplot-scale.png">
+</center>
+
+. . . 
+
+* E.g. `scale_x_continuous()`, `scale_fill_discrete()`, `scale_y_log10()` and so on.
+
+
+
+
+## Guide
+
+* The scale creates a **guide**: an **axis** or **legend**
+
+<center>
+<img src="images/guides-dissection.png">
+</center>
+
+. . . 
+
+* To modify these you generally use `scale_*`, `guide_*` within `guides` or other handy functions (e.g. `labs`, `xlab`, `ylab`, and so on).
+
+
+## Guides for scales {auto-animate=true}
+
+```{r guide-plot}
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 5
+library(palmerpenguins)
+ggplot(penguins, 
+       aes(x = bill_depth_mm,
+           y = bill_length_mm, 
+           color = flipper_length_mm, 
+           shape = species, 
+           size = body_mass_g)) +
+  geom_point()
+```
+
+## Guides for scales {auto-animate=true}
+
+```{r guide-plot2}
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 5
+#| code-line-numbers: "10-14"
+library(palmerpenguins)
+ggplot(penguins, 
+       aes(x = bill_depth_mm,
+           y = bill_length_mm, 
+           color = flipper_length_mm, 
+           shape = species, 
+           size = body_mass_g)) +
+  geom_point() +
+  # defaults
+  guides(x = guide_axis(),
+         y = guide_axis(),
+         color = guide_colorbar(),
+         shape = guide_legend(),
+         size = guide_legend())
+```
+
+
+## Guides for scales {auto-animate=true}
+
+```{r guide-plot3}
+#| output-location: column
+#| fig-width: 5
+#| fig-height: 5
+#| code-line-numbers: "9-15|10|11|12|13|14"
+library(palmerpenguins)
+ggplot(penguins, 
+       aes(x = bill_depth_mm,
+           y = bill_length_mm, 
+           color = flipper_length_mm, 
+           shape = species, 
+           size = body_mass_g)) +
+  geom_point() +
+  guides(
+    x = guide_axis(position = "top"),
+    y = guide_axis(angle = 30),
+    color = guide_colorsteps(order = 1),
+    shape = guide_legend(title.position = "bottom"),
+    size = guide_bins(title = "body mass")
+  )
+```
+
+
+
+# <i class="fas fa-weight"></i> Scale demonstrations {background-color="#006DAE"}
+
+
+
+## Modifying axis
+
+::: flex
+
+::: {.w-70}
+
+```{r modify-axis}
+#| code-line-numbers: "1-2|3-7|"
+#| eval: false
+ggplot(diamonds, aes(carat, price)) + 
+  geom_hex() + 
+  scale_y_continuous(
+    name = "Price", 
+    breaks = c(0, 10000),
+    labels = str_wrap(c("0", "More than 10K"), 10)
+  ) + 
+  geom_hline(yintercept = 10000, color = "red", size = 2)
+```
+
+:::
+
+::: {.w-30}
+
+```{r modify-axis}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 3
+```
+
+:::
+
+:::
+
+
+
+
+* Notice how the axis title has been modified to "Price"
+* The breaks are at 0 and 10000
+* And the associated labels for the breaks are "0" and "More than 10K"
+
+
+
+## Modifying labels
+
+
+```{r modify-labels}
+#| output-location: column
+#| fig-width: 4
+#| fig-height: 3
+#| code-line-numbers: "|3-5"
+ggplot(diamonds, aes(carat, price)) + 
+  geom_hex() + 
+  scale_y_continuous(
+    label = scales::dollar_format()
+  )
+```
+
+
+* Sometimes you may want to modify the labels based on it's existing axis label. 
+* You can give a function to the label instead. 
+* Most of the handy functions are in the `scales` package.
+
+
+
+## Modifying legend scale
+
+::: flex
+
+::: w-55
+
+```{r modify-legend}
+#| code-line-numbers: "|3-5"
+#| eval: false
+ggplot(diamonds, aes(carat, price)) +
+  geom_hex() + 
+  scale_fill_continuous(
+    breaks = c(0, 10, 100, 1000, 4000),
+    trans = "log10"
+  )
+```
+
+:::
+
+::: w-45
+
+```{r modify-legend}
+#| echo: false
+#| fig-height: 2.5
+#| fig-width: 4
+```
+
+:::
+
+:::
+
+
+
+
+* An axis is not just the x-axis and y-axis!
+* The legend can have an axis and we can modify its scale as well.
+* We transform the scale into a `log10` format with breaks defined at 0, 10, 100, 1000, and 4000. 
+
+
+
+## Removing legend
+
+```{r remove-legend}
+#| code-line-numbers: "|3-5"
+#| fig-height: 3
+#| output-location: column
+ggplot(diamonds, aes(carat, price)) + 
+  geom_hex() + 
+  scale_fill_continuous(
+    guide = "none"
+  )
+```
+
+* If you want to remove a legend for an associated aesthetic, you can use `guide = "none"` in the associated scale.
+* There are other handy ways of doing this as well!
+
+
+
+## Alternative control of guides
+
+* There are generally other ways of modifying the scales
+
+```{r change-labels, eval = FALSE}
+ggplot(diamonds, aes(carat, price)) + 
+  ylab("Price") + # Changes the y axis label
+  labs(x = "Carat", # Changes the x axis label
+       fill = "Count") # Changes the legend name
+```
+```{r remove-legend-alt, eval = FALSE}
+ggplot(diamonds, aes(carat, price)) + guides(fill = "none") # remove the legend
+```
+
+
+* Each user has a different mental mode, so you can use what suits you (and others in your team)
+
+
+
+# <i class="fas fa-paint-brush"></i> Color {background-color="#006DAE"}
+
+
+## Color palettes
+
+
+* There are a few different color palettes... choose what suits your purpose!
+
+```{r}
+ggplot(diamonds, aes(carat, price)) + scale_fill_viridis_c(option = "A")
+```
+
+
+
+
+::: notes
+
+* The two primary ways to specify color in `ggplot` are through `fill` or `color` (or `colour`). 
+* For every `color` scale, there is generally a corresponding `fill` scale, e.g. `scale_color_brewer()` and `scale_fill_brewer()`. 
+
+:::
+
+# Color space
+
+::: {.f3 .monash-gray80}
+
+Zeileis, Fisher, Hornik, Ihaka, McWhite,
+Murrell, Stauffer, Wilke (2019). colorspace: A
+Toolbox for Manipulating and Assessing Colors and
+Palettes. *arXiv 1903.06490*
+
+Zeileis, Hornik, Murrell (2009). Escaping RGBland:
+Selecting Colors for Statistical Graphics.
+_Computational Statistics & Data Analysis_ 53(9)
+3259-3270
+
+:::
+
+## Qualitative palettes
+
+* Designed for categorical variable with no particular ordering 
+
+
+```{r, fig.height = 4, fig.width = 8, echo = TRUE}
+#| code-line-numbers: false
+colorspace::hcl_palettes("Qualitative", plot = TRUE, n = 7)
+```
+
+## Sequential palettes
+
+* Designed for ordered categorical variable or number going from low to high (or vice-versa) 
+
+
+```{r, fig.height = 4, fig.width = 10, echo = TRUE}
+#| code-line-numbers: false
+colorspace::hcl_palettes("Sequential", plot = TRUE, n = 7)
+```
+
+
+## Diverging palettes
+
+* Designed for ordered categorical variable or number going from low to high (or vice-versa) with a neutral value in between
+
+
+```{r, fig.height = 6, fig.width = 8, echo = TRUE}
+#| code-line-numbers: false
+colorspace::hcl_palettes("Diverging", plot = TRUE, n = 7)
+```
+
+## RGB color space {.rgb-slider-wrap}
+
+Made for screen projection
+
+<div class="col-sliders">
+<div>
+<label for="red">Red</label>
+<input type="number" id="redNum">
+<input value="0" type="range" min="0" max="255" id="red">
+</div>
+<div>
+<label for="green">Green</label>
+<input type="number" id="greenNum">
+<input value="109" type="range" min="0" max="255" id="green">
+</div>
+<div>
+<label for="blue">Blue</label>
+<input type="number" id="blueNum">
+<input  value="174" type="range" min="0" max="255" id="blue">
+</div>
+</div>
+
+::: aside
+
+Code adapted from https://github.com/Golobro/rgbcolorslider
+
+:::
+
+
+## HCL color space {.hcl-slider-wrap}
+
+Made for human visual system
+
+<div class="col-sliders">
+<div>
+<label for="hue">Hue</label>
+<input type="number" id="hueNum">
+<input value="268" type="range" min="0" max="360" id="hue">
+</div>
+<div>
+<label for="chroma">Chroma</label>
+<input type="number" id="chromaNum">
+<input value="42" type="range" min="0" max="180" id="chroma">
+</div>
+<div>
+<label for="luminance">Luminance</label>
+<input type="number" id="luminanceNum">
+<input value="44" type="range" min="0" max="100" id="luminance">
+</div>
+</div>
+
+
+::: aside 
+
+Color conversion using https://github.com/gka/chroma.js
+
+:::
+
+---
+
+## `colorspace` 📦
+
+* Interactively choose/create a palette using the HCL color space. 
+
+
+```{r, eval = FALSE}
+library(colorspace)
+hcl_wizard() # OR choose_palette()
+```
+
+
+
+## `hcl_wizard`
+
+<center>
+<img src="images/hclwizard.png" width = "70%"><br>
+
+Choose your palette > Export > R > Copy the command 
+
+</center>
+
+
+## Registering your own palette
+
+```{r}
+library(colorspace)
+# register your palette
+sequential_hcl(n = 7, 
+               h = c(300, 200), 
+               c = c(60, 0), 
+               l = c(25, 95), 
+               power = c(2.1, 0.8), 
+               register = "my-set")
+# now generate from your palette
+sequential_hcl(n = 3, 
+               palette = "my-set")
+```
+
+
+```{r, fig.height = 1.5}
+hcl_palettes(n = 5, palette = "my-set", plot = T)
+```
+
+
+## Applying your own palette with `scale_`
+
+Combining with `ggplot`:
+```{r, fig.height = 2}
+#| code-line-numbers: "|4-5"
+ggplot(penguins, 
+       aes(bill_length_mm, fill = species)) + 
+ geom_density(alpha = 0.6) + 
+  # notice here you don't need to specify the n!
+ scale_fill_discrete_sequential(palette = "my-set")
+```
+
+
+
+## Manually selecting colors
+
+<center>
+<img src="images/lter_penguins.png" width = "250px"/>
+</center>
+
+```{r, fig.height = 3}
+g <- ggplot(penguins, 
+       aes(bill_length_mm, fill = species)) + 
+ geom_density(alpha = 0.6) + 
+ scale_fill_manual(
+   breaks = c("Adelie", "Chinstrap", "Gentoo"), # optional but makes it more robust
+   values = c("darkorange", "purple", "cyan4"))
+g
+```
+
+
+## Colorblindness 
+
+Colorblindness affect roughly 1 in 8 men.
+
+```{r, fig.width = 12}
+colorblindr::cvd_grid(g)
+```
+
+Check your color choices using the [`colorblindr`](https://github.com/clauswilke/colorblindr) package or otherwise. 
+
+
+
+
+## Summary
+
+::: incremental
+
+* Scales the control the mapping from data to aesthetics
+* Scales creates a **guide** that allows you to "read" the data from the plot. 
+* Scales and guides are primarily modified using `scale_` functions or `guide_` functions within `guides()`. 
+* There are many in-built color palettes that you can choose from but be wary to check how color blind friendly they are. 
+
+:::
+
+
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+
+[<i class="fas fa-directions"></i> Your turn!]{.f-headline}
+
+```{r}
+#| echo: false
+#| cache: false
+library(countdown)
+countdown(30)
+```
+
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 5
+
+
+
+

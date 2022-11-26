@@ -1,0 +1,24 @@
+::: title-box
+
+
+<h2>`r rmarkdown::metadata$pagetitle`</h2>
+
+<h3>[`r rmarkdown::metadata$subtitle`]{.monash-gray50}</h3>
+
+
+👩🏻‍💻 [`r rmarkdown::metadata$author` @ `r rmarkdown::metadata$institute`]{.author}  
+
+
+`r rotating_text(c('<i class="fa-solid fa-envelope"></i> emi.tanaka@monash.edu', '<i class="fa-brands fa-twitter"></i> @statsgen', '<i class="fa-brands fa-github"></i> github.com/emitanaka', '<i class="fa-solid fa-globe"></i> emitanaka.org'))`
+
+
+:::
+
+
+<br><br>
+
+::: {.absolute .bottom-0 .monash-white .w-100}
+
+[`r rmarkdown::metadata$date`]{.monash-white .fl .strokeme} [`r rmarkdown::metadata$host`]{.fr .monash-white .strokeme} 
+
+:::
