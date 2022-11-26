@@ -187,5 +187,5 @@ Learn with others!
 
 # <i class="fas fa-download"></i> Keep a local copy of the workshop material! {background-color="#D93F00"}
 
-`>` Download the zip file [here]()  
+`>` Download the zip file [here](https://github.com/emitanaka/dataviz-workshop/archive/refs/heads/master.zip)  
 `>` Open the `docs/index.html` in a browser
