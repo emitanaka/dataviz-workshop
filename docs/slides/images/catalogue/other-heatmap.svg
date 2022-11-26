@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='129.60pt' height='129.60pt' viewBox='0 0 129.60 129.60'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFE5FF;'/>
+<defs>
+  <clipPath id='cpMC4wMHwxMjkuNjB8MC4wMHwxMjkuNjA='>
+    <rect x='0.00' y='0.00' width='129.60' height='129.60' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHwxMjkuNjB8MC4wMHwxMjkuNjA=)'>
+<rect x='0.00' y='0.000000000000028' width='129.60' height='129.60' style='stroke-width: 6.40; fill: #FFE5FF;' />
+</g>
+<defs>
+  <clipPath id='cpOS45NnwxMTkuNjR8MjkuMTF8MTE5LjY0'>
+    <rect x='9.96' y='29.11' width='109.67' height='90.53' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpOS45NnwxMTkuNjR8MjkuMTF8MTE5LjY0)'>
+<rect x='13.39' y='74.37' width='34.27' height='41.15' style='stroke-width: 2.56; stroke-linecap: butt; stroke-linejoin: miter; fill: #312271;' />
+<rect x='13.39' y='33.22' width='34.27' height='41.15' style='stroke-width: 2.56; stroke-linecap: butt; stroke-linejoin: miter; fill: #4F4293;' />
+<rect x='47.66' y='74.37' width='34.27' height='41.15' style='stroke-width: 2.56; stroke-linecap: butt; stroke-linejoin: miter; fill: #6D60BB;' />
+<rect x='47.66' y='33.22' width='34.27' height='41.15' style='stroke-width: 2.56; stroke-linecap: butt; stroke-linejoin: miter; fill: #8B80D1;' />
+<rect x='81.94' y='74.37' width='34.27' height='41.15' style='stroke-width: 2.56; stroke-linecap: butt; stroke-linejoin: miter; fill: #A79FE1;' />
+<rect x='81.94' y='33.22' width='34.27' height='41.15' style='stroke-width: 2.56; stroke-linecap: butt; stroke-linejoin: miter; fill: #C2BCF0;' />
+</g>
+<g clip-path='url(#cpMC4wMHwxMjkuNjB8MC4wMHwxMjkuNjA=)'>
+<text x='9.96' y='16.05' style='font-size: 14.00px; font-weight: bold; font-family: Arial;' textLength='69.21px' lengthAdjust='spacingAndGlyphs'>HEATMAP</text>
+</g>
+</svg>

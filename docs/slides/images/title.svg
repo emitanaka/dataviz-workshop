@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" viewBox="-100 53 676 183" width="676" height="183">
+  <defs>
+    <font-face font-family="Arial" font-size="40" panose-1="2 11 7 4 2 2 2 2 2 4" units-per-em="1000" underline-position="-105.95703" underline-thickness="104.98047" slope="0" x-height="518.5547" cap-height="715.8203" ascent="905.2734" descent="-211.91406" font-weight="700">
+      <font-face-src>
+        <font-face-name name="Arial-BoldMT"/>
+      </font-face-src>
+    </font-face>
+    <font-face font-family="Andale Mono" font-size="24" panose-1="2 11 5 9 0 0 0 0 0 4" units-per-em="1000" underline-position="-100.09766" underline-thickness="49.80469" slope="0" x-height="514.64844" cap-height="695.3125" ascent="907.2266" descent="-217.77344" font-weight="400">
+      <font-face-src>
+        <font-face-name name="AndaleMono"/>
+      </font-face-src>
+    </font-face>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.17.5\n2022-11-13 01:40:50 +0000</metadata>
+  <g id="title" stroke="none" stroke-dasharray="none" fill="none" fill-opacity="1" stroke-opacity="1">
+    <title>title</title>
+    <g id="title_Layer_1">
+      <title>Layer 1</title>
+      <g id="Graphic_107">
+        <text transform="translate(-94.084 103)" fill="black">
+          <tspan font-family="Arial" font-size="40" font-weight="700" fill="black" x="34.86035" y="36">Towards an unified language in </tspan>
+          <tspan font-family="Arial" font-size="40" font-weight="700" fill="black" x="127.77051" y="81.30859">experimental designs</tspan>
+        </text>
+      </g>
+      <g id="Graphic_108">
+        <text transform="translate(232 58)" fill="black">
+          <tspan font-family="Andale Mono" font-size="24" font-weight="400" fill="black" x="0" y="22">programming</tspan>
+        </text>
+      </g>
+      <g id="Line_109">
+        <path d="M 293.79364 88.18182 C 296.14973 90.51492 301.36726 99.48047 303.7815 103.15126 C 306.19576 106.82205 306.173 113.8461 308.1843 113.8461 C 310.1956 113.8461 310.1064 108.26855 312.60504 103.9916 C 315.10367 99.71464 319.7305 91.72724 323.1776 88.18182" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_110">
+        <text transform="translate(4.5 203.61719)" fill="black">
+          <tspan font-family="Andale Mono" font-size="24" font-weight="400" fill="black" x="0" y="22">(from the lens of a statistician)</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

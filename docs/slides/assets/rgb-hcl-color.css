@@ -1,0 +1,82 @@
+
+.rgb-slider-wrap, .hcl-slider-wrap {
+  color: white!important;
+  padding: 40px;
+}
+
+
+/* labels */
+
+.col-sliders label{
+  padding: 5px;
+  width: 100px;
+  font-size: 14pt!important;
+  text-align: center;
+  color: #ffffff;
+  margin: 4px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 2px #333333;
+  display: inline-block;
+}
+
+.col-sliders input[type=number]{
+  display: inline-block;
+}
+
+/* number input */
+.col-sliders input[type=number]{
+  text-align: center;
+  width: 65px;
+  font-size: 18pt;
+  padding: 3px 3px 3px 3px;
+  background: #ffffff;
+  outline: none;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  transition: border 0.2s ease;
+  box-shadow: 0 0 2px #333333;
+}
+
+.col-sliders input[type=number]:focus{
+  border: 2px solid #508cfc;
+}
+
+/* color sliders */
+.col-sliders{
+  padding: 20px;
+  box-shadow: 0 0 8px #aaaaaa;
+  border: 1px solid #f4f4f4;
+  background: #f1f1f1;
+  border-radius: 10px;
+  width: 400px;
+  margin: auto;
+}
+
+.col-sliders div{
+  padding: 4px;
+}
+
+/* range sliders */
+.col-sliders input[type=range]{
+  height: 8px;
+  border-radius: 10px;
+  outline: none;
+  width: 100%;
+  box-shadow: 0 0 2px #444444, inset 0 0 2px #444444;
+}
+
+.col-sliders input[type=range], input[type=range]::-webkit-slider-thumb{
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* slider thumb */
+.col-sliders input[type=range]::-webkit-slider-thumb{
+  height: 20px;
+  width: 24px;
+  border-radius: 20%;
+  cursor: pointer;
+  background: #cccccc;
+  border: 2px solid #eeeeee;
+  box-shadow: 0 0 4px #444444, inset 0 0 2px #444444;
+}

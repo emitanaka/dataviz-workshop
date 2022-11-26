@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='518.40pt' height='388.80pt' viewBox='0 0 518.40 388.80'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: none;'/>
+<defs>
+  <clipPath id='cpMC4wMHw1MTguNDB8MC4wMHwzODguODA='>
+    <rect x='0.00' y='0.00' width='518.40' height='388.80' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw1MTguNDB8MC4wMHwzODguODA=)'>
+<rect x='0.00' y='0.00' width='518.40' height='388.80' style='stroke-width: 6.40;' />
+</g>
+<defs>
+  <clipPath id='cpOS45Nnw1MDguNDR8OS45NnwzNzguODQ='>
+    <rect x='9.96' y='9.96' width='498.47' height='368.87' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpOS45Nnw1MDguNDR8OS45NnwzNzguODQ=)'>
+<circle cx='32.62' cy='26.73' r='5.69' style='stroke-width: 0.71; fill: #000000;' />
+<circle cx='108.15' cy='26.73' r='5.69' style='stroke-width: 0.71;' />
+<circle cx='183.67' cy='26.73' r='5.69' style='stroke-width: 0.71; fill: #FF0000;' />
+<circle cx='259.20' cy='26.73' r='5.69' style='stroke-width: 0.71;' />
+<line x1='253.51' y1='32.42' x2='264.89' y2='21.04' style='stroke-width: 0.71;' />
+<line x1='253.51' y1='21.04' x2='264.89' y2='32.42' style='stroke-width: 0.71;' />
+<circle cx='334.73' cy='26.73' r='5.69' style='stroke-width: 0.71;' />
+<line x1='329.04' y1='26.73' x2='340.42' y2='26.73' style='stroke-width: 0.71;' />
+<line x1='334.73' y1='32.42' x2='334.73' y2='21.04' style='stroke-width: 0.71;' />
+<circle cx='410.25' cy='26.73' r='5.69' style='stroke-width: 0.71; stroke: none; fill: #000000;' />
+<circle cx='485.78' cy='26.73' r='3.79' style='stroke-width: 0.71; fill: #000000;' />
+<polygon points='26.93,95.69 38.31,95.69 38.31,84.31 26.93,84.31 ' style='stroke-width: 0.71; stroke: none; fill: #000000;' />
+<rect x='102.46' y='84.31' width='11.38' height='11.38' style='stroke-width: 0.71;' />
+<rect x='178.63' y='84.96' width='10.08' height='10.08' style='stroke-width: 0.71; fill: #FF0000;' />
+<rect x='253.51' y='84.31' width='11.38' height='11.38' style='stroke-width: 0.71;' />
+<line x1='253.51' y1='95.69' x2='264.89' y2='84.31' style='stroke-width: 0.71;' />
+<line x1='253.51' y1='84.31' x2='264.89' y2='95.69' style='stroke-width: 0.71;' />
+<line x1='329.04' y1='90.00' x2='340.42' y2='90.00' style='stroke-width: 0.71;' />
+<line x1='334.73' y1='95.69' x2='334.73' y2='84.31' style='stroke-width: 0.71;' />
+<rect x='329.04' y='84.31' width='11.38' height='11.38' style='stroke-width: 0.71;' />
+<polygon points='410.25,84.31 415.94,95.69 404.56,95.69 ' style='stroke-width: 0.71; fill: none;' />
+<rect x='404.56' y='84.31' width='11.38' height='11.38' style='stroke-width: 0.71;' />
+<polygon points='26.93,153.27 32.62,147.58 38.31,153.27 32.62,158.96 ' style='stroke-width: 0.71; stroke: none; fill: #000000;' />
+<polygon points='100.10,153.27 108.15,145.23 116.19,153.27 108.15,161.32 ' style='stroke-width: 0.71; fill: none;' />
+<polygon points='183.67,160.40 190.80,153.27 183.67,146.14 176.54,153.27 ' style='stroke-width: 0.71; fill: #FF0000;' />
+<line x1='326.68' y1='153.27' x2='342.77' y2='153.27' style='stroke-width: 0.71;' />
+<line x1='334.73' y1='161.32' x2='334.73' y2='145.23' style='stroke-width: 0.71;' />
+<polygon points='326.68,153.27 334.73,145.23 342.77,153.27 334.73,161.32 ' style='stroke-width: 0.71; fill: none;' />
+<polygon points='32.62,207.70 40.28,220.97 24.96,220.97 ' style='stroke-width: 0.71; stroke: none; fill: #000000;' />
+<polygon points='108.15,207.70 115.81,220.97 100.48,220.97 ' style='stroke-width: 0.71; fill: none;' />
+<polygon points='183.67,207.70 191.34,220.97 176.01,220.97 ' style='stroke-width: 0.71; fill: #FF0000;' />
+<polygon points='410.25,210.86 415.94,222.23 404.56,222.23 ' style='stroke-width: 0.71; fill: none;' />
+<rect x='404.56' y='210.86' width='11.38' height='11.38' style='stroke-width: 0.71;' />
+<polygon points='108.15,288.66 115.81,275.39 100.48,275.39 ' style='stroke-width: 0.71; fill: none;' />
+<polygon points='183.67,288.66 191.34,275.39 176.01,275.39 ' style='stroke-width: 0.71; fill: #FF0000;' />
+<line x1='24.57' y1='343.09' x2='40.67' y2='343.09' style='stroke-width: 0.71;' />
+<line x1='32.62' y1='351.13' x2='32.62' y2='335.04' style='stroke-width: 0.71;' />
+<line x1='102.46' y1='348.78' x2='113.84' y2='337.40' style='stroke-width: 0.71;' />
+<line x1='102.46' y1='337.40' x2='113.84' y2='348.78' style='stroke-width: 0.71;' />
+<line x1='177.98' y1='348.78' x2='189.36' y2='337.40' style='stroke-width: 0.71;' />
+<line x1='177.98' y1='337.40' x2='189.36' y2='348.78' style='stroke-width: 0.71;' />
+<line x1='175.63' y1='343.09' x2='191.72' y2='343.09' style='stroke-width: 0.71;' />
+<line x1='183.67' y1='351.13' x2='183.67' y2='335.04' style='stroke-width: 0.71;' />
+<text x='32.62' y='49.28' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='23.22px' lengthAdjust='spacingAndGlyphs'>circle</text>
+<text x='108.15' y='49.28' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='48.13px' lengthAdjust='spacingAndGlyphs'>circle open</text>
+<text x='183.67' y='49.28' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='46.45px' lengthAdjust='spacingAndGlyphs'>circle filled</text>
+<text x='259.20' y='49.28' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='49.76px' lengthAdjust='spacingAndGlyphs'>circle cross</text>
+<text x='334.73' y='49.28' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='44.24px' lengthAdjust='spacingAndGlyphs'>circle plus</text>
+<text x='410.25' y='49.28' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='49.21px' lengthAdjust='spacingAndGlyphs'>circle small</text>
+<text x='485.78' y='49.28' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='23.80px' lengthAdjust='spacingAndGlyphs'>bullet</text>
+<text x='32.62' y='112.55' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='30.43px' lengthAdjust='spacingAndGlyphs'>square</text>
+<text x='108.15' y='112.55' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='55.35px' lengthAdjust='spacingAndGlyphs'>square open</text>
+<text x='183.67' y='112.55' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='53.67px' lengthAdjust='spacingAndGlyphs'>square filled</text>
+<text x='259.20' y='112.55' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='56.97px' lengthAdjust='spacingAndGlyphs'>square cross</text>
+<text x='334.73' y='112.55' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='51.46px' lengthAdjust='spacingAndGlyphs'>square plus</text>
+<text x='410.25' y='112.55' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='65.84px' lengthAdjust='spacingAndGlyphs'>square triangle</text>
+<text x='32.62' y='175.83' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='38.19px' lengthAdjust='spacingAndGlyphs'>diamond</text>
+<text x='108.15' y='175.83' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='63.10px' lengthAdjust='spacingAndGlyphs'>diamond open</text>
+<text x='183.67' y='175.83' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='61.42px' lengthAdjust='spacingAndGlyphs'>diamond filled</text>
+<text x='334.73' y='175.83' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='59.21px' lengthAdjust='spacingAndGlyphs'>diamond plus</text>
+<text x='32.62' y='239.10' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='32.64px' lengthAdjust='spacingAndGlyphs'>triangle</text>
+<text x='108.15' y='239.10' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='57.56px' lengthAdjust='spacingAndGlyphs'>triangle open</text>
+<text x='183.67' y='239.10' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='55.88px' lengthAdjust='spacingAndGlyphs'>triangle filled</text>
+<text x='410.25' y='239.10' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='65.84px' lengthAdjust='spacingAndGlyphs'>triangle square</text>
+<text x='108.15' y='302.37' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='84.12px' lengthAdjust='spacingAndGlyphs'>triangle down open</text>
+<text x='183.67' y='302.37' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='82.44px' lengthAdjust='spacingAndGlyphs'>triangle down filled</text>
+<text x='32.62' y='365.64' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='18.26px' lengthAdjust='spacingAndGlyphs'>plus</text>
+<text x='108.15' y='365.64' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='23.77px' lengthAdjust='spacingAndGlyphs'>cross</text>
+<text x='183.67' y='365.64' text-anchor='middle' style='font-size: 9.96px; font-family: Arial;' textLength='34.29px' lengthAdjust='spacingAndGlyphs'>asterisk</text>
+</g>
+<g clip-path='url(#cpMC4wMHw1MTguNDB8MC4wMHwzODguODA=)'>
+</g>
+</svg>
