@@ -127,3 +127,6 @@ schedule %>%
 ```
 
 
+# <i class="fas fa-link"></i> Workshop website {background-color="#D93F00"}
+
+[https://emitanaka.org/dataviz-workshop/]{.f-headline}

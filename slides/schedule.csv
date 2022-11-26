@@ -1,5 +1,5 @@
 ﻿Start,End,Duration,Type,Activity,No,Objective
-8:30:00 am,9:00:00 am,30,Other,Registration + installation Help,,
+8:30:00 am,9:00:00 am,30,Other,Registration + installation help,,
 9:00:00 am,9:15:00 am,15,Other,Introduction,0,Getting started slide 
 9:15:00 am,9:25:00 am,10,Lesson,R Graphics,1,Get people to see/think different graphical models
 9:25:00 am,9:35:00 am,10,Practice,,1,People to reflect using learnr framework to do multichoice

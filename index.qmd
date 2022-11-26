@@ -2,6 +2,13 @@
 title: "Welcome"
 ---
 
+Welcome to the Data Visualisation with R workshop!
+
+
+<i class="fas fa-calendar" style="width:40px;"></i>  Monday 28th November 2022  
+<i class="fas fa-clock" style="width:40px;"></i>   9.00AM - 4.30PM  
+<i class="fas fa-map-pin" style="width:40px;"></i>  The Board Room, RACV Inverloch Resort, Victoria  
+
 
 ```{r}
 #| echo: false
