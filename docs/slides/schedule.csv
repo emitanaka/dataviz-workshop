@@ -1,29 +1,23 @@
 ﻿Start,End,Duration,Type,Activity,No,Objective
-8:30:00 AM,9:00:00 AM,30,Other,Registration + installation Help,,
-9:00:00 AM,9:15:00 AM,15,Other,Introduction,0,Getting started slide 
-9:15:00 AM,9:25:00 AM,10,Lesson,R Graphics,1,Get people to see/think different graphical models
-9:25:00 AM,9:35:00 AM,10,Practice,Warm up,1,People to reflect using learnr framework to do multichoice
-9:40:00 AM,9:50:00 AM,10,Lesson,Visualising univariate distribution with ggplot2,2,"Basic ggplot2 structure, univariate distrbution"
-9:50:00 AM,10:00:00 AM,10,Practice,Getting started,2,Setting up ggplot2
-10:00:00 AM,10:15:00 AM,15,Lesson,Visualising multivariate data with ggplot2,3,
-10:15:00 AM,10:30:00 AM,15,Practice,Practice,3,
-10:30:00 AM,11:05:00 AM,35,Break,Morning tea,,
-11:05:00 AM,11:20:00 AM,15,Lesson,Multiple layers and attributes,4,
-11:20:00 AM,11:35:00 AM,15,Practice,Practice,4,
-11:35:00 AM,11:45:00 AM,10,Lesson,Barplots and position adjustments in ggplot2,5,barplot 
-11:45:00 AM,11:55:00 AM,10,Practice,Practice,5,
-11:55:00 AM,12:25:00 PM,30,Lesson,Effective data visualisation,6,
-12:25:00 PM,12:30:00 PM,5,Discuss,Discussion,6,
-12:30:00 PM,1:30:00 PM,60,Break,Lunch,,
-1:30:00 PM,1:45:00 PM,15,Lesson,Scales and guides in ggplot2,7,
-1:45:00 PM,2:00:00 PM,15,Practice,Practice,7,
-2:00:00 PM,2:15:00 PM,15,Lesson,Color choices,8,
-2:15:00 PM,2:30:00 PM,15,Discuss,Discussion,8,
-2:30:00 PM,2:45:00 PM,15,Lesson,Multiple plots in one figure,9,
-2:45:00 PM,3:00:00 PM,15,Practice,Practice,9,
-3:00:00 PM,3:15:00 PM,15,Break,Light refreshments,,
-3:15:00 PM,3:30:00 PM,15,Lesson,Customise the look with themes in ggplot2,10,
-3:30:00 PM,3:45:00 PM,15,Practice,Practice,10,
-3:45:00 PM,4:00:00 PM,15,Lesson,Exporting graphics,11,
-4:00:00 PM,4:15:00 PM,15,Discuss,Discussion,11,
-4:15:00 PM,4:30:00 PM,15,Discuss,Wrap-up,12,
+8:30:00 am,9:00:00 am,30,Other,Registration + installation Help,,
+9:00:00 am,9:15:00 am,15,Other,Introduction,0,Getting started slide 
+9:15:00 am,9:25:00 am,10,Lesson,R Graphics,1,Get people to see/think different graphical models
+9:25:00 am,9:35:00 am,10,Practice,,1,People to reflect using learnr framework to do multichoice
+9:40:00 am,10:10:00 am,30,Lesson,Getting started with ggplot2,2,"Basic ggplot2 structure, univariate distrbution"
+10:10:00 am,10:30:00 am,20,Practice,,2,Setting up ggplot2
+10:30:00 am,11:05:00 am,35,Break,Morning tea,,
+11:05:00 am,11:20:00 am,15,Lesson,Multiple layers,3,
+11:20:00 am,11:35:00 am,15,Practice,,3,
+11:35:00 am,11:45:00 am,10,Lesson,Barplots and position adjustments in ggplot2,4,barplot 
+11:45:00 am,11:55:00 am,10,Practice,,4,
+11:55:00 am,12:25:00 pm,30,Lesson,Effective data visualisation,5,
+12:25:00 pm,12:30:00 pm,5,Discuss,Discussion,5,
+12:30:00 pm,1:30:00 pm,60,Break,Lunch,,
+1:30:00 pm,2:00:00 pm,30,Lesson,Scales and guides in ggplot2,6,
+2:00:00 pm,2:30:00 pm,30,Practice,,5,
+2:30:00 pm,2:45:00 pm,15,Lesson,Multiple plots in one figure,7,
+2:45:00 pm,3:00:00 pm,15,Practice,,6,
+3:00:00 pm,3:15:00 pm,15,Break,Light refreshments,,
+3:15:00 pm,3:30:00 pm,15,Lesson,Customise the look with themes in ggplot2,8,
+3:30:00 pm,4:15:00 pm,45,Practice,,7,
+4:15:00 pm,4:30:00 pm,15,Lesson,FAQ and wrap-up,9,"exporting graphics, interactive graphics, and resources"

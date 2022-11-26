@@ -1,6 +1,6 @@
 ---
 subtitle: "Data Visualisation with R"
-pagetitle: "Barplots and position adjustments in ggplot2"
+pagetitle: "Effective data visualistion"
 author: "Emi Tanaka"
 date: "28th November 2022"
 host: "Australasian Applied Statistics Conference 2022"
@@ -15,7 +15,7 @@ format:
     controls: true
     width: 1280
     height: 720
-    incremental: true
+    incremental: false
     auto-stretch: false
     css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
     include-after: |
@@ -23,18 +23,43 @@ format:
       <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
       <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
 callout-icon: false
-execute:
-  echo: true
 ---
 
 
-## {#title-slide background-image="images/bg7.jpeg"}
+## {#title-slide background-image="images/bg9.jpeg"}
 
 
 ```{r}
 #| label: setup
 #| include: false
 library(tidyverse)
+library(patchwork)
+library(colorspace)
+
+df <- read_csv(here::here("data/census-birthplace.csv"))
+df2021 <- df %>% 
+  filter(census == 2021) %>% 
+  filter(!birth %in% c("Total")) %>% 
+  select(-census)
+df2 <- df %>% 
+  filter(census %in% c(2021, 2016)) %>% 
+  filter(!birth %in% c("Total")) %>% 
+  filter(!birth %in% c("Not Stated", "Other", "Australia")) %>% 
+  group_by(census) %>% 
+  mutate(rank = rank(-percentage)) %>% 
+  filter(rank %in% 1:5) %>% 
+  ungroup()
+
+dfsex <- read_csv(here::here("data/census-birthplace-by-sex.csv")) %>% 
+  filter(!birth %in% c("Total")) %>% 
+  filter(!birth %in% c("Not Stated", "Other", "Australia")) %>% 
+  mutate(birth = fct_reorder(birth, count, mean)) %>% 
+  group_by(sex) %>% 
+  mutate(rank = rank(-percentage)) %>% 
+  filter(rank %in% 1:5) %>% 
+  ungroup()
+
+
 source("setup.R")
 ```
 
@@ -43,156 +68,364 @@ source("setup.R")
 ```
 
 
-## Position adjustments
+## Why is a 3D pie chart considered a "bad plot"?
 
-catalogue of barplots
+```{r pie3d}
+#| echo: false
+#| fig-height: 5
+#| fig-width: 5
+par(bg = 'transparent', fg = 'black')
+dfv <- df %>% 
+  filter(census == 2021,
+         !birth %in% "Total") %>% 
+  mutate(birth = fct_lump(birth, w = count,  n = 6)) %>% 
+  group_by(birth) %>% 
+  summarise(count = sum(count),
+            percentage = sum(percentage))
+plotrix::pie3D(dfv$percentage, labels = dfv$birth, explode = 0.1, radius = 0.8, start = 2)
+```
 
 
 
-## Illustrative data 🚢 ship accidents
+
+## What about 2D pie charts?
+
+. . . 
 
 ```{r}
-data(Accident, package = "Ecdat")
-str(Accident)
+#| code-line-numbers: false
+#| eval: false
+help("pie")
 ```
 
-::: notes
+. . . 
 
-* `type` is the ship type
-* `constr` is year constructed
-* `operate` is the year operated
-* `months` is the service amount counted in months
-* `acc` is the number of accidents.
+> Pie charts are a very bad way of displaying information. The eye is good at judging linear measures and bad at judging relative areas. A bar chart or dot chart is a preferable way of displaying this type of data.
+
+
+. . . 
+
+* This comes from empirical research of Cleveland & McGill (1984) among others.
+
+::: aside
+
+Cleveland, William S., and Robert Mc Gill. (1984) “Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.”
 
 :::
 
-## A barplot with `geom_bar()` with categorical variables
+## Which category is the largest?
 
-```{r geom-bar}
-ggplot(data = nagai.strawberry.uniformity, 
-       mapping = aes(x = yield)) +
-  geom_bar()
+```{r piechart}
+#| echo: false
+#| fig-width: 7
+#| fig-height: 2.5
+catdf <- data.frame(category = rep(letters[1:5], times = 4),
+                 type = rep(LETTERS[1:4], each = 5),
+                 value = c(21, 19, 18, 23, 19,
+                           22, 18, 20, 20, 20,
+                           19, 19, 19, 19, 24,
+                           20, 20, 21, 19, 20))
+
+ggplot(catdf, aes("", value, fill = category)) +
+  geom_col(color = "black") + 
+  facet_wrap(~type, nrow = 1) +
+  coord_polar("y") +
+  scale_fill_discrete_qualitative() +
+  theme_void(base_size = 22) 
+
 ```
 
-::: notes
+. . . 
 
-* If you have a categorical variable, then you usually want to study the frequency of its categories. 
-* Notice here that the `stat = "count"` is computing the frequencies for each category for you.  
+```{r barchart}
+#| echo: false
+#| fig-width: 7
+#| fig-height: 2.5
+ggplot(catdf, aes(category, value, fill = category)) +
+  geom_col(color = "black") + 
+  facet_wrap(~type, nrow = 1) +
+  scale_fill_discrete_qualitative() +
+  theme_void(base_size = 22) 
+
+```
+
+
+
+
+##  Elementary Perceptual Tasks
+
+<i class="fa-solid fa-triangle-exclamation"></i> Non-exhaustive
+
+
+
+<img src="images/task-position-common-scale-1.svg"><img src="images/task-position-non-aligned-scale-1.svg" ><img src="images/task-length-1.svg"><img src="images/task-direction-1.svg"><img src="images/task-angle-1.svg">
+
+<img src="images/task-area-1.svg"><img src="images/task-volume-1.svg"><img src="images/task-curvature-1.svg"><img src="images/task-texture.svg" width="220pt" height="172pt"><img src="images/task-shape-1.svg">
+
+. . . 
+
+<img src="images/task-color-hue-1.svg"><img src="images/task-color-chroma-1.svg"><img src="images/task-color-luminance-1.svg"><img src="images/task-color-saturation-1.svg"><img src="images/task-color-shade-1.svg">
+
+
+# <i class="fas fa-ruler"></i> Retrieving information from graphs {background-color="#006DAE"}
+
+Of the 10 elementary perception tasks, Cleveland & McGill (1984) found the accuracy ranked as follows...
+
+## Rank 1
+
+<img src="images/task-position-common-scale-1.svg">
+
+Example
+
+<img src="images/vis-scatter.svg"> <img src="images/vis-barplot-horizontal.svg">
+
+## Rank 2
+
+<img src="images/task-position-non-aligned-scale-1.svg">
+
+Example
+
+<img src="images/vis-stacked-barplot.svg">
+
+## Rank 3
+
+<img src="images/task-length-1.svg"> <img src="images/task-direction-1.svg"> <img src="images/task-angle-1.svg">
+
+Example
+
+<img src="images/vis-piechart.svg">
+
+
+## Rank 4
+
+<img src="images/task-area-1.svg">
+
+Example
+
+<img src="images/vis-bubble.svg">
+
+## Rank 5
+
+<img src="images/task-volume-1.svg"> <img src="images/task-curvature-1.svg">
+
+Example
+
+<img src="images/vis-volchart-1.svg">
+
+## Rank 6
+
+<img src="images/task-color-shade-1.svg"> <img src="images/task-color-saturation-1.svg">
+
+Example
+
+<img src="images/vis-map.svg"> <img src="images/vis-heatmap.svg">
+
+# <i class="fas fa-exclamation-circle"></i> Preattentive processing {background-color="#006DAE"}
+
+## Preattentive processing
+
+* Viewers can notice certain features are absent or present without focussing their attention on particular regions.
+
+. . . 
+
+* Which plot helps you to distinguish the data points?
+
+<center>
+<img src="images/preattentive-1.svg">
+<img src="images/preattentive-2.svg">
+<img src="images/preattentive-3.svg" class="fragment">
+</center>
+
+
+::: aside
+
+Healey, Christopher G., and James T. Enns (2012) “Attention and Visual Memory in Visualization and Computer Graphics.” IEEE Transactions on Visualization and Computer Graphics 18 (7): 1170–88.
+
+:::
+
+# <i class="fas fa-book"></i> Communicating data {background-color="#006DAE"}
+
+## Data story 
+
+* Storytelling is a powerful technique to communicate data
+
+<center>
+
+![](images/venn-diagram.png){width="30%"}
+
+</center>
+
+::: aside 
+
+
+* <i class="fab fa-youtube"></i> [Why storytelling is so powerful in the digital era](https://www.youtube.com/watch?v=mSi0kmqOBu4)
+* <i class="fab fa-youtube"></i> [Why storytelling is more trustworthy than presenting data](https://www.youtube.com/watch?v=Ez5yS4Q5ASA)
+* <i class="fab fa-youtube"></i> [Making data mean more through storytelling](https://www.youtube.com/watch?v=6xsvGYIxJok)
+
+:::
+
+## [Principles]{.monash-blue} of Communicating Data
+
+::: incremental
+
+1. Know your goal (target audience, intended message, desired effect)
+2. Use the right data
+3. Select suitable visualisations
+4. Design for aesthetics
+5. Choose an effective medium and channel
+6. Check the results, i.e. get **feedback**
+
+:::
+
+::: aside 
+
+Jones (2014) Communicating Data with Tableau
 
 :::
 
 
-## A barplot with `geom_bar()` with discrete variables
+## Elements of statistical persuasion
 
-```{r geom-bar2A}
-ggplot(data = filter(CPSch3, year!=1994), 
-       mapping = aes(x = year)) +
-  geom_bar()
-```
+::: incremental
 
-::: notes
-
-* If you supply a numerical variable, you can see now that the x-axis scale is continuous. 
-* The years are 2 years apart -- I filtered out 1994 on purpose so that it's easier to see the distance between bars are determined by the numerical value. 
-* If you want to study each level in a discrete variable, then you may want to convert the discrete variable to a factor instead `x = factor(year)`. 
-
-```{r geom-bar2B, echo = FALSE}
-ggplot(data = filter(CPSch3, year!=1994), 
-       mapping = aes(x = factor(year))) +
-  geom_bar()
-```
-
-* When the variable is a factor or character, the distances between the bars are equal and the labels correspond to that particular level.
+* **Magnitude of effects**: the strength of a statistical argument is enhanced in accord with the quantitative magnitude of support for its qualitative claim.
+* **Articulation of results**: the degree of comprehensible detail in which conclusions are phrased. 
+* **Generality of effects**: the replicability of the results.
+* **Interestingness of argument**: the potential to change people believe.
+* **Credibility of argument**: the believability of a claim.
 
 :::
 
+::: aside
 
-## A barplot with `geom_col()` 
-
-```{r geom-col, fig.width = 3, fig.height = 2}
-dfsum <- CPSch3 %>% group_by(sex) %>% tally()
-dfsum
-
-ggplot(data = dfsum, 
-       mapping = aes(x = sex, y = n)) +
-  geom_col()
-```
-
-::: notes
-
-* `tally()` is just a shorthand for `summarise(n = n())`. 
-* Sometimes your input data may already contain pre-computed counts. 
-* In this case, you don't need `stat = "count"` to do the counting for you. 
-* You can use `geom_col()` instead.
-* This is essential a short hand for `geom_bar(stat = "identity")` where `stat = "identity"` means that you will take the value as supplied without any statistical transformation.
+[Spencer (2022, Feb. 17). Data in Wonderland. Section 1.](https://ssp3nc3r.github.io/data_in_wonderland/#narrative)
 
 :::
 
+## Data story example: birth place
 
-## Modifying the layer parameters
+<iframe src="slide-05-datastory1.html" width="100%" height="600px" style="border: 2px solid black;"></iframe>
 
-* Layers often have default parameter values.
-* E.g. in the frequency polygon, the default is to have `bins = 30`.
-* It's important to modify the parameters values appropriately
-* More **details about the parameters of a layer is in the documentation** of the corresponding function, e.g. `?geom_freqpoly` to see the help file on the histogram layer.
+## Data story example: birth place, another look
 
+<iframe src="slide-05-datastory2.html" width="100%" height="600px" style="border: 2px solid black;"></iframe>
 
 
-## A stacked barplot with `geom_col()`
+# <i class="fas fa-eye"></i> Gestalt principles {background-color="#006DAE"}
 
-```{r geom-col-stack}
-ggplot(Accident, aes(type, acc, fill = constr, group = operate)) +
-  geom_col(color = "black", position = "stack")
+* "Gestalt" is German for form or shape.
+* A set of laws to address the natural compulsion to find order in disorder by perceiving a series of individual elements as a whole.
+
+## Law of Proximity
+
+* By placing elements closer together, it makes it easier for you to group elements together as well as make comparisons.
+
+. . . 
+
+```{r gestalt-proximity, fig.height = 2, fig.width = 8}
+dfsex %>% 
+  ggplot(aes(count, birth)) + 
+  geom_col() + 
+  facet_wrap(~sex, nrow = 1) +
+  scale_x_continuous(labels = scales::comma) + 
+  labs(y = "Birth place", x = "Number of Australian Residents",
+       caption = "Data Source: Australian Census 2021",
+       title = "Top 5 countries of birth outside Australia by sex")
 ```
 
-::: notes
-
-* Recall that `geom_col()` is the same as `geom_bar()` except `stat="identity"`, i.e. your input data should already be summarised as count data. 
-* By default the values in `y` are stacked on top of another.
-* The aesthetic `group` here breaks the count in two groups and stack one on top of the other (try running the code without `group = operate`).
-
-:::
+Can you tell which birth place have more women than men amongst the Australian residents?
 
 
-## A grouped barplot with `geom_col()`
+## Law of Proximity
 
-```{r geom-col-dodge}
-ggplot(Accident, aes(type, acc, fill = constr)) +
-  geom_col(color = "black", position = "dodge")
+
+```{r gestalt-proximity2, fig.height = 2, fig.width = 8}
+gprox <- dfsex %>% 
+  ggplot(aes(count, birth, fill = sex)) + 
+  geom_col(position = "dodge") + 
+  scale_x_continuous(labels = scales::comma) + 
+  labs(y = "Birth place", x = "Number of Australian Residents",
+       caption = "Data Source: Australian Census 2021",
+       title = "Top 5 countries of birth outside Australia by sex",
+       fill = "Sex")
+gprox
 ```
 
-::: notes
+. . . 
 
-* Notice here we removed the `group = operate` -- this results in stacked bars for the same `type` and `fill`.
-* Here the `x` values are recalculated so that the factor levels within the same group (as determined by `x`) can fit.
+**Data story**
 
-:::
+Census 2021 shows far more women born in Phillipines and China migrate to Australia than men born in their respective countries, whilst more men born in India migrate to Australia than women born in India.
 
 
-## Another grouped barplot with `geom_col()`
+## Law of Similarity
 
-```{r geom-col-dodge2}
-ggplot(Accident, aes(type, acc, fill = constr, group = operate)) +
-  geom_col(color = "black", position = "dodge2")
+* When objects share similar attributes, they are perceived as being part of the same group. 
+
+. . . 
+
+```{r gestalt-similarity, fig.height = 2, fig.width = 8}
+span <- function(color, text) glue::glue("<b style='color:{color};'>{text}</b>")
+dfsex %>% 
+  mutate(birth = case_when(birth == "England" ~ span("#006DAE", "England"),
+                           birth == "India" ~ span("#C8008F", "India"),
+                           birth == "China" ~ span("#C8008F", "China"),
+                           birth == "Philippines" ~ span("#C8008F", "Philippines"),
+                           birth == "New Zealand" ~ span("#008A25", "New Zealand")),
+         birth = fct_reorder(birth, count)) %>% 
+  ggplot(aes(count, birth, fill = sex)) + 
+  geom_col(position = "dodge") + 
+  scale_x_continuous(labels = scales::comma) + 
+  labs(y = "Birth place", x = "Number of Australian Residents",
+       caption = "Data Source: Australian Census 2021",
+       title = "Top 5 countries of birth outside Australia by sex",
+       fill = "Sex") +
+  theme(axis.text.y = ggtext::element_markdown())
 ```
 
-::: notes
-
-* Can you see what changed?
-* `position = "dodge"` doesn't deal well when there is `fill` and `group` together but you can use `position = "dodge2"` that recalculates the `x` values in another way.
-
-:::
+. . . 
 
 
-## Stacked percentage barplot with `geom_col()`
+Notice that the countries are colored by their continent (`r span("#006DAE", "Europe")`, `r span("#C8008F", "Asia")`, and `r span("#008A25", "Oceania")`).
 
-```{r geom-col-fill}
-ggplot(Accident, aes(type, acc, fill = constr, group = operate)) +
-  geom_col(color = "black", position = "fill")
+## Law of Closure
+
+* Objects collected within a boundary-like structure are perceived as a group.
+
+. . . 
+
+```{r gestalt-closure, fig.height = 2, fig.width = 8}
+span <- function(color, text) glue::glue("<b style='color:{color};'>{text}</b>")
+dfsex %>% 
+  mutate(group = case_when(birth == "England" ~ "Europe",
+                           birth == "India" ~ "Asia",
+                           birth == "China" ~ "Asia",
+                           birth == "Philippines" ~ "Asia",
+                           birth == "New Zealand" ~ "Oceania")) %>% 
+  ggplot(aes(count/1000, birth, fill = sex)) + 
+  geom_col(position = "dodge") + 
+  scale_x_continuous(labels = scales::comma) + 
+  labs(y = "Birth place", x = "Number of Australian Residents ('000s)",
+       caption = "Data Source: Australian Census 2021",
+       title = "Top 5 countries of birth outside Australia by sex",
+       fill = "Sex") +
+  facet_wrap(~group, scales = "free") +
+  theme(axis.text.y = ggtext::element_markdown())
 ```
 
-::: notes
 
-* If you want to compare the percentages between the different `x`, then `position = "fill"` can be handy.
 
-:::
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+
+[<i class="fas fa-share"></i> Sharing your data visualisation and data story]{.f-headline}
+
+
+
+
+
+
+
+
+
+

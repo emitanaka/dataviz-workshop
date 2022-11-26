@@ -1,6 +1,6 @@
 ---
 subtitle: "Data Visualisation with R"
-pagetitle: "Color choices"
+pagetitle: "Customise the look with themes in ggplot2"
 author: "Emi Tanaka"
 date: "28th November 2022"
 host: "Australasian Applied Statistics Conference 2022"
@@ -15,7 +15,7 @@ format:
     controls: true
     width: 1280
     height: 720
-    incremental: true
+    incremental: false
     auto-stretch: false
     css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
     include-after: |
@@ -28,7 +28,7 @@ execute:
 ---
 
 
-## {#title-slide background-image="images/bg11.jpeg"}
+## {#title-slide background-image="images/bg-final.jpeg"}
 
 
 ```{r}
@@ -42,61 +42,238 @@ source("setup.R")
 #| child: title-slide.qmd
 ```
 
+## Customising plots with `theme`
 
-# Color space
+::: incremental 
 
-::: {.f3 .monash-gray80}
-
-Zeileis, Fisher, Hornik, Ihaka, McWhite,
-Murrell, Stauffer, Wilke (2019). colorspace: A
-Toolbox for Manipulating and Assessing Colors and
-Palettes. *arXiv 1903.06490*
-
-Zeileis, Hornik, Murrell (2009). Escaping RGBland:
-Selecting Colors for Statistical Graphics.
-_Computational Statistics & Data Analysis_ 53(9)
-3259-3270
+* You can customise almost any aspect of the `ggplot` object.
+* The customisation follows a certain consistent rule which makes it cognitively easier to remember how to customise the plot. 
 
 :::
 
-## Qualitative palettes
 
-* Designed for categorical variable with no particular ordering 
+## `theme`: modify the *look* of texts
 
 
-```{r, fig.height = 4, fig.width = 8, echo = TRUE}
-#| code-line-numbers: false
-colorspace::hcl_palettes("Qualitative", plot = TRUE, n = 7)
+<center>
+
+<img src="images/ggplot-theme-text-annotation.png" width = "80%">
+
+
+`element_text()`
+
+</center>
+
+
+
+
+## `element_text()`
+
+* Modify any text in the plot as you like it!
+
+::: flex
+
+::: w-60
+
+```{r ele-text}
+#| eval: false
+#| code-line-numbers: "|4|5-10|11-14|15-19"
+ggplot(diamonds, aes(carat, price)) +
+  geom_hex() +
+  labs(title = "Diamond") +
+  theme(
+    axis.title.x = element_text(
+      size = 30,
+      face = "bold",
+      angle = 10,
+      family = "Fira Code"
+    ),
+    legend.title = element_text(
+      color = "#ef42eb",
+      margin = margin(b = 5)
+    ),
+    plot.title = element_text(
+      size = 35,
+      family = "Nunito",
+      color = "blue"
+    )
+  )
 ```
 
-## Sequential palettes
+:::
 
-* Designed for ordered categorical variable or number going from low to high (or vice-versa) 
+::: w-40
+
+```{r ele-text}
+#| echo: false
+#| fig-width: 3
+#| fig-height: 4
+```
+
+:::
+
+:::
 
 
-```{r, fig.height = 4, fig.width = 10, echo = TRUE}
-#| code-line-numbers: false
-colorspace::hcl_palettes("Sequential", plot = TRUE, n = 7)
+
+
+## `theme`: modify the *look* of the lines
+
+<center>
+<img src="images/ggplot-annotated-line-marks.png" width="70%">
+
+`element_line()`
+</center>
+
+
+## `element_line()`
+
+* If there's a line in the plot that's not data related, then it's generally controlled in the `theme` with `element_line()`. 
+
+::: flex
+
+::: w-70
+
+```{r ele-line}
+#| eval: false
+#| code-line-numbers: "|5-9|10-14|15|16|17-18|19-23"
+ggplot(diamonds, aes(carat, price)) +
+  geom_hex() +
+  labs(title = "Diamond") +
+  theme(
+    axis.line.y = element_line(
+      color = "black",
+      size = 1.2,
+      arrow = grid::arrow()
+    ),
+    axis.line.x = element_line(
+      linetype = "dashed",
+      color = "brown",
+      size = 1.2
+    ),
+    axis.ticks = element_line(color = "red", size = 1.1),
+    axis.ticks.length = unit(3, "mm"),
+    panel.grid.major = element_line(color = "blue",
+                                    size = 1.2),
+    panel.grid.minor = element_line(
+      color = "#0080ff",
+      size = 1.2,
+      linetype = "dotted"
+    )
+  )
 ```
 
 
-## Diverging palettes
+:::
 
-* Designed for ordered categorical variable or number going from low to high (or vice-versa) with a neutral value in between
+::: w-30
 
 
-```{r, fig.height = 6, fig.width = 8, echo = TRUE}
-#| code-line-numbers: false
-colorspace::hcl_palettes("Diverging", plot = TRUE, n = 7)
+```{r ele-line}
+#| echo: false
+#| fig-width: 4
+#| fig-height: 5
 ```
 
-## Colorblindness 
+:::
 
-Colorblindness affect roughly 1 in 8 men.
+:::
 
-```{r, fig.width = 12}
-colorblindr::cvd_grid(gprox)
+
+
+
+
+
+
+
+
+## `theme`: modify the *look* of the <br>rectangular regions
+
+<center>
+<img src="images/ggplot-annotated-rect-marks.png" width = "40%">
+
+
+`element_rect()`
+
+</center>
+
+
+## `element_rect()`
+
+::: flex
+
+::: w-70
+
+```{r ele-rect}
+#| eval: false
+#| code-line-numbers: "|5-9|10|11-13|14-19|20-22|23"
+ggplot(diamonds, aes(carat, price)) +
+  geom_hex() +
+  labs(title = "Diamond") +
+  theme(
+    legend.background = element_rect(
+      fill = "#fff6c2",
+      color = "black",
+      linetype = "dashed"
+    ),
+    legend.key = element_rect(fill = "grey", color = "brown"),
+    panel.background = element_rect(fill = "#005F59",
+                                    color = "red", 
+                                    size = 3),
+    panel.border = element_rect(
+      color = "black",
+      fill = "transparent",
+      linetype = "dashed",
+      size = 3
+    ),
+    plot.background = element_rect(fill = "#a1dce9",
+                                   color = "black",
+                                   size = 1.3),
+    legend.position = "bottom"
+  )
+```
+:::
+
+::: w-30
+
+
+```{r ele-rect}
+#| echo: false
+#| fig-width: 4.5
+#| fig-height: 5.5
 ```
 
-Check your color choices using the [`colorblindr`](https://github.com/clauswilke/colorblindr) package or otherwise. 
+:::
 
+:::
+
+[The selected colors don't make it a pretty plot but it's easier to distinguish between the different rectangular elements.]{.f3}
+
+
+
+## Professional-looking plots
+
+::: incremental
+
+* You can make very pretty plots using `ggplot`.
+* Using code to draw plots has an advantage over making plots and editing the plot manually, e.g. using Adobe Illustrator -- your plots are easily reproducible!
+* Imagine that after you manually edit a plot, the data was updated -- you'll have to redo your manual task from scratch again!
+
+:::
+
+
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+
+[<i class="fas fa-certificate"></i> Let's make some polished plots!]{.f-subheadline}
+
+```{r}
+#| echo: false
+#| cache: false
+library(countdown)
+countdown(45)
+```
+
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 7  
+`>` This is the _last_ practice session -- feel free to ask questions!

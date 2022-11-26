@@ -1,6 +1,6 @@
 ---
 subtitle: "Data Visualisation with R"
-pagetitle: "Scales and guides in ggplot2"
+pagetitle: "Multiple plots in one figure"
 author: "Emi Tanaka"
 date: "28th November 2022"
 host: "Australasian Applied Statistics Conference 2022"
@@ -15,7 +15,7 @@ format:
     controls: true
     width: 1280
     height: 720
-    incremental: true
+    incremental: false
     auto-stretch: false
     css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
     include-after: |
@@ -28,14 +28,13 @@ execute:
 ---
 
 
-## {#title-slide background-image="images/bg10.jpeg"}
+## {#title-slide background-image="images/bg12.jpeg"}
 
 
 ```{r}
 #| label: setup
 #| include: false
 library(tidyverse)
-library(patchwork)
 source("setup.R")
 ```
 
@@ -43,202 +42,234 @@ source("setup.R")
 #| child: title-slide.qmd
 ```
 
-## Scales
 
-* Scales control the mapping from **data** to aesthetics
-* They usually come in the format like below:
+## Facets 
 
-<center>
-<img src="images/ggplot-scale.png">
-</center>
+::: incremental
 
-* E.g. `scale_x_continuous()`, `scale_fill_discrete()`, `scale_y_log10()` and so on.
+* Faceting in `ggplot2` refers to partitioning of the plot region to multiple panels each showing a different subset of the data.
+* There are three types of faceting:
 
-
-::: notes
-
-For example:
-
-```{r scale-demo}
-ggplot(diamonds, aes(carat, price)) +
-  geom_point() + 
-  scale_y_log10()
-```
-
-:::
-
-## Guide
-
-* The scale creates a **guide**: an **axis** or **legend**
-
-<center>
-<img src="images/guides-dissection.png">
-</center>
-
-::: notes
-
-* To modify these you generally use `scale_*` or other handy functions (e.g. `guides`, `labs`, `xlab`, `ylab`, and so on).
+  * `facet_null()` (the default),
+  * `facet_wrap()`, and
+  * `facet_grid()`.
+  
+* We don't really use `facet_null()` much.
 
 :::
 
 
-## Let's use this plot for modifying scales
-
-```{r example, fig.width = 6, fig.height = 4}
-g <- ggplot(diamonds, aes(carat, price)) + geom_hex()
-g
-```
-
-
-## Modifying axis
-
-```{r modify-axis, fig.width = 6, fig.height = 4}
-g + 
-  scale_y_continuous(name = "Price", 
-                     breaks = c(0, 10000),
-                     labels = c("0", "More\n than\n 10K")) + 
-  geom_hline(yintercept = 10000, color = "red", size = 2)
-```
-
-::: notes
-
-* Notice how the axis title has been modified to "Price"
-* The breaks are at 0 and 10000
-* And the associated labels for the breaks are "0" and "More than 10K". The "\n" in label is for starting a new line. 
-
-:::
-
-
-## Modifying labels
-
-
-```{r modify-labels, fig.width = 6, fig.height = 4}
-g + 
-  scale_y_continuous(
-    label = scales::dollar_format()
-  )
-```
-
-::: notes 
-
-* Sometimes you may want to modify the labels based on it's existing axis label. 
-* You can give a function to the label instead. 
-* Most of the handy functions are in the `scales` package.
-
-:::
-
-
-## Modifying legend scale
-
-```{r modify-legend}
-g + 
-  scale_fill_continuous(
-    breaks = c(0, 10, 100, 1000, 4000),
-    trans = "log10"
-  )
-```
-
-::: notes
-
-* An axis is not just the x-axis and y-axis!
-* The legend can have an axis and we can modify its scale as well.
-* Here we identify the legend scale is `fill` and it's using a continuous scale. 
-* We transform the scale into a `log10` format with breaks defined at 0, 10, 100, 1000, and 4000. 
-
-:::
-
-
-## Removing legend
-
-```{r remove-legend}
-g + 
-  scale_fill_continuous(
-    guide = "none"
-  )
-```
-
-::: notes 
-
-* If you want to remove a legend for an associated aesthetic, you can use `guide = "none"` in the associated scale.
-* There are other handy ways of doing this as well!
-
-:::
-
-
-## Alternative control of guides
-
-* There are generally other ways of modifying the scales
-
-```{r change-labels, eval = FALSE}
-g + 
-  ylab("Price") + # Changes the y axis label
-  labs(x = "Carat", # Changes the x axis label
-       fill = "Count") # Changes the legend name
-```
-```{r remove-legend-alt, eval = FALSE}
-g + guides(fill = "none") # remove the legend
-```
-
-::: notes 
-
-* Each user has a different mental mode, so you can use what suits you (and others in your team)
-
-:::
-
-
-## Color
-
-* When using color in your plots, it's good to keep in mind that color can be viewed differently by people 
-
-```{r, echo = FALSE, warning = FALSE, fig.width = 10, fig.height = 5, message = FALSE}
-cols <- c("dodgerblue3", "grey93", "darkorange4", "green3", "red3")
-g1 <- ggplot(diamonds, aes(carat, fill = cut)) +
-  geom_density(alpha = 0.5) + 
-  scale_x_log10() + 
-  scale_fill_manual(values = cols) +
-  ggtitle("Original")
-
-g2 <- g1 + scale_fill_manual(values = colorspace::protan(cols)) +
-  ggtitle("Protan")
-g3 <- g1 + scale_fill_manual(values = colorspace::deutan(cols)) +
-  ggtitle("Deutan")
-g4 <- g1 + scale_fill_manual(values = colorspace::tritan(cols)) +
-  ggtitle("Tritan")
-
-(g1 + g2) / (g3 + g4)
-```
-
-::: notes 
-
-* You can see how the plot in "Original" can be seen differently under different color deficient conditions (Protan, Deutan, Tritan).
-* If your goal is to use the plot for communicating, you may want to check how colorblind friendly your chosen palettes. 
-
-:::
-
-## Color palettes
-
-
-* There are a few different color palettes... choose what suits your purpose!
+## Illustrative data 🌱 growth of soybean
 
 ```{r}
-g + scale_fill_viridis_c(option = "A")
+data(davidian.soybean, package = "agridat")
+str(davidian.soybean)
+```
+
+::: f3
+
+* The data contains:
+  * `plot`: the plot code
+  * `variety`: the code (`F` = commercial and `P` = experimental) for which soybean variety
+  * `year`: the year it was grown (1988-1990)
+  * `day` days after planting
+  * `weight` weight of soybean leaves
+
+:::
+
+
+
+## `facet_wrap()`
+
+* `facet_wrap()` divides the data into mutually exclusive subset based on the input variable and create subplots based on the data in the corresponding panel.
+
+```{r facet-wrap-demo, fig.height = 2}
+#| code-line-numbers: "|3"
+ggplot(davidian.soybean, aes(day, weight)) + 
+  geom_point() +
+  facet_wrap(~year)
+```
+
+
+## Wrapping many panels
+
+* `facet_wrap` "wraps" the panels into 2d if you have many panels
+
+```{r facet-wrap-demo-wrap}
+#| code-line-numbers: "|3"
+#| fig-height: 4
+ggplot(davidian.soybean, aes(day, weight)) + 
+  geom_point() +
+  facet_wrap(~plot)
+```
+
+
+## Wrapping by a continuous variable
+
+* Discretize continuous variable using `cut()`, `cut_width()`, `cut_interval()` or `cut_number()`.
+
+```{r facet-wrap-demo-cont, fig.height = 3}
+#| code-line-numbers: "|3"
+ggplot(davidian.soybean, aes(day, weight)) + 
+  geom_point() +
+  facet_wrap(~cut_number(day, 4))
 ```
 
 
 
 
-::: notes
 
-* The two primary ways to specify color in `ggplot` are through `fill` or `color` (or `colour`). 
-* For every `color` scale, there is generally a corresponding `fill` scale, e.g. `scale_color_brewer()` and `scale_fill_brewer()`. 
+## Changing the scales for each panel
 
-:::
+* By default the scales are shared across the panels but you can choose to have scales built independently for each panel:
+
+```{r facet-wrap-demo-cont-scales, fig.height = 3}
+#| output-location: column
+#| code-line-numbers: "|4-5"
+#| fig-height: 2.5
+#| fig-width: 4
+ggplot(davidian.soybean, 
+       aes(day, weight)) + 
+  geom_point() +
+  facet_wrap(~cut_number(day, 4), 
+             scales = "free")
+```
+
+* If you want the scale to be independent only in one dimension then you can use `scales = "free_x"` and `scales = "free_y"`.
 
 
-## Summary
 
-* Scales the control the mapping from data to aesthetics
-* Scales creates a **guide** that allows you to "read" the data from the plot. 
-* Scales are primarily modified using `scale_` functions. 
-* These include color (or fill).
-* There are many in-built color palettes that you can choose from but be wary to check how color blind friendly they are. 
+## Wrapping with more than one variables
+
+* If you want to wrap the facet by more than one variable, you can combine the variables by using `+`:
+
+```{r facet-wrap-demo-interaction, fig.height = 3}
+#| code-line-numbers: "|4"
+#| fig-height: 2.5
+#| fig-width: 5
+#| output-location: column
+ggplot(davidian.soybean, 
+       aes(day, weight)) + 
+  geom_point() +
+  facet_wrap(~ year + variety)
+```
+
+* Alternatively, you can use `vars()` instead of `+`.
+
+
+
+
+## `facet_grid()`
+
+* Alternatively, you can use `facet_grid()` to lay out the panels in a 2d grid:
+
+```{r facet-grid-demo, fig.height = 3}
+#| code-line-numbers: "|3"
+ggplot(davidian.soybean, aes(day, weight)) + 
+  geom_point() +
+  facet_grid(variety ~ year)
+```
+
+
+## Missing facet variables
+
+* If a layer data is missing the faceting variable(s), then the layer will be shown across all panels based on all of the layer data
+
+```{r facet-all, fig.height = 2.5}
+#| code-line-numbers: "|2"
+#| fig-height: 2
+ggplot(davidian.soybean, aes(day, weight)) + 
+  geom_point(data = function(.data) select(.data, -c(variety, year)), color = "grey70") +
+  geom_point() +
+  facet_grid(variety ~ year)
+```
+
+* This is a nice way to creating a "shadow" across all panels.
+
+
+
+## Combining plots with `patchwork`
+
+* We use the `patchwork` package for combining plots.
+
+. . . 
+
+* Combining multiple `ggplot` objects is then just a matter of using `+` (side-by-side) or `/` (top-to-bottom).
+
+
+
+## Demo with `patchwork`
+
+```{r patchwork-demo, fig.height = 3}
+#| code-line-numbers: "|2-3|5-6|8"
+library(patchwork)
+g1 <- ggplot(davidian.soybean, aes(day, weight)) +
+  geom_point(aes(color = as.factor(year))) 
+
+g2 <- ggplot(davidian.soybean, aes(as.factor(year), weight)) +
+  geom_jitter(aes(color = as.factor(year))) 
+
+g1 + g2
+```
+
+
+## Combining plot layouts
+
+* `patchwork` can collect the same guides across the plots as well as automatically add tag labels
+
+```{r patchwork-layouts}
+#| code-line-numbers: "|2|3"
+#| fig-height: 3
+g1 + g2 + 
+  plot_layout(guides = "collect") + 
+  plot_annotation(tag_levels = "A")
+```
+
+
+## Plot layout
+
+* You can combine the use of `+` and `/` to layout plots horizontally or vertically using `()` to group rows or columns
+
+```{r patchwork-layout}
+#| fig-height: 3.5
+(g1 + g2) / (g2 + g1) + 
+  plot_layout(guides = "collect")
+```
+
+
+## Flexible plot layout
+
+* If you want even more control over the plot layout, then you can specify a string with the structure you want like below:
+
+```{r patchwork-design}
+#| output-location: column
+#| fig-height: 4
+#| fig-width: 5
+design <- "
+ 11###
+ 11###
+ #2222"
+
+g1 + g2 + 
+  plot_layout(guides = "collect",
+              design = design)
+```
+
+
+
+
+
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+[<i class="fas fa-code"></i> Time to code!]{.f-headline}
+
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(15)
+```
+
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 6
+

@@ -1,6 +1,6 @@
 ---
 subtitle: "Data Visualisation with R"
-pagetitle: "Multiple plots in one figure"
+pagetitle: "FAQ and wrap-up"
 author: "Emi Tanaka"
 date: "28th November 2022"
 host: "Australasian Applied Statistics Conference 2022"
@@ -15,7 +15,7 @@ format:
     controls: true
     width: 1280
     height: 720
-    incremental: true
+    incremental: false
     auto-stretch: false
     css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
     include-after: |
@@ -28,7 +28,7 @@ execute:
 ---
 
 
-## {#title-slide background-image="images/bg12.jpeg"}
+## {#title-slide background-image="images/bg14.jpeg"}
 
 
 ```{r}
@@ -42,221 +42,150 @@ source("setup.R")
 #| child: title-slide.qmd
 ```
 
+# <i class="fas fa-save"></i> File formats {background-color="#006DAE"}
 
-## Facets 
+## Are these figures different?
 
-* Faceting in `ggplot2` refers to partitioning of the plot region to multiple panels each showing a different subset of the data.
-* There are three types of faceting:
+::: flex
 
-  * `facet_null()` (the default),
-  * `facet_wrap()`, and
-  * `facet_grid()`.
-  
-::: notes 
+::: w-50
 
-* We don't really use `facet_null()` much.
+```{r plot, echo = FALSE, fig.width = 3, fig.height = 3, out.width = "500px", out.height = "500px", fig.align = "center", dev = "png"}
+ggplot(cars, aes(speed, dist)) + 
+geom_point()
+```
+
+:::
+
+::: {.w-50}
+
+```{r plot, dev = "svg", echo = FALSE, fig.width = 3, fig.height = 3, out.width = "500px", out.height = "500px", fig.align = "center"}
+```
+
+:::
+
+:::
+
+. . . 
+
+<div class="monash-bg-white ba" style="position:absolute;bottom:8%;left:4%;padding:10px;width:100%;">
+Both figures used the same code below to produce the figure:<br>
+
+<code>
+ggplot(cars, aes(speed, dist)) + 
+  geom_point()
+</code>
+<br>
+but I saved one to a <b>png</b> file and the other as a <b>svg</b> file.
+</div>
+
+
+## Communicating Figures 
+
+::: {.incremental style="font-size: 0.9em;"}
+
+* There are two main formats for graphics: 
+  * **Raster formats** contain description of each pixel. Common formats are:
+     * `jpg` (or `jpeg`) uses a lossy data compression that results in some loss of information but usually a small file size.
+     * `png` uses a lossless data compression and works well if the image has uniform colors.
+  * **Vector formats** contain a geometric description and hence render smoothly at any display size. Common formats include `svg`, `pdf` and `eps`. E.g.   [svg](https://raw.githubusercontent.com/numbats/cwd/master/lectures/images/rlogo.svg) and its [source](view-source:https://raw.githubusercontent.com/numbats/cwd/master/lectures/images/rlogo.svg).
+* A vector format scales well to any display size, however, the file size may become prohibitively big when there are many geometric objects (i.e. displaying many data).
 
 :::
 
 
-## Illustrative data 🌱 growth of soybean
+## Exporting plots
+
+* To export plots made by `ggplot2`, use `ggsave()`.
 
 ```{r}
-data(davidian.soybean, package = "agridat")
-str(davidian.soybean)
+#| eval: false
+#| code-line-numbers: "|1|2-8"
+g <- ggplot(cars, aes(speed, dist)) + geom_point()
+ggsave(filename = "myplot", 
+       dev = "png",
+       plot = g,
+       width = 6, 
+       height = 4,
+       units = "in",
+       dpi = 300)
 ```
 
-::: notes
-
-* The data contains:
-  * `plot`: the plot code
-  * `variety`: the code (`F` = commercial and `P` = experimental) for which soybean variety
-  * `year`: the year it was grown (1988-1990)
-  * `day` days after planting
-  * `weight` weight of soybean leaves
-
-:::
+* Unfortunately you may need to adjust the font size when you check the exported plot!
 
 
-## `facet_wrap()`
+# <i class="fas fa-expand-arrows-alt"></i> Interactive plots {background-color="#006DAE"}
 
-* `facet_wrap()` divides the data into mutually exclusive subset based on the input variable and create subplots based on the data in the corresponding panel.
+## Interactive plots
 
-```{r facet-wrap-demo, fig.height = 2}
-library(ggplot2)
-ggplot(davidian.soybean, aes(day, weight)) + 
-  geom_point() +
-  facet_wrap(~year)
+* `plotly` translates `ggplot` objects into `plotly` interactive graphics.
+
+```{r}
+#| out-height: "270px"
+library(plotly)
+g <- ggplot(cars, aes(speed, dist)) + geom_point()
+ggplotly(g)
 ```
 
+* This doesn't work well for some (usually complex) type of plots.
 
-## Wrapping many panels
 
-* `facet_wrap` "wraps" the panels into 2d if you have many panels
+## Interactive plots with JS through R  {.scrollable}
 
-```{r facet-wrap-demo-wrap}
-ggplot(davidian.soybean, aes(day, weight)) + 
-  geom_point() +
-  facet_wrap(~plot)
-```
+* State-of-the-art for interactive plots is **JS**
 
+. . . 
 
-## Wrapping by a continuous variable
+* No need to learn JS!
 
-* Discretize  continuous variable using `cut()`, `cut_width()`, `cut_interval()` or `cut_number()`.
+. . . 
 
-```{r facet-wrap-demo-cont, fig.height = 3}
-ggplot(davidian.soybean, aes(day, weight)) + 
-  geom_point() +
-  facet_wrap(~cut_number(day, 4))
-```
+* Many JS library for plotting are available via an R package:
 
-::: notes 
+| JS | R package |
+| --- | --- |
+| [Chart.js](https://www.chartjs.org/) | [`chartjs`](https://github.com/Tutuchan/chartjs),  [`charter`](https://github.com/JohnCoene/charter) |
+| [Dygraphs](https://dygraphs.com/) | [`dygraphs`](https://github.com/rstudio/dygraphs) | 
+| [D3.js](https://d3js.org/) | [`r2d3`](https://github.com/rstudio/r2d3), [`networkD3`](https://github.com/christophergandrud/networkD3) | 
+| [ECharts](https://echarts.apache.org/en/index.html) | [`echarts4r`](https://github.com/JohnCoene/echarts4r)| 
+| [Google Charts](https://developers.google.com/chart) | [`googleVis`](https://github.com/mages/googleVis) |
+| [Highcharts](https://www.highcharts.com/) | [`highcharter`](https://github.com/jbkunst/highcharter) | 
+| [Plotly](https://plotly.com/javascript/) | [`plotly`](https://github.com/plotly/plotly.R) | 
+| [Vis.js](https://visjs.org/) | [`visNetwork`](https://github.com/datastorm-open/visNetwork) |
+| [Observable Plot](https://observablehq.com/@observablehq/plot) | [`obsplot`](https://github.com/juba/obsplot) |
+| [Vega and Vega-Lite](https://vega.github.io/vega/) | [`vegawidget`](https://github.com/vegawidget/vegawidget), [`altair`](https://github.com/vegawidget/altair),  [`virgo`](https://github.com/vegawidget/virgo),  [`vegabrite`](https://github.com/vegawidget/vegabrite) |
 
-* The cut functions categorize the continuous variable into discrete levels.
+# <i class="fas fa-expand-arrows-alt"></i> 3D plots {background-color="#006DAE"}
 
-:::
+## 3D plots
 
+* `ggplot2` is best for static 2D plots 
 
-## Changing the scales for each panel
+. . . 
 
-* By default the scales are shared across the panels but you can choose to have scales built independently for each panel:
+* For 3D plots, you may like to use some modern interactive tools instead
 
-```{r facet-wrap-demo-cont-scales, fig.height = 3}
-ggplot(davidian.soybean, aes(day, weight)) + 
-  geom_point() +
-  facet_wrap(~cut_number(day, 4), scales = "free")
-```
+<iframe src="https://echarts4r.john-coene.com/articles/threed" width="100%" height="350px" class="ba"></iframe>
 
 
-::: notes
+## Resources
 
-* If you want the scale to be independent only in one dimension then you can use `scales = "free_x"` and `scales = "free_y"`.
+For continued learning
 
-:::
+* [From Data to Viz](https://www.data-to-viz.com/)
+* [The R Graph Gallery](https://r-graph-gallery.com/)
+* [Fundamentals of Data Visualization by Claus O. Wilke](https://clauswilke.com/dataviz/)
+* [ggplot2: elegant graphics for data analysis (work in progress 3rd edition)](https://ggplot2-book.org/)
 
+## Community 
 
-## Wrapping with more than one variables
+Learn with others!
 
-* If you want to wrap the facet by more than one variable, you can combine the variables by using `+`:
+* [R for data science online learning community](https://www.rfordatasci.com/)
+* [RStudio/Posit Community forum with ggplot2 tag](https://community.rstudio.com/tag/ggplot2)
+* [Stackoverflow with ggplot2 tag](https://stackoverflow.com/questions/tagged/ggplot2)
 
-```{r facet-wrap-demo-interaction, fig.height = 3}
-ggplot(davidian.soybean, aes(day, weight)) + 
-  geom_point() +
-  facet_wrap(~ year + variety)
-```
+# <i class="fas fa-download"></i> Keep a local copy of the workshop material! {background-color="#D93F00"}
 
-
-::: notes
-
-* Alternatively, you can use `vars()` instead of `+`.
-
-:::
-
-
-## `facet_grid()`
-
-* Alternatively, you can use `facet_grid()` to lay out the panels in a 2d grid:
-
-```{r facet-grid-demo, fig.height = 3}
-ggplot(davidian.soybean, aes(day, weight)) + 
-  geom_point() +
-  facet_grid(variety ~ year)
-```
-
-
-## Missing facet variables
-
-* If a layer data is missing the faceting variable(s), then the layer will be shown across all panels based on all of the layer data
-
-```{r facet-all, fig.height = 2.5}
-ggplot(davidian.soybean, aes(day, weight)) + 
-  geom_point(data = dplyr::select(davidian.soybean, -c(variety, year)),
-             color = "grey70") +
-  geom_point() +
-  facet_grid(variety ~ year)
-```
-
-::: notes
-
-* This is a nice way to creating a "shadow" across all panels.
-
-:::
-
-
-## Combining plots with `patchwork`
-
-* We use the `patchwork` package for combining plots.
-
-```{r patchwork}
-library(patchwork)
-```
-* Combining multiple `ggplot` objects is then just a matter of using `+` (side-by-side) or `/` (top-to-bottom).
-
-
-
-## Demo with `patchwork`
-
-```{r patchwork-demo, fig.height = 3}
-g1 <- ggplot(davidian.soybean, aes(day, weight)) +
-  geom_point(aes(color = as.factor(year))) 
-g2 <- ggplot(davidian.soybean, aes(as.factor(year), weight)) +
-  geom_jitter(aes(color = as.factor(year))) 
-g1 + g2
-```
-
-
-### Combining plot layouts
-
-* `patchwork` can collect the same guides across the plots as well as automatically add tag labels
-
-```{r patchwork-layouts}
-g1 + g2 + 
-  plot_layout(guides = "collect") + 
-  plot_annotation(tag_levels = "A")
-```
-
-
-### Plot layout
-
-* You can combine the use of `+` and `/` to layout plots horizontally or vertically using `(` to group rows or columns
-
-
-
-
-```{r patchwork-layout}
-(g1 + g2) / (g2 + g1) + 
-  plot_layout(guides = "collect")
-```
-
-
-## Flexible plot layout
-
-* If you want even more control over the plot layout, then you can specify a string with the structure you want like below:
-
-```{r patchwork-design, eval = FALSE}
-design <- "
- 11###
- 11###
- #2222"
-
-g1 + g2 + 
-  plot_layout(guides = "collect",
-              design = design)
-```
-
-::: notes
-
-* Notice the empty spots in this plot output.
-* How does it align the the `design`?
-
-```{r patchwork-design, echo = FALSE}
-```
-
-:::
-
-
-## Summary
-
-* You can view multiple subplots for different partitions of the data using `facet_wrap()` or `facet_grid()`.
-* You can combine plots using `patchwork` package.
+`>` Download the zip file [here](https://github.com/emitanaka/dataviz-workshop/archive/refs/heads/master.zip)  
+`>` Open the `docs/index.html` in a browser

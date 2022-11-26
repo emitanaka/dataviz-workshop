@@ -255,3 +255,195 @@ oz_sf %>%
   theme_border +
   ggtitle("CHOROPLETH\nMAP")
 ggsave(here::here("slides/images/catalogue/other-choropleth.svg"), width = w, height = h)
+
+
+
+# aesthetic ---------------------------------------------------------------
+
+psize <- 3.5
+set.seed(1)
+df2 <- data.frame(x = runif(15),
+                  y = runif(15),
+                  val = seq(0, 1, length.out = 15))
+df2 %>%
+  ggplot(aes(x, y)) +
+  geom_point(size = psize) +
+  theme_classic() +
+  theme_base +
+  theme_border +
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_blank(),
+        axis.line = element_line(color = "black"),
+        axis.ticks.length = unit(1, "mm"),
+        axis.ticks = element_line(color = "black"),
+        panel.grid.major = element_line(color = "grey"),
+        panel.grid.minor = element_line(color = "grey80",
+                                        linetype = "dashed"),
+        plot.background = element_rect(color = "black")) +
+
+ggsave(here::here("slides/images/aes-pos.svg"), width = w, height = h)
+
+
+df2 %>%
+  ggplot(aes(x, y)) +
+  geom_point(aes(alpha = val), size = psize + 1) +
+  theme_classic() +
+  theme_void() +
+  theme_base +
+  theme_border +
+  guides(alpha = "none")
+ggsave(here::here("slides/images/aes-alpha.svg"), width = w, height = h)
+
+
+df2 %>%
+  ggplot(aes(x, y)) +
+  geom_point(aes(color = factor(val)), size = psize - 1.5, shape = 21, stroke = 3, linewidth = 3) +
+  theme_classic() +
+  theme_void() +
+  theme_base +
+  theme_border +
+  colorspace::scale_color_discrete_qualitative() +
+  guides(color = "none") +
+ggsave(here::here("slides/images/aes-color.svg"), width = w, height = h)
+
+
+df2 %>%
+  ggplot(aes(x, y)) +
+  geom_point(aes(fill = factor(val)), size = psize, shape = 22, stroke = 2, linewidth = 1, color = "black") +
+  theme_classic() +
+  theme_void() +
+  theme_base +
+  theme_border +
+  colorspace::scale_fill_discrete_qualitative() +
+  guides(color = "none") +
+  ggsave(here::here("slides/images/aes-fill.svg"), width = w, height = h)
+
+
+df2 %>%
+  ggplot(aes(x, y)) +
+  geom_point(aes(size = val)) +
+  theme_classic() +
+  theme_void() +
+  theme_base +
+  theme_border +
+  colorspace::scale_fill_discrete_qualitative() +
+  guides(size = "none")
+ggsave(here::here("slides/images/aes-size.svg"), width = w, height = h)
+
+
+
+# aes line specs --------------------------------------------------------------
+
+
+ggplot(data.frame(y = 1:6), aes(0, y)) +
+  geom_segment(aes(xend = 5, yend = y, color = factor(y)),
+               linewidth = 6) +
+  scale_x_continuous(NULL, breaks = NULL) +
+  scale_y_reverse(NULL, breaks = NULL) +
+  guides(color = "none") +
+  theme_base +
+  theme_border +
+  colorspace::scale_color_discrete_qualitative()
+ggsave(here::here("slides/images/aes-line-color.svg"), width = w, height = h * 3)
+
+lty <- c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
+linetypes <- data.frame(
+  y = seq_along(lty),
+  lty = lty
+)
+ggplot(linetypes, aes(0, y)) +
+  geom_segment(aes(xend = 5, yend = y, linetype = lty)) +
+  scale_linetype_identity() +
+  geom_text(aes(label = paste0(y - 1, " = ", lty)), hjust = 0, nudge_y = 0.2, size = 5) +
+  scale_x_continuous(NULL, breaks = NULL) +
+  theme_base +
+  theme_border +
+  scale_y_reverse(NULL, breaks = NULL)
+ggsave(here::here("slides/images/aes-line-type.svg"), width = w, height = h * 3)
+
+
+ggplot(data.frame(y = 1:6), aes(0, y)) +
+  geom_segment(aes(xend = 5, yend = y, linewidth = I(y))) +
+  geom_text(aes(label = paste0("linewidth = ", y)), hjust = 0,
+            nudge_y = 0.25, size = 5) +
+  scale_x_continuous(NULL, breaks = NULL) +
+  scale_y_reverse(NULL, breaks = NULL) +
+  guides(linewidth = "none") +
+  theme_base +
+  theme_border
+ggsave(here::here("slides/images/aes-line-width.svg"), width = w, height = h * 3)
+
+
+df <- data.frame(x = 1:3, y = c(4, 1, 8))
+ggplot(df, aes(x, y)) +
+  geom_path(data = mutate(df, y = y + 20), linewidth = 10) +
+  geom_path(data = mutate(df, y = y + 20), linewidth = 1, colour = "red") +
+  geom_path(data = mutate(df, y = y + 10), linewidth = 10, lineend = "round") +
+  geom_path(data = mutate(df, y = y + 10), linewidth = 1, colour = "red") +
+  geom_path(linewidth = 10, lineend = "square") +
+  geom_path(linewidth = 1, colour = "red") +
+  geom_text(data = data.frame(label = c("butt (default)", "round", "square"), x= 0.5, y = c(29, 19, 9)),
+            aes(label = label), size = 5, hjust = 0) +
+  xlim(0.5, 3.5) +
+  theme_base +
+  theme_border
+
+ggsave(here::here("slides/images/aes-line-end.svg"), width = w, height = h * 3)
+
+
+df <- data.frame(x = 1:3, y = c(4, 1, 8))
+ggplot(df, aes(x, y)) +
+  geom_path(data = mutate(df, y = y + 20), linewidth = 10) +
+  geom_path(data = mutate(df, y = y + 20), linewidth = 1, colour = "red") +
+  geom_path(data = mutate(df, y = y + 10), linewidth = 10, linejoin = "mitre") +
+  geom_path(data = mutate(df, y = y + 10), linewidth = 1, colour = "red") +
+  geom_path(linewidth = 10, linejoin = "bevel") +
+  geom_path(linewidth = 1, colour = "red") +
+  geom_text(data = data.frame(label = c("round (default)", "mitre", "bevel"), x= 0.5, y = c(29, 19, 9)),
+            aes(label = label), size = 5, hjust = 0) +
+  xlim(0.5, 3.5) +
+  theme_base +
+  theme_border
+
+ggsave(here::here("slides/images/aes-line-join.svg"), width = w, height = h * 3)
+
+
+shape_names <- c(
+  "circle", paste("circle", c("open", "filled", "cross", "plus", "small")), "bullet",
+  "square", paste("square", c("open", "filled", "cross", "plus", "triangle")),
+  "diamond", paste("diamond", c("open", "filled", "plus")),
+  "triangle", paste("triangle", c("open", "filled", "square")),
+  paste("triangle down", c("open", "filled")),
+  "plus", "cross", "asterisk"
+)
+
+shapes <- data.frame(
+  shape_names = shape_names,
+  x = c(1:7, 1:6, 1:3, 5, 1:3, 6, 2:3, 1:3),
+  y = -rep(1:6, c(7, 6, 4, 4, 2, 3))
+)
+ggplot(shapes, aes(x, y)) +
+  geom_point(aes(shape = shape_names), fill = "red", size = 5) +
+  geom_text(aes(label = shape_names), nudge_y = -0.3, size = 3.5) +
+  scale_shape_identity() +
+  theme_void() +
+  theme_base +
+  theme_border
+ggsave(here::here("slides/images/aes-shapes.svg"), width = w * 4, height = h * 3)
+
+sizes <- expand.grid(size = (0:3) * 2, stroke = (0:3) * 2)
+ggplot(sizes, aes(size, stroke, size = size, stroke = stroke)) +
+  geom_abline(slope = -1, intercept = 6, colour = "grey", linewidth = 6) +
+  geom_point(shape = 21, fill = "red") +
+  scale_size_identity() +
+  theme_base +
+  theme_border +
+  theme(axis.line = element_line(color = "black", size = 2),
+        axis.title = element_text(color = "black", margin = margin(5, 5, 5, 5)),
+        axis.text = element_text(color = "black", margin = margin(10, 10, 10 , 10)),
+        plot.margin = margin(10, 10, 10, 10),
+        axis.ticks.length = unit(2, "mm"),
+        axis.ticks = element_line(color = "black", linewidth = 1.5)) +
+  xlim(-0.5, 6.5) + ylim(-0.5, 6.5) +
+ggsave(here::here("slides/images/aes-filled-shapes.svg"), width = w * 3, height = h * 3)
+

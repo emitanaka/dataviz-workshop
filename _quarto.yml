@@ -1,11 +1,15 @@
 project:
   type: website
   output-dir: docs
+  resources:
+  - "slides/*"
   render:
     - index.qmd
     - exercises/index.qmd
     - about.qmd
 website:
+  site-url: "https://emitanaka.org/dataviz-workshop/"
+  repo-url: "https://github.com/emitanaka/dataviz-workshop"
   title: "Data Visualisation with R"
   navbar:
     left:

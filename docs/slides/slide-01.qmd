@@ -139,3 +139,17 @@ cat(paste0("<img class='catalogue' src='images/catalogue/", fns, "'>", collapse 
 ## Summary of R graphics
 
 ![](images/r-graphics-system.png)
+
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+[<i class="fas fa-temperature-high"></i> Let's warm up]{.f-headline}
+
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(10)
+```
+
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 1

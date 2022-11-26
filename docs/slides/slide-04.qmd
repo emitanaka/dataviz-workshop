@@ -1,6 +1,6 @@
 ---
 subtitle: "Data Visualisation with R"
-pagetitle: "Multiple layers and attributes"
+pagetitle: "Barplots and position adjustments in ggplot2"
 author: "Emi Tanaka"
 date: "28th November 2022"
 host: "Australasian Applied Statistics Conference 2022"
@@ -15,7 +15,7 @@ format:
     controls: true
     width: 1280
     height: 720
-    incremental: true
+    incremental: false
     auto-stretch: false
     css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
     include-after: |
@@ -28,7 +28,8 @@ execute:
 ---
 
 
-## {#title-slide background-image="images/bg6.jpeg"}
+## {#title-slide background-image="images/bg7.jpeg"}
+
 
 ```{r}
 #| label: setup
@@ -42,199 +43,193 @@ source("setup.R")
 ```
 
 
+## Position adjustments
 
-## Layer
+```{r}
+#| echo: false
+#| output: asis
+fns <- dir(here::here("slides/images/catalogue/")) %>% 
+  str_subset("^rank-")
+cat(paste0("<img class='catalogue' src='images/catalogue/", fns, "'>", collapse = ""))
+```
+
+## A barplot with `geom_bar()` [with a categorical variable]{.f3}
+
+```{r geom-bar}
+#| output-location: column
+library(palmerpenguins)
+ggplot(penguins, aes(x = island)) +
+  geom_bar()
+```
+
+* If you have a categorical variable, then you usually want to study the frequency of its categories. 
+* Here the `stat = "count"` is computing the frequencies for each category for you.  
 
 
-* A layer is comprised of:
-   - `data` 
-   - `mapping` 
-   - statistical transformation (`stat`)
-   - geometric object (`geom`)
-   - position adjustment (`position`)
-* `data` and `mapping` are often inherited from `ggplot`
+## A barplot with `geom_bar()` [with a discrete numerical variable]{.f3}
 
-::: notes 
+```{r geom-bar2A}
+#| output-location: column
+penguins %>% 
+  # for demonstration, change 2009 to 2012
+  mutate(year = ifelse(year==2009, 2012, year)) %>% 
+  ggplot(aes(x = year)) +
+  geom_bar()
+```
 
-* A layer is usually added using functions with prefix `geom_` and `stat_`
-* Technically, there are more components but we won't go into those. 
+* If you supply a numerical variable, you can see now that the x-axis scale is continuous. 
+* If you want to study each level in a discrete variable, then you may want to convert the discrete variable to a factor instead `x = factor(year)`. 
+* When the variable is a factor or character, the distances between the bars are equal and the labels correspond to that particular level.
+
+
+## A barplot with `geom_col()` 
+
+* Sometimes your input data may already contain pre-computed counts. 
+
+```{r}
+penguins_summary <- penguins %>% group_by(sex) %>% tally() 
+
+penguins_summary
+```
+
+. . . 
+
+* In this case, you don't need `stat = "count"` to do the counting for you and use `geom_col()` instead.
+
+. . . 
+
+```{r geom-col}
+#| output-location: column
+#| fig-width: 4
+#| fig-height: 2
+ggplot(penguins_summary, 
+       aes(x = sex, y = n)) +
+  geom_col()
+```
+
+
+* This is essential a short hand for `geom_bar(stat = "identity")` where `stat = "identity"` means that you will take the value as supplied without any statistical transformation.
+
+
+
+## A stacked barplot with `geom_col()`
+
+```{r geom-col-stack}
+#| fig-height: 4
+#| code-line-numbers: "4-6"
+penguins %>% 
+  group_by(species, sex, year) %>% 
+  tally() %>% 
+  ggplot(aes(year, n, fill = sex, group = year, color = species)) +
+  geom_col(position = "stack", linewidth = 8) +
+  geom_col(position = "stack", linewidth = 1, color = "black")
+```
+
+
+* By default the values in `y` are stacked on top of another.
+* The aesthetic `group` here breaks the count in two groups and stack one on top of the other (try running the code without `group = year`).
+
+
+
+## A grouped barplot with `geom_col()`
+
+```{r geom-col-dodge}
+#| code-line-numbers: "4-5"
+#| fig-height: 3
+penguins %>% 
+  group_by(sex, species, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species)) +
+  geom_col(color = "black", position = "dodge")
+```
+
+
+* Here the `x` values are recalculated so that the factor levels within the same group (as determined by `x`) can fit.
+
+
+
+## Another grouped barplot with `geom_col()`
+
+```{r geom-col-dodge2}
+#| code-line-numbers: "4-5"
+#| fig-height: 3
+penguins %>% 
+  group_by(sex, species, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species, group = year)) +
+  geom_col(color = "black", position = "dodge2")
+```
+
+
+* `position = "dodge"` doesn't deal well when there is `fill` and `group` together but you can use `position = "dodge2"` that recalculates the `x` values in another way.
+
+
+## Stacked percentage barplot with `geom_col()` {auto-animate=true}
+
+```{r geom-col-fill}
+#| fig-height: 4
+#| code-line-numbers: "4-5"
+penguins %>% 
+  group_by(species, sex, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species, group = year)) +
+  geom_col(color = "black", position = "fill")
+```
+
+
+* If you want to compare the percentages between the different `x`, then `position = "fill"` can be handy.
+
+
+# <i class="fas fa-compass"></i> Coordinate systems {background-color="#006DAE"}
+
+## Pie or donut charts with `coord_polar()` {auto-animate=true}
+
+* The default coordinate system is the Cartesian coordinate system.
+
+. . . 
+
+* But you can change this to a polar coordinate system like below.
+
+```{r geom-pie}
+#| fig-height: 4
+#| code-line-numbers: "6"
+#| output-location: fragment
+penguins %>% 
+  group_by(species, sex, year) %>% 
+  tally() %>% 
+  ggplot(aes(sex, n, fill = species, group = year)) +
+  geom_col(color = "black", position = "fill") +
+  coord_polar("y")
+```
+
+## Other coordinate systems
+
+::: incremental
+
+* `coord_cartesian()` for Cartesian coordinate systems (default)
+* `coord_flip()` to flip the x and y 
+* `coord_fixed()` to use a fixed aspect ratio
+* `coord_equal()` is essentially `coord_fixed(ratio = 1)`
+* `coord_trans()` to transform the coordinate after the statistical transformation
+* `coord_map()` to use projection based on `mapproj` 
 
 :::
 
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
 
-## The violin plot layer
 
-```{r plot1-cut}
-ggplot(data = diamonds,
-       mapping = aes(x = cut, y = price)) +
-  geom_violin()
+[<i class="fas fa-directions"></i> Your turn!]{.f-headline}
+
+```{r}
+#| echo: false
+#| cache: false
+library(countdown)
+countdown(10)
 ```
 
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 4
 
-::: notes 
 
-* There is one layer in this plot comprising of:
-  * inherited `data`: `diamonds`
-  * inherited `mapping`: `aes(x = cut, y = price)`
-  * `geom`: violin
-  * `stat`: density for the y-axis (`ydensity`)
-  * `position`: dodge
-  
-* You don't see `position = "dodge"` much in action here because there is only one group for each level of x.
 
-:::
 
-## You can add more than one layer
-
-```{r plot1-layer2}
-ggplot(data = diamonds,
-       mapping = aes(x = cut, y = price)) +
-  geom_violin() + 
-  geom_boxplot(width = 0.1)
-```
-
-::: notes 
-
-* We now have the boxplot layer on top of the violin plot layer.
-
-:::
-
-
-## The order of the layer matters
-
-```{r plot1-layer-order}
-ggplot(data = diamonds,
-       mapping = aes(x = cut, y = price)) +
-  geom_boxplot(width = 0.1) +
-  geom_violin()
-```
-
-::: notes
-
-* You can't see the boxplot here because it's been hidden by the violin plot.
-
-:::
-
-
-## Inheriting data and mapping
-
-* A layer inherits the data and mapping from the initialised ggplot object by default 
-
-<center>
-<img src= "images/ggplot-multiple-layers.png" width="70%">
-</center>
-
-
-## Layer-specific data and aesthetic mapping
-
-![](images/ggplot-multiple-layers-data-mapping.png)
-
-* For each layer, aesthetic and/or data can be overwritten
-
-
-## Overwriting data and aesthetic
-
-```{r plot2-inheritance, fig.width = 8, fig.height = 3, message = FALSE}
-library(dplyr) # needed for data wrangling
-ggplot(data = diamonds, aes(x = cut, y = price)) +
-  geom_violin(aes(fill = cut)) + 
-  geom_boxplot(width = 0.1) +
-  geom_text(data = function(data) data %>% 
-              group_by(cut) %>% 
-              tally(),
-            aes(y = 0, label = n), nudge_y = -0.2)
-```
-
-::: notes 
-
-* You can see that `fill` is only applied the violin plot. 
-* For text layer shows the the total number of observations on the bottom of the violin plot. This display requires a summarised data of the inherited data. 
-* The input `data` for each subsequent layer can be a `data.frame` or a function. If it's a function it's applied to the data that it inherited -- it's handy for cases like this where you want to use the summarised or processed form of the inherited data!
-
-:::
-
-
-## Aesthetic or Attribute?
-
-
-_Not_ what you want:
-
-```{r aes-map}
-ggplot(diamonds, aes(carat, price)) +
-  geom_point(aes(color = "dodgerblue"))
-```
-
-::: notes 
-
-* When you supply values within `aes`, it assumes that it's a data variable. 
-* The string `"dodgerblue"` gets converted into a variable with one level and it gets colored by `ggplot`'s default color palette.
-
-:::
-
-
-## When your input is an attribute
-
-
-Don't put attributes inside `aes()`!
-
-```{r attr-map}
-ggplot(diamonds, aes(carat, price)) +
-  geom_point(color = "dodgerblue")
-```
-
-
-## Bonus tip
-
-* Use `I()` operator to mean "as-is" in aesthetic mapping.
-
-```{r I-map}
-ggplot(diamonds, aes(carat, price)) +
-  geom_point(aes(color = I("dodgerblue")))
-```
-
-
-## Attributes are for layers
-
-
-* Attributes should be defined in specific layers.
-
-```{r attr-in-ggplot}
-ggplot(diamonds, aes(carat, price),
-       color = "dodgerblue") +
-  geom_point()
-```
-
-::: notes
-
-* Notice how the points don't have the "dodgeblue" color.
-* Layers inherit data and the mapping from `ggplot()` but not attributes like this. 
-
-:::
-
-
-## Annotation layer
-
-
-* `annotate()` allows you to add elements to plots without a `data.frame`
-
-```{r annotate, fig.width = 7, fig.height = 3}
-ggplot(diamonds, aes(color, fill = cut)) +
-  geom_bar(color = "black") + 
-  annotate("text", x = "I", y = 9000, 
-           label = paste(nrow(diamonds), "diamonds"))
-```
-
-::: notes 
-
-* `annotate()` is useful if you want to add small annotations to plot and it's too cumbersome for you to put the data as a `data.frame`
-
-:::
-
-
-## Summary
-
-
-* We've seen how you can add multiple layers in `ggplot`.
-* You can define layer-specific data or mappings. 
-* An attribute of a graphical parameter must be placed outside of `aes()` in the corresponding layer. 
-* You can add the annotation layer using `annotate()`.
