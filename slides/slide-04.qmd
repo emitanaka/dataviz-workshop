@@ -167,7 +167,7 @@ penguins %>%
 ## Stacked percentage barplot with `geom_col()` {auto-animate=true}
 
 ```{r geom-col-fill}
-#| fig-height: 4
+#| fig-height: 3
 #| code-line-numbers: "4-5"
 penguins %>% 
   group_by(species, sex, year) %>% 

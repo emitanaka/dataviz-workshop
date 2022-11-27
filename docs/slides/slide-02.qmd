@@ -1,0 +1,957 @@
+---
+subtitle: "Data Visualisation with R"
+pagetitle: "Getting started with ggplot2"
+author: "Emi Tanaka"
+date: "28th November 2022"
+host: "Australasian Applied Statistics Conference 2022"
+institute: "Monash University"
+strip-comments: true
+format: 
+  revealjs:
+    logo: images/monash-one-line-black-rgb.png
+    slide-number: true
+    theme: assets/monash.scss
+    show-slide-number: all
+    controls: true
+    width: 1280
+    height: 720
+    incremental: false
+    auto-stretch: false
+    css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
+    include-after: |
+      <link rel="stylesheet" href="assets/syntax-highlight.css">
+      <link rel="stylesheet" href="assets/fontawesome-free-6.1.1-web/css/all.min.css">
+      <script src="assets/fontawesome-free-6.1.1-web/js/all.min.js"></script>
+callout-icon: false
+execute:
+  echo: true
+  cache: false
+---
+
+
+## {#title-slide background-image="images/bg4.jpeg"}
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+source("setup.R")
+```
+
+```{r}
+#| child: title-slide.qmd
+```
+
+## What is `ggplot2`?
+
+
+*  An R-package that was initially developed by **Hadley Wickham** as part of his PhD project, now maintained by **Thomas Lin Pedersen**,<br> [along with Hadley Wickham, Winston Chang, Lionel Henry, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani and Dewey Dunnington]{.f4}.
+* Implements an interpretation of the **"The Grammar of Graphics"** by Leland Wilkinson.
+* One of the most popular packages in R for data visualisation and widely used in scientific outputs, reports, and even news articles.
+
+
+
+
+## Installing and loading `ggplot2` 
+
+::: nonincremental
+
+* To use `ggplot2`, you first have to install the package 
+
+```{r, eval = FALSE}
+install.packages("ggplot2")
+```
+
+* Once you have installed it, you can load the package:
+
+```{r}
+library(ggplot2)
+```
+* `ggplot2` is part of the `tidyverse` family so if you load `tidyverse`, you don't need to load `ggplot2` like above
+
+```{r}
+library(tidyverse)
+```
+
+:::
+
+::: notes
+
+* Currently `ggplot2` is maintained by Thomas Lin Pedersen along with authors: Hadley Wickham, Winston Chang, Lionel Henry, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani and Dewey Dunnington.
+* `ggplot2` is an open-source tool so you can find all code for this at https://github.com/tidyverse/ggplot2
+* There are over 250 contributors to the package. 
+
+:::
+
+
+## Basic structure of `ggplot`
+
+![](images/ggplot-basic-str.png)
+
+1. **data** as `data.frame`
+2. a set of **aesthetic** mappings between variables in the data and visual properties
+3. at least one **layer** which describes how to render each observation
+
+
+## Illustrative data <img src="images/penguins-logo.png" width="50px" style="vertical-align: middle;"> Palmer penguins
+
+`penguins` data is from the `palmerpenguins` 📦
+
+```{r}
+library(palmerpenguins)
+str(penguins)
+```
+
+<img src="images/lter_penguins.png" width = "250px" style = "position:absolute;top:12%;right:8%;"/>
+<img src="images/culmen_depth.png" width = "450px" style = "position:absolute;bottom:15%;right:0%;border:2px solid black;"/>
+
+::: aside 
+Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus Pygoscelis). PLoS ONE 9(3):e90081.
+:::
+
+
+## Initialising the plot
+
+
+```{r plot-initial}
+#| output-location: fragment
+#| fig-height: 3
+ggplot(data = penguins) 
+```
+
+* When there is no layer, it produces a blank layer (`geom_blank()`) like the above plot.
+
+::: notes
+
+This graph isn't really useful. 
+
+:::
+
+
+## Mapping data variables to aesthetics
+
+```{r plot-mapping}
+#| code-line-numbers: 2
+#| fig-height: 3
+#| output-location: fragment
+ggplot(data = penguins,
+       mapping = aes(x = bill_depth_mm, y = bill_length_mm)) 
+```
+
+* This gets the scale ready but no layer is defined so nothing is rendered in the panel.
+
+::: notes
+
+Notice that the scales are automatically setup based on the data -- less work for you to do in plotting the data. 
+
+:::
+
+
+## Omitting argument names
+
+![](images/hidden-ggplot-argument-names.png)
+
+```{r plot-omit-argnames}
+#| fig-width: 2
+#| fig-height: 2
+ggplot(penguins, aes(bill_depth_mm, bill_length_mm)) 
+```
+
+* No need to write explicitly `data = `, `mapping = `, `x = `, and `y = ` each time.
+* But input position needs to be correct if argument names are not specified!
+
+
+
+## A layer in `ggplot`
+
+* A layer has five main components:
+   * `geom` - the geometric object to use display the data 
+   * `stat` - statistical transformation to use on the data 
+   * `data` - data to be displayed in this layer (usually inherited)
+   * `mapping` - aesthetic mappings (usually inherited)
+   * `position` - position adjustment
+
+
+## Shorthand to construct layers
+
+* Most layers are created with functions that starts with `geom_` or (less commonly) `stat_`.
+* These functions are actually shorthand for the `layer()` function.
+* For example,
+
+. . . 
+
+```{r}
+#| eval: false
+#| code-line-numbers: "2"
+ggplot(penguins, aes(bill_depth_mm)) +
+  geom_histogram()
+```
+
+is a shorthand for 
+
+```{r}
+#| eval: false
+#| code-line-numbers: "2"
+ggplot(penguins, aes(bill_depth_mm)) +
+  layer(stat = "bin", geom = "bar", position = "stack", ...)
+```
+
+
+
+
+## A histogram with `geom_histogram()`
+
+```{r geom-histogram}
+#| code-line-numbers: "1-2|3|"
+#| fig-height: 3
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm)) +
+  geom_histogram()
+```
+* By default `ggplot2` uses 30 bins (`bins = 30`) when drawing histograms. 
+
+
+
+
+
+
+
+## Other layers for univariate data
+
+```{r}
+#| code-line-numbers: false
+p <- ggplot(penguins, aes(bill_depth_mm))
+```
+
+::: {.flex .pt3}
+
+::: {.w-30 .pr3 .fragment}
+
+```{r geom-density}
+#| code-line-numbers: false
+p + geom_density() 
+```
+
+:::
+
+::: {.w-30 .pr3 .fragment}
+
+```{r geom-freqpoly}
+#| code-line-numbers: false
+p + geom_freqpoly()
+```
+
+:::
+
+::: {.w-30 .pr3 .fragment}
+
+```{r geom-boxplot}
+#| code-line-numbers: false
+p + geom_boxplot()
+```
+
+:::
+
+
+
+:::
+
+
+::: flex
+
+::: {.w-40 .pr3 .fragment}
+
+```{r geom-violin}
+#| code-line-numbers: false
+p + geom_violin(aes(y = ""))
+```
+
+:::
+
+::: {.w-40 .pr3 .fragment}
+
+```{r geom-dotplot}
+#| code-line-numbers: false
+p + geom_dotplot()
+```
+
+:::
+
+
+:::
+
+
+
+::: notes
+
+* The default `geom_freqpoly` is showing the same statistic (`stat = "bin"`) as the default `geom_histogram` except one is using a bar (`geom = "bar"`) and the other is using a line (`geom = "path"`). 
+
+:::
+
+## Available `geom` layers in `ggplot2` 
+
+```{r geom, echo=FALSE}
+geoms <- help.search("^geom_", package = "ggplot2")
+geoms$matches %>% 
+  select(Entry, Title) %>% 
+  group_by(Title) %>% 
+  mutate(col = paste0("C", 1:n())) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = col, values_from = Entry) %>% 
+  mutate(geom = paste(C1, C2, C3, C4, sep = ", "),
+         geom = gsub(", NA", "", geom)) %>% 
+  select(geom, Title) %>% 
+  DT::datatable(colnames = c("geom", "Description"),
+                rownames = FALSE,
+                options = list(dom = 'tp', ordering=F, scrollY = "500px", paging = FALSE)) 
+```
+
+
+## Layer specific parameters
+
+* Layers may have layer specific parameters that affect the visual property or statistical transformation that it is depicting.
+
+::: flex 
+
+::: {.w-45 .pr3 .fragment}
+
+```{r}
+#| fig-height: 3
+#| code-line-numbers: false
+p + geom_histogram(bins = 50)
+```
+:::
+
+::: {.w-45 .pr3 .fragment}
+
+```{r}
+#| fig-height: 3
+#| code-line-numbers: false
+p + geom_histogram(binwidth = 0.01)
+```
+:::
+
+:::
+
+* Corresponding documentation (e.g. `?geom_histogram`) have more details about available parameters.
+
+## Modifying the layer parameters
+
+* Layers often have default parameter values.
+* E.g. in the frequency polygon, the default is to have `bins = 30`.
+* It's important to modify the parameters values appropriately
+* More **details about the parameters of a layer is in the documentation** of the corresponding function, e.g. `?geom_freqpoly` to see the help file on the histogram layer.
+
+
+## Distribution of a continuous variable
+
+```{r}
+#| echo: false
+#| output: asis
+fns <- dir(here::here("slides/images/catalogue/")) %>% 
+  str_subset("^dist-")
+cat(paste0("<img class='catalogue' src='images/catalogue/", fns, "'>", collapse = ""))
+```
+
+::: notes
+
+* Distribution of a single _continuous_ variable can be studied with **histogram**, **density or frequency plot**, **boxplot**, **violin plot** or **dot plot**. 
+* If you have a discrete or categorical variable, you may like to study this using a **barplot** (or sometimes called barchart). 
+* We'll go through how to create these layers in `ggplot2` next. 
+
+:::
+
+
+## Layer data
+
+```{r geom-histogram-data}
+#| code-line-numbers: "1-3|5|"
+ghist <- ggplot(data = penguins, 
+                mapping = aes(x = bill_depth_mm)) +
+  geom_histogram() 
+
+layer_data(ghist, 1)
+```
+
+::: notes
+
+* A histogram by default shows the **count** on the y-axis. 
+* `ggplot2` calculates other useful statistics as well (seen using `layer_data`) and sometimes you want to use these instead. 
+
+:::
+
+## Accessing layer data
+
+```{r geom-histogram-density}
+#| code-line-numbers: "|3"
+ggplot(data = penguins, 
+       mapping = aes(x = bill_depth_mm)) +
+  geom_histogram(aes(y = after_stat(density))) 
+```
+
+* Equivalent to the old syntaxes `y = stat(density)` and `y = ..density..` 
+
+::: notes
+
+* In this plot, the y-axis is showing density instead of count. 
+* This is signalled by using `y = after_stat(density)`. 
+* This syntax is equivalent to `y = stat(density)` or `y = ..density..`, which was the old syntax to refer to computed statistics. 
+
+
+:::
+
+## Statistical transformations 
+
+* For `geom_histogram()`, the default is `stat = "bin"`.
+* For `stat_bin()`, the default is `geom = "bar"`.
+* Every `geom` has a `stat` and vice versa
+
+::: flex
+
+::: {.w-33 .pr3 .fragment}
+
+```{r geom-hist}
+#| code-line-numbers: false
+p + geom_histogram()
+```
+
+:::
+
+::: {.w-33 .pr3 .fragment}
+
+```{r stat-bin}
+#| code-line-numbers: false
+p + stat_bin(geom = "bar")
+```
+
+:::
+
+::: {.w-33 .pr3 .fragment}
+
+```{r stat-line}
+#| code-line-numbers: false
+p + stat_bin(geom = "line")
+```
+
+:::
+:::
+
+## Available `stat` layers in `ggplot2`
+
+
+```{r stat, echo=FALSE}
+stats <- help.search("stat_", package = "ggplot2")
+stats$matches %>% 
+  select(Entry, Title) %>% 
+  group_by(Title) %>% 
+  mutate(col = paste0("C", 1:n())) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = col, values_from = Entry) %>% 
+  mutate(stats = paste(C1, C2, C3, sep = ", "),
+         stats = gsub(", NA", "", stats)) %>% 
+  select(stats, Title) %>% 
+  DT::datatable(colnames = c("stat", "Description"),
+                rownames = FALSE,
+                options = list(dom = 'tp', paging = FALSE, ordering=F, scrollY = "500px"))
+
+```
+
+## Aesthetic specifications 
+
+`vignette("ggplot2-specs")`
+
+* Aesthetic arguments for each layer are found in **documentation** <br>(e.g. `?geom_point`).
+* **Some common aesthetic specifications** are:
+
+::: {.flex}
+
+::: {.w-20 .fragment}
+
+`x` and `y`
+
+![](images/aes-pos.svg)
+
+:::
+
+::: {.w-20 .fragment}
+
+`alpha`
+
+![](images/aes-alpha.svg)
+
+:::
+
+::: {.w-20 .fragment}
+
+`color`
+
+![](images/aes-color.svg)
+
+:::
+
+::: {.w-20 .fragment}
+
+`fill`
+
+![](images/aes-fill.svg)
+
+:::
+
+::: {.w-20 .fragment}
+
+`size`
+
+![](images/aes-size.svg)
+
+:::
+
+
+:::
+
+
+
+## Example: a scatterplot with `geom_point()`
+
+```{r geom-point}
+#| output-location: column
+#| code-line-numbers: "|6-7"
+library(ggplot2)
+library(palmerpenguins)
+ggplot(penguins, 
+       aes(x = bill_depth_mm, 
+           y = bill_length_mm,
+           color = species,
+           size = body_mass_g)) +
+  geom_point()
+```
+
+* Notice that legends are automatically made for aesthetics
+
+## Aesthetic specification for points
+
+::: flex 
+
+::: w-60
+
+`shape`
+
+![](images/aes-shapes.svg)
+
+:::
+
+::: w-40
+
+`stroke` vs `size`
+
+![](images/aes-filled-shapes.svg)
+
+
+:::
+
+:::
+
+::: nonincremental
+
+* The default shape is "circle".
+* `stroke` and `fill` is only for the "filled" shapes.
+
+:::
+
+
+## Aesthetic specifications for lines
+
+::: flex
+
+::: {.w-20}
+
+`color`
+
+![](images/aes-line-color.svg)
+
+:::
+
+
+::: {.w-20}
+
+`linetype`
+
+![](images/aes-line-type.svg)
+
+:::
+
+::: {.w-20}
+
+`linewidth`
+
+![](images/aes-line-width.svg)
+
+:::
+
+
+
+::: {.w-20}
+
+`lineend`
+
+![](images/aes-line-end.svg)
+
+
+:::
+
+::: {.w-20}
+
+`linejoin`
+
+![](images/aes-line-join.svg)
+
+
+:::
+
+
+:::
+
+## Aesthetic or Attribute?
+
+```{r aes-map}
+#| output-location: fragment
+#| fig-height: 3
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point(aes(color = "dodgerblue"))
+```
+
+::: nonincremental 
+
+* When you supply values within `aes`, it assumes that it's a data variable. 
+* The string `"dodgerblue"` gets converted into a variable with one level and it gets colored by `ggplot`'s default color palette.
+
+:::
+
+
+## When your input is an attribute
+
+
+Don't put attributes inside `aes()`!
+
+```{r attr-map}
+#| code-line-numbers: 2
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point(color = "dodgerblue")
+```
+
+
+## Bonus tip: "as-is" operator
+
+* Use `I()` operator to mean "as-is" in aesthetic mapping.
+
+```{r I-map}
+#| code-line-numbers: 2
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_point(aes(color = I("dodgerblue")))
+```
+
+
+## Attributes are for layers
+
+
+* Attributes should be defined in specific layers.
+
+```{r attr-in-ggplot}
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm),
+       color = "dodgerblue") +
+  geom_point()
+```
+
+::: nonincremental
+
+* Notice how the points don't have the "dodgeblue" color.
+* Layers inherit data and the mapping from `ggplot()` but not attributes like this. 
+
+:::
+
+
+# Plotting multivariate data {background-color="#006DAE"}
+
+```{r}
+#| echo: false
+#| output: asis
+fns <- dir(here::here("slides/images/catalogue/")) %>% 
+  str_subset("(^corr|^other)")
+cat(paste0("<img class='catalogue' src='images/catalogue/", fns, "'>", collapse = ""))
+```
+
+
+
+## A hexagonal 2D heatmap with `geom_hex()`
+
+```{r geom-hex}
+#| fig-width: 6
+#| fig-height: 4
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+ geom_hex()
+```
+
+::: nonincremental
+
+* A hexagon shows the count of observations within the region.
+* A hex plot is useful if there is a lot of _overplotting_ in your scatterplot.
+
+:::
+
+
+## `geom_bin_2d()`
+
+```{r geom-bin2d}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_bin_2d()
+```
+
+
+::: nonincremental
+
+* `geom_bin_2d()` is the same as `geom_hex()` but the shape is a rectangle instead of a hexagon.
+
+:::
+
+
+## `geom_count()`
+
+```{r geom-count}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_count()
+```
+
+::: nonincremental
+
+* `geom_count()` counts the number of points in the same location
+* The count is then mapped to the aesthetic `size`. 
+:::
+
+
+## `geom_density_2d()`
+
+```{r geom-density-2d}
+#| fig-width: 6
+#| fig-height: 3
+#| code-line-numbers: "2"
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_density_2d()
+```
+
+::: nonincremental
+
+* If you have want to visualise the joint density of two variables then `geom_density_2d()` is useful. 
+* The axis shows the density of the corresponding variable.
+* The 2D density is estimated using `MASS::kde2d()`. 
+
+:::
+
+
+## `geom_density_2d_filled()`
+
+```{r geom-density-2d-filled}
+#| fig-width: 6
+#| fig-height: 3
+#| code-line-numbers: "2"
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
+  geom_density_2d_filled()
+```
+
+::: nonincremental
+
+* `geom_density_2d()` draws the contour line 
+* `geom_density_2d_filled()` draws the contour bands
+
+:::
+
+
+## Illustrative data ⛰️ volcano 
+
+
+::: nonincremental
+
+* The data contains topographic information on Auckland's Maunga Whau Volcano.
+* The original data is a matrix and we must wrangle in the form ready for `ggplot` first.
+
+:::
+
+```{r}
+volcanod <- data.frame(row = as.vector(row(volcano)),
+                       col = as.vector(col(volcano)),
+                       value = as.vector(volcano))
+
+volcanod
+```
+
+
+
+
+## A 2D contour plot with `geom_contour()`
+
+```{r geom-contour}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(data = volcanod, 
+       mapping = aes(x = col, y = row, z = value)) + 
+  geom_contour()
+```
+
+
+
+## A 2D contour plot with `geom_contour_filled()`
+
+```{r geom-contour-filled}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(data = volcanod, 
+       mapping = aes(x = col, y = row, z = value)) + 
+  geom_contour_filled()
+```
+
+
+
+
+## Tile plots with `geom_tile()`
+
+```{r geom-tile}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(volcanod, aes(col, row, fill = value)) +
+ geom_tile()
+```
+
+
+## Raster plots with `geom_raster()`
+
+```{r geom-raster}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(volcanod, aes(col, row, fill = value)) +
+ geom_raster()
+```
+
+::: nonincremental 
+
+* A high performance special case of `geom_tile()` for when the tiles are the same size.
+
+:::
+
+
+## Rectangular plots with `geom_rect()`
+
+```{r geom-rect}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(volcanod, aes(xmin = col - 0.5, xmax = col + 0.5,
+                     ymin = row - 0.5, ymax = row + 0.5, fill = value)) +
+ geom_rect()
+```
+
+::: nonincremental 
+
+* A reparameterised version of `geom_tile()`.
+
+:::
+
+
+## Illustrative data 📈 economics
+
+
+```{r}
+data(economics, package = "ggplot2")
+economics
+```
+
+
+## Line plot with `geom_line()`
+
+```{r geom-line}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(economics, aes(date, unemploy)) + 
+  geom_line()
+```
+
+
+## `geom_path()`
+
+```{r geom-path}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(economics, aes(unemploy/pop, psavert)) +
+  geom_path()
+```
+
+
+## `geom_step()`
+
+```{r geom-step}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2"
+ggplot(economics, aes(unemploy/pop, psavert)) +
+  geom_step()
+```
+
+
+## Drawing maps
+
+::: nonincremental 
+
+* Drawing maps require the map data 
+
+:::
+
+```{r}
+world <- map_data("world")
+world
+```
+
+
+## Drawing world map with `geom_polygon()`
+
+```{r geom-polygon}
+#| fig-width: 6
+#| fig-height: 4
+#| code-line-numbers: "2-3"
+world <- map_data("world")
+ggplot(world, aes(long, lat, group = group)) +
+  geom_polygon()
+```
+
+
+## Other layers 
+
+* There are more layers in `ggplot`!
+* There are also many extension packages to draw more plots: [https://exts.ggplot2.tidyverse.org/gallery/](https://exts.ggplot2.tidyverse.org/gallery/). 
+* It's normal to google and copy-and-paste code from the web! 
+* `ggplot2` is also [continually updated](https://github.com/tidyverse/ggplot2/blob/main/NEWS.md) so some new features may be added in the future. 
+
+
+
+# <i class="fas fa-users"></i> {background-color="#D93F00"}
+
+[<i class="fas fa-code"></i> Time to code!]{.f-headline}
+
+
+```{r}
+#| echo: false
+library(countdown)
+countdown(20)
+```
+
+`>` Go to [emitanaka.org/dataviz-workshop/exercises/](https://emitanaka.org/dataviz-workshop/exercises/)   
+`>` Click Exercise 2
+
