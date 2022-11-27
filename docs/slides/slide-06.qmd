@@ -298,7 +298,11 @@ ggplot(diamonds, aes(carat, price)) + guides(fill = "none") # remove the legend
 * There are a few different color palettes... choose what suits your purpose!
 
 ```{r}
-ggplot(diamonds, aes(carat, price)) + scale_fill_viridis_c(option = "A")
+#| fig-height: 3.5
+#| fig-width: 5
+ggplot(diamonds, aes(carat, price)) +
+  geom_hex() + 
+  scale_fill_viridis_c(option = "A")
 ```
 
 
