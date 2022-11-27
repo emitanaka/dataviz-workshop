@@ -438,9 +438,9 @@ Getting started with ggplot2
 <section id="what-is-ggplot2" class="slide level2">
 <h2>What is <code>ggplot2</code>?</h2>
 <ul>
-<li class="fragment">An R-package that was initially developed by <strong>Hadley Wickham</strong> as part of his PhD project, now maintained by <strong>Thomas Lin Pedersen</strong>,<br> <span class="f4">along with Hadley Wickham, Winston Chang, Lionel Henry, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani and Dewey Dunnington</span>.</li>
-<li class="fragment">Implements an interpretation of the <strong>“The Grammar of Graphics”</strong> by Leland Wilkinson.</li>
-<li class="fragment">One of the most popular packages in R for data visualisation and widely used in scientific outputs, reports, and even news articles.</li>
+<li>An R-package that was initially developed by <strong>Hadley Wickham</strong> as part of his PhD project, now maintained by <strong>Thomas Lin Pedersen</strong>,<br> <span class="f4">along with Hadley Wickham, Winston Chang, Lionel Henry, Kohske Takahashi, Claus Wilke, Kara Woo, Hiroaki Yutani and Dewey Dunnington</span>.</li>
+<li>Implements an interpretation of the <strong>“The Grammar of Graphics”</strong> by Leland Wilkinson.</li>
+<li>One of the most popular packages in R for data visualisation and widely used in scientific outputs, reports, and even news articles.</li>
 </ul>
 </section>
 <section id="installing-and-loading-ggplot2" class="slide level2">
@@ -487,9 +487,9 @@ Getting started with ggplot2
 <h2>Basic structure of <code>ggplot</code></h2>
 <p><img data-src="images/ggplot-basic-str.png"></p>
 <ol type="1">
-<li class="fragment"><strong>data</strong> as <code>data.frame</code></li>
-<li class="fragment">a set of <strong>aesthetic</strong> mappings between variables in the data and visual properties</li>
-<li class="fragment">at least one <strong>layer</strong> which describes how to render each observation</li>
+<li><strong>data</strong> as <code>data.frame</code></li>
+<li>a set of <strong>aesthetic</strong> mappings between variables in the data and visual properties</li>
+<li>at least one <strong>layer</strong> which describes how to render each observation</li>
 </ol>
 </section>
 <section id="illustrative-data-palmer-penguins" class="slide level2">
@@ -530,7 +530,7 @@ Getting started with ggplot2
 </div>
 </div>
 <ul>
-<li class="fragment">When there is no layer, it produces a blank layer (<code>geom_blank()</code>) like the above plot.</li>
+<li>When there is no layer, it produces a blank layer (<code>geom_blank()</code>) like the above plot.</li>
 </ul>
 <aside class="notes">
 <p>This graph isn’t really useful.</p>
@@ -562,7 +562,7 @@ Getting started with ggplot2
 </div>
 </div>
 <ul>
-<li class="fragment">This gets the scale ready but no layer is defined so nothing is rendered in the panel.</li>
+<li>This gets the scale ready but no layer is defined so nothing is rendered in the panel.</li>
 </ul>
 <aside class="notes">
 <p>Notice that the scales are automatically setup based on the data – less work for you to do in plotting the data.</p>
@@ -592,29 +592,29 @@ Getting started with ggplot2
 </div>
 </div>
 <ul>
-<li class="fragment">No need to write explicitly <code>data =</code>, <code>mapping =</code>, <code>x =</code>, and <code>y =</code> each time.</li>
-<li class="fragment">But input position needs to be correct if argument names are not specified!</li>
+<li>No need to write explicitly <code>data =</code>, <code>mapping =</code>, <code>x =</code>, and <code>y =</code> each time.</li>
+<li>But input position needs to be correct if argument names are not specified!</li>
 </ul>
 </section>
 <section id="a-layer-in-ggplot" class="slide level2">
 <h2>A layer in <code>ggplot</code></h2>
 <ul>
-<li class="fragment">A layer has five main components:
+<li>A layer has five main components:
 <ul>
-<li class="fragment"><code>geom</code> - the geometric object to use display the data</li>
-<li class="fragment"><code>stat</code> - statistical transformation to use on the data</li>
-<li class="fragment"><code>data</code> - data to be displayed in this layer (usually inherited)</li>
-<li class="fragment"><code>mapping</code> - aesthetic mappings (usually inherited)</li>
-<li class="fragment"><code>position</code> - position adjustment</li>
+<li><code>geom</code> - the geometric object to use display the data</li>
+<li><code>stat</code> - statistical transformation to use on the data</li>
+<li><code>data</code> - data to be displayed in this layer (usually inherited)</li>
+<li><code>mapping</code> - aesthetic mappings (usually inherited)</li>
+<li><code>position</code> - position adjustment</li>
 </ul></li>
 </ul>
 </section>
 <section id="shorthand-to-construct-layers" class="slide level2">
 <h2>Shorthand to construct layers</h2>
 <ul>
-<li class="fragment">Most layers are created with functions that starts with <code>geom_</code> or (less commonly) <code>stat_</code>.</li>
-<li class="fragment">These functions are actually shorthand for the <code>layer()</code> function.</li>
-<li class="fragment">For example,</li>
+<li>Most layers are created with functions that starts with <code>geom_</code> or (less commonly) <code>stat_</code>.</li>
+<li>These functions are actually shorthand for the <code>layer()</code> function.</li>
+<li>For example,</li>
 </ul>
 <div class="fragment">
 <div class="cell" data-layout-align="center">
@@ -643,7 +643,7 @@ Getting started with ggplot2
 </div>
 </div>
 <ul>
-<li class="fragment">By default <code>ggplot2</code> uses 30 bins (<code>bins = 30</code>) when drawing histograms.</li>
+<li>By default <code>ggplot2</code> uses 30 bins (<code>bins = 30</code>) when drawing histograms.</li>
 </ul>
 </section>
 <section id="other-layers-for-univariate-data" class="slide level2">
@@ -736,15 +736,15 @@ Getting started with ggplot2
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 
-<div id="htmlwidget-04ca98e63d9e857683db" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-04ca98e63d9e857683db">{"x":{"filter":"none","vertical":false,"data":[["geom_abline, geom_hline, geom_vline","geom_bar, geom_col","geom_bin_2d, geom_bin2d","geom_blank","geom_boxplot","geom_contour, geom_contour_filled","geom_count","geom_density","geom_density_2d, geom_density2d, geom_density_2d_filled, geom_density2d_filled","geom_dotplot","geom_errorbarh","geom_function","geom_hex","geom_freqpoly, geom_histogram","geom_jitter","geom_crossbar, geom_errorbar, geom_linerange, geom_pointrange","geom_map","geom_path, geom_line, geom_step","geom_point","geom_polygon","geom_qq_line, geom_qq","geom_quantile","geom_ribbon, geom_area","geom_rug","geom_segment, geom_curve","geom_smooth","geom_spoke","geom_label, geom_text","geom_raster, geom_rect, geom_tile","geom_violin","geom_sf, geom_sf_label, geom_sf_text"],["Reference lines: horizontal, vertical, and diagonal","Bar charts","Heatmap of 2d bin counts","Draw nothing","A box and whiskers plot (in the style of Tukey)","2D contours of a 3D surface","Count overlapping points","Smoothed density estimates","Contours of a 2D density estimate","Dot plot","Horizontal error bars","Draw a function as a continuous curve","Hexagonal heatmap of 2d bin counts","Histograms and frequency polygons","Jittered points","Vertical intervals: lines, crossbars &amp; errorbars","Polygons from a reference map","Connect observations","Points","Polygons","A quantile-quantile plot","Quantile regression","Ribbons and area plots","Rug plots in the margins","Line segments and curves","Smoothed conditional means","Line segments parameterised by location, direction and distance","Text","Rectangles","Violin plot","Visualise sf objects"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>geom<\/th>\n      <th>Description<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tp","ordering":false,"scrollY":"500px","paging":false,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3af43fcbde4d8d615c0c" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3af43fcbde4d8d615c0c">{"x":{"filter":"none","vertical":false,"data":[["geom_abline, geom_hline, geom_vline","geom_bar, geom_col","geom_bin_2d, geom_bin2d","geom_blank","geom_boxplot","geom_contour, geom_contour_filled","geom_count","geom_density","geom_density_2d, geom_density2d, geom_density_2d_filled, geom_density2d_filled","geom_dotplot","geom_errorbarh","geom_function","geom_hex","geom_freqpoly, geom_histogram","geom_jitter","geom_crossbar, geom_errorbar, geom_linerange, geom_pointrange","geom_map","geom_path, geom_line, geom_step","geom_point","geom_polygon","geom_qq_line, geom_qq","geom_quantile","geom_ribbon, geom_area","geom_rug","geom_segment, geom_curve","geom_smooth","geom_spoke","geom_label, geom_text","geom_raster, geom_rect, geom_tile","geom_violin","geom_sf, geom_sf_label, geom_sf_text"],["Reference lines: horizontal, vertical, and diagonal","Bar charts","Heatmap of 2d bin counts","Draw nothing","A box and whiskers plot (in the style of Tukey)","2D contours of a 3D surface","Count overlapping points","Smoothed density estimates","Contours of a 2D density estimate","Dot plot","Horizontal error bars","Draw a function as a continuous curve","Hexagonal heatmap of 2d bin counts","Histograms and frequency polygons","Jittered points","Vertical intervals: lines, crossbars &amp; errorbars","Polygons from a reference map","Connect observations","Points","Polygons","A quantile-quantile plot","Quantile regression","Ribbons and area plots","Rug plots in the margins","Line segments and curves","Smoothed conditional means","Line segments parameterised by location, direction and distance","Text","Rectangles","Violin plot","Visualise sf objects"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>geom<\/th>\n      <th>Description<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tp","ordering":false,"scrollY":"500px","paging":false,"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
 <section id="layer-specific-parameters" class="slide level2">
 <h2>Layer specific parameters</h2>
 <ul>
-<li class="fragment">Layers may have layer specific parameters that affect the visual property or statistical transformation that it is depicting.</li>
+<li>Layers may have layer specific parameters that affect the visual property or statistical transformation that it is depicting.</li>
 </ul>
 <div class="flex">
 <div class="w-45 pr3 fragment">
@@ -773,16 +773,16 @@ Getting started with ggplot2
 </div>
 </div>
 <ul>
-<li class="fragment">Corresponding documentation (e.g.&nbsp;<code>?geom_histogram</code>) have more details about available parameters.</li>
+<li>Corresponding documentation (e.g.&nbsp;<code>?geom_histogram</code>) have more details about available parameters.</li>
 </ul>
 </section>
 <section id="modifying-the-layer-parameters" class="slide level2">
 <h2>Modifying the layer parameters</h2>
 <ul>
-<li class="fragment">Layers often have default parameter values.</li>
-<li class="fragment">E.g. in the frequency polygon, the default is to have <code>bins = 30</code>.</li>
-<li class="fragment">It’s important to modify the parameters values appropriately</li>
-<li class="fragment">More <strong>details about the parameters of a layer is in the documentation</strong> of the corresponding function, e.g.&nbsp;<code>?geom_freqpoly</code> to see the help file on the histogram layer.</li>
+<li>Layers often have default parameter values.</li>
+<li>E.g. in the frequency polygon, the default is to have <code>bins = 30</code>.</li>
+<li>It’s important to modify the parameters values appropriately</li>
+<li>More <strong>details about the parameters of a layer is in the documentation</strong> of the corresponding function, e.g.&nbsp;<code>?geom_freqpoly</code> to see the help file on the histogram layer.</li>
 </ul>
 </section>
 <section id="distribution-of-a-continuous-variable" class="slide level2">
@@ -913,7 +913,7 @@ Getting started with ggplot2
 </div>
 </div>
 <ul>
-<li class="fragment">Equivalent to the old syntaxes <code>y = stat(density)</code> and <code>y = ..density..</code></li>
+<li>Equivalent to the old syntaxes <code>y = stat(density)</code> and <code>y = ..density..</code></li>
 </ul>
 <aside class="notes">
 <ul>
@@ -936,9 +936,9 @@ Getting started with ggplot2
 <section id="statistical-transformations" class="slide level2">
 <h2>Statistical transformations</h2>
 <ul>
-<li class="fragment">For <code>geom_histogram()</code>, the default is <code>stat = "bin"</code>.</li>
-<li class="fragment">For <code>stat_bin()</code>, the default is <code>geom = "bar"</code>.</li>
-<li class="fragment">Every <code>geom</code> has a <code>stat</code> and vice versa</li>
+<li>For <code>geom_histogram()</code>, the default is <code>stat = "bin"</code>.</li>
+<li>For <code>stat_bin()</code>, the default is <code>geom = "bar"</code>.</li>
+<li>Every <code>geom</code> has a <code>stat</code> and vice versa</li>
 </ul>
 <div class="flex">
 <div class="w-33 pr3 fragment">
@@ -984,8 +984,8 @@ Getting started with ggplot2
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 
-<div id="htmlwidget-6aa5e2dacf7c9a29cc44" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6aa5e2dacf7c9a29cc44">{"x":{"filter":"none","vertical":false,"data":[["stat_count","stat_bin_2d, stat_bin2d","stat_boxplot","stat_contour, stat_contour_filled","stat_sum","stat_density","stat_density_2d, stat_density2d, stat_density_2d_filled","stat_function","stat_bin_hex, stat_binhex","stat_bin","stat_qq_line, stat_qq","stat_quantile","stat_align","stat_smooth","stat_spoke","stat_ydensity","stat_sf","stat_ecdf","stat_ellipse","stat_identity","stat_sf_coordinates","stat_summary_bin, stat_summary","stat_summary_2d, stat_summary2d, stat_summary_hex","stat_unique","update_stat_defaults"],["Bar charts","Heatmap of 2d bin counts","A box and whiskers plot (in the style of Tukey)","2D contours of a 3D surface","Count overlapping points","Smoothed density estimates","Contours of a 2D density estimate","Draw a function as a continuous curve","Hexagonal heatmap of 2d bin counts","Histograms and frequency polygons","A quantile-quantile plot","Quantile regression","Ribbons and area plots","Smoothed conditional means","Line segments parameterised by location, direction and distance","Violin plot","Visualise sf objects","Compute empirical cumulative distribution","Compute normal data ellipses","Leave data as is","Extract coordinates from 'sf' objects","Summarise y values at unique/binned x","Bin and summarise in 2d (rectangle &amp; hexagons)","Remove duplicates","Modify geom/stat aesthetic defaults for future plots"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>stat<\/th>\n      <th>Description<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tp","paging":false,"ordering":false,"scrollY":"500px","columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-702015e3ba7baded21d6" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-702015e3ba7baded21d6">{"x":{"filter":"none","vertical":false,"data":[["stat_count","stat_bin_2d, stat_bin2d","stat_boxplot","stat_contour, stat_contour_filled","stat_sum","stat_density","stat_density_2d, stat_density2d, stat_density_2d_filled","stat_function","stat_bin_hex, stat_binhex","stat_bin","stat_qq_line, stat_qq","stat_quantile","stat_align","stat_smooth","stat_spoke","stat_ydensity","stat_sf","stat_ecdf","stat_ellipse","stat_identity","stat_sf_coordinates","stat_summary_bin, stat_summary","stat_summary_2d, stat_summary2d, stat_summary_hex","stat_unique","update_stat_defaults"],["Bar charts","Heatmap of 2d bin counts","A box and whiskers plot (in the style of Tukey)","2D contours of a 3D surface","Count overlapping points","Smoothed density estimates","Contours of a 2D density estimate","Draw a function as a continuous curve","Hexagonal heatmap of 2d bin counts","Histograms and frequency polygons","A quantile-quantile plot","Quantile regression","Ribbons and area plots","Smoothed conditional means","Line segments parameterised by location, direction and distance","Violin plot","Visualise sf objects","Compute empirical cumulative distribution","Compute normal data ellipses","Leave data as is","Extract coordinates from 'sf' objects","Summarise y values at unique/binned x","Bin and summarise in 2d (rectangle &amp; hexagons)","Remove duplicates","Modify geom/stat aesthetic defaults for future plots"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>stat<\/th>\n      <th>Description<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"tp","paging":false,"ordering":false,"scrollY":"500px","columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -993,8 +993,8 @@ Getting started with ggplot2
 <h2>Aesthetic specifications</h2>
 <p><code>vignette("ggplot2-specs")</code></p>
 <ul>
-<li class="fragment">Aesthetic arguments for each layer are found in <strong>documentation</strong> <br>(e.g.&nbsp;<code>?geom_point</code>).</li>
-<li class="fragment"><strong>Some common aesthetic specifications</strong> are:</li>
+<li>Aesthetic arguments for each layer are found in <strong>documentation</strong> <br>(e.g.&nbsp;<code>?geom_point</code>).</li>
+<li><strong>Some common aesthetic specifications</strong> are:</li>
 </ul>
 <div class="flex">
 <div class="w-20 fragment">
@@ -1042,7 +1042,7 @@ Getting started with ggplot2
 </div>
 </div>
 <ul>
-<li class="fragment">Notice that legends are automatically made for aesthetics</li>
+<li>Notice that legends are automatically made for aesthetics</li>
 </ul>
 </section>
 <section id="aesthetic-specification-for-points" class="slide level2">
@@ -1129,7 +1129,7 @@ Getting started with ggplot2
 <section id="bonus-tip-as-is-operator" class="slide level2">
 <h2>Bonus tip: “as-is” operator</h2>
 <ul>
-<li class="fragment">Use <code>I()</code> operator to mean “as-is” in aesthetic mapping.</li>
+<li>Use <code>I()</code> operator to mean “as-is” in aesthetic mapping.</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb29" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm)) <span class="sc">+</span></span>
@@ -1146,7 +1146,7 @@ Getting started with ggplot2
 <section id="attributes-are-for-layers" class="slide level2">
 <h2>Attributes are for layers</h2>
 <ul>
-<li class="fragment">Attributes should be defined in specific layers.</li>
+<li>Attributes should be defined in specific layers.</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm),</span>
@@ -1194,8 +1194,8 @@ Getting started with ggplot2
 </ul>
 </div>
 </section>
-<section id="a-rectangular-2d-heatmap-with-geom_bin_2d" class="slide level2">
-<h2>A rectangular 2D heatmap with <code>geom_bin_2d()</code></h2>
+<section id="geom_bin_2d" class="slide level2">
+<h2><code>geom_bin_2d()</code></h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb32" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm)) <span class="sc">+</span></span>
 <span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">geom_bin_2d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1213,8 +1213,8 @@ Getting started with ggplot2
 </ul>
 </div>
 </section>
-<section id="count-of-overlapping-points-with-geom_count" class="slide level2">
-<h2>Count of overlapping points with <code>geom_count()</code></h2>
+<section id="geom_count" class="slide level2">
+<h2><code>geom_count()</code></h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb33" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm)) <span class="sc">+</span></span>
 <span id="cb33-2"><a href="#cb33-2"></a>  <span class="fu">geom_count</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1233,8 +1233,8 @@ Getting started with ggplot2
 </ul>
 </div>
 </section>
-<section id="contour-of-a-2d-density-with-geom_density_2d" class="slide level2">
-<h2>Contour of a 2D density with <code>geom_density_2d()</code></h2>
+<section id="geom_density_2d" class="slide level2">
+<h2><code>geom_density_2d()</code></h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb34" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm)) <span class="sc">+</span></span>
 <span id="cb34-2"><a href="#cb34-2"></a>  <span class="fu">geom_density_2d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1254,8 +1254,8 @@ Getting started with ggplot2
 </ul>
 </div>
 </section>
-<section id="contour-of-a-2d-density-with-geom_density_2d_filled" class="slide level2">
-<h2>Contour of a 2D density with <code>geom_density_2d_filled()</code></h2>
+<section id="geom_density_2d_filled" class="slide level2">
+<h2><code>geom_density_2d_filled()</code></h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb35" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> bill_depth_mm, <span class="at">y =</span> bill_length_mm)) <span class="sc">+</span></span>
 <span id="cb35-2"><a href="#cb35-2"></a>  <span class="fu">geom_density_2d_filled</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -40115,11 +40115,10 @@ Getting started with ggplot2
 <section id="other-layers" class="slide level2">
 <h2>Other layers</h2>
 <ul>
-<li class="fragment">There are more layers in <code>ggplot</code>!</li>
-<li class="fragment">We won’t cover the layers provided via functions starting with <code>stat_</code> but there are plenty of examples in the wild.</li>
-<li class="fragment">There are also many extension packages to draw more plots: <a href="https://exts.ggplot2.tidyverse.org/gallery/">https://exts.ggplot2.tidyverse.org/gallery/</a>.</li>
-<li class="fragment">It’s normal to google and copy-and-paste code from the web!</li>
-<li class="fragment"><code>ggplot2</code> is also <a href="https://github.com/tidyverse/ggplot2/blob/main/NEWS.md">continually updated</a> so some new features may be added in the future.</li>
+<li>There are more layers in <code>ggplot</code>!</li>
+<li>There are also many extension packages to draw more plots: <a href="https://exts.ggplot2.tidyverse.org/gallery/">https://exts.ggplot2.tidyverse.org/gallery/</a>.</li>
+<li>It’s normal to google and copy-and-paste code from the web!</li>
+<li><code>ggplot2</code> is also <a href="https://github.com/tidyverse/ggplot2/blob/main/NEWS.md">continually updated</a> so some new features may be added in the future.</li>
 </ul>
 </section></section>
 <section id="section" class="title-slide slide level1 center" data-background-color="#D93F00">
@@ -40127,7 +40126,7 @@ Getting started with ggplot2
 <p><span class="f-headline"><i class="fas fa-code"></i> Time to code!</span></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div class="countdown" id="timer_54486b07" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_068928ac" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">20</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>

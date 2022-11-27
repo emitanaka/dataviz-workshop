@@ -15,7 +15,7 @@ format:
     controls: true
     width: 1280
     height: 720
-    incremental: true
+    incremental: false
     auto-stretch: false
     css: [assets/custom.css, assets/pacman.css, assets/tachyons-addon.css]
     include-after: |
@@ -115,6 +115,7 @@ Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and envir
 
 ```{r plot-initial}
 #| output-location: fragment
+#| fig-height: 3
 ggplot(data = penguins) 
 ```
 
@@ -131,6 +132,7 @@ This graph isn't really useful.
 
 ```{r plot-mapping}
 #| code-line-numbers: 2
+#| fig-height: 3
 #| output-location: fragment
 ggplot(data = penguins,
        mapping = aes(x = bill_depth_mm, y = bill_length_mm)) 
@@ -612,6 +614,7 @@ ggplot(penguins,
 
 ```{r aes-map}
 #| output-location: fragment
+#| fig-height: 3
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
   geom_point(aes(color = "dodgerblue"))
 ```
@@ -695,7 +698,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 :::
 
 
-## A rectangular 2D heatmap with `geom_bin_2d()`
+## `geom_bin_2d()`
 
 ```{r geom-bin2d}
 #| fig-width: 6
@@ -713,7 +716,7 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 :::
 
 
-## Count of overlapping points with `geom_count()`
+## `geom_count()`
 
 ```{r geom-count}
 #| fig-width: 6
@@ -730,11 +733,11 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 :::
 
 
-## Contour of a 2D density with `geom_density_2d()`
+## `geom_density_2d()`
 
 ```{r geom-density-2d}
 #| fig-width: 6
-#| fig-height: 4
+#| fig-height: 3
 #| code-line-numbers: "2"
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
   geom_density_2d()
@@ -749,11 +752,11 @@ ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
 :::
 
 
-## Contour of a 2D density with `geom_density_2d_filled()`
+## `geom_density_2d_filled()`
 
 ```{r geom-density-2d-filled}
 #| fig-width: 6
-#| fig-height: 4
+#| fig-height: 3
 #| code-line-numbers: "2"
 ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm)) +
   geom_density_2d_filled()
@@ -932,7 +935,6 @@ ggplot(world, aes(long, lat, group = group)) +
 ## Other layers 
 
 * There are more layers in `ggplot`!
-* We won't cover the layers provided via functions starting with `stat_` but there are plenty of examples in the wild.
 * There are also many extension packages to draw more plots: [https://exts.ggplot2.tidyverse.org/gallery/](https://exts.ggplot2.tidyverse.org/gallery/). 
 * It's normal to google and copy-and-paste code from the web! 
 * `ggplot2` is also [continually updated](https://github.com/tidyverse/ggplot2/blob/main/NEWS.md) so some new features may be added in the future. 
